@@ -2,10 +2,12 @@ import * as React from "react";
 import { useState } from "react";
 import Board from "~components/Board/Board";
 import { checkForWinner } from "~helpers/gameHelper";
-import { Player } from "~types";
+import { BoardState, Player } from "~types";
+import "./SuperBoard.css";
 
 const SuperBoard = () => {
     const [ player, setPlayer ] = useState<string>(Player.X);
+    const [ boards, setBoards ] = useState<BoardState[]>(Array(9).fill({ squares: Array(9).fill(""), winner: null }));
     const [ squares, setSquares ] = useState<string[]>(Array(9).fill(""));
     const [ winner, setWinner ] = useState<string | null>(null);
 
@@ -23,10 +25,16 @@ const SuperBoard = () => {
         setWinner(checkForWinner(nextSquares));
     };
 
-    const boardProps = { boardIndex: 0, squares, winner, handleClick };
-
     return (
-        <Board {...boardProps} />
+        <div className="super-board">
+            {boards.map((board, i) => {
+                const key = `board-${i}`;
+                const boardProps = { boardIndex: i, squares, winner, handleClick };
+                return (
+                    <Board key={key} {...boardProps} />
+                );
+            })}
+        </div>
     );
 };
 

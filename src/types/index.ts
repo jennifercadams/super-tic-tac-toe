@@ -9,4 +9,9 @@ enum Winner {
     Draw = "DRAW"
 }
 
-export { Player, Winner };
+type BoardState = {
+    squares: string[];
+    winner: string | null;
+};
+
+export { Player, Winner, BoardState };
