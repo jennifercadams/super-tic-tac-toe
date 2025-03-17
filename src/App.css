@@ -2,3 +2,11 @@ body {
     font-family: sans-serif;
     text-align: center;
 }
+
+.status, .restart-button {
+    font-size: 20px;
+}
+
+.restart-button {
+    padding: 4px 12px;
+}

@@ -49,7 +49,9 @@ const SingleGame = () => {
         <div className="single-game">
             <Board {...boardProps} />
             <p className="status">{status}</p>
-            <button onClick={handleRestart}>{winner ? "Play Again" : "Restart"}</button>
+            <button className="restart-button" onClick={handleRestart}>
+                {winner ? "Play Again" : "Restart"}
+            </button>
         </div>
     );
 };
