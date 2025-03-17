@@ -1,11 +1,11 @@
 import * as React from "react";
-import SuperBoard from "~components/SuperBoard/SuperBoard";
+import SuperGame from "~gameModes/SuperGame/SuperGame";
 import "./App.css";
 
 const App = () => (
   <>
     <h1>Super Tic Tac Toe</h1>
-    <SuperBoard />
+    <SuperGame />
   </>
 );
 
