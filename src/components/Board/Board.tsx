@@ -7,7 +7,7 @@ export type BoardProps = {
     boardIndex: number;
     squares: string[];
     winner: string | null;
-    handleClick: (arg: number) => void;
+    handleClick: (arg1: number, arg2: number) => void;
 };
 
 const Board = (props: BoardProps) => {
@@ -15,10 +15,10 @@ const Board = (props: BoardProps) => {
 
     return (
         <div className="board">
-            {!winner && squares.map((square, i) => {
-                const key = `square-${boardIndex}-${i}`;
+            {!winner && squares.map((square, squareIndex) => {
+                const key = `square-${boardIndex}-${squareIndex}`;
                 return (
-                    <Square key={key} value={square} onSquareClick={() => handleClick(i)} />
+                    <Square key={key} value={square} onSquareClick={() => handleClick(squareIndex, boardIndex)} />
                 );
             })}
             {winner && winner !== Winner.Draw && <div className="winner">{winner}</div>}

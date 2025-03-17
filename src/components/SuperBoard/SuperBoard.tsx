@@ -8,28 +8,31 @@ import "./SuperBoard.css";
 const SuperBoard = () => {
     const [ player, setPlayer ] = useState<string>(Player.X);
     const [ boards, setBoards ] = useState<BoardState[]>(Array(9).fill({ squares: Array(9).fill(""), winner: null }));
-    const [ squares, setSquares ] = useState<string[]>(Array(9).fill(""));
     const [ winner, setWinner ] = useState<string | null>(null);
 
-    const handleClick = (i: number) => {
-        if (squares[i])
+    const handleClick = (squareIndex: number, boardIndex: number) => {
+        if (boards[boardIndex].squares[squareIndex])
             return;
+        
+        const nextBoards = boards.map(board => { 
+            return { ...board, squares: board.squares.slice() };
+        });
+        const nextSquares = boards[boardIndex].squares.slice();
+        nextSquares[squareIndex] = player;
+        nextBoards[boardIndex].squares = nextSquares;
+        nextBoards[boardIndex].winner = checkForWinner(nextSquares);
 
-        const nextSquares = squares.slice();
-        nextSquares[i] = player;
-        setSquares(nextSquares);
+        setBoards(nextBoards);
 
         const nextPlayer = player == Player.X ? Player.O : Player.X;
         setPlayer(nextPlayer);
-
-        setWinner(checkForWinner(nextSquares));
     };
 
     return (
         <div className="super-board">
             {boards.map((board, i) => {
                 const key = `board-${i}`;
-                const boardProps = { boardIndex: i, squares, winner, handleClick };
+                const boardProps = { boardIndex: i, squares: board.squares, winner: board.winner, handleClick };
                 return (
                     <Board key={key} {...boardProps} />
                 );
