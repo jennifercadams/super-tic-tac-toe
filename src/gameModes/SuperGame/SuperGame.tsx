@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SuperBoard from "~components/SuperBoard/SuperBoard";
 import { checkForWinner } from "~helpers/gameHelper";
 import { BoardState, Player } from "~types";
@@ -11,6 +11,17 @@ const SuperGame = () => {
         squares: Array(9).fill(""),
         winner: null,
     }));
+    const [ winner, setWinner ] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (!winner)
+            return;
+
+        const nextBoards = boards.map(board => {
+            return { ...board, playable: false };
+        });
+        setBoards(nextBoards);
+    }, [winner]);
 
     const handleClick = (squareIndex: number, boardIndex: number) => {
         if (boards[boardIndex].squares[squareIndex])
@@ -49,6 +60,10 @@ const SuperGame = () => {
 
         const nextPlayer = player == Player.X ? Player.O : Player.X;
         setPlayer(nextPlayer);
+
+        const winners = nextBoards2.map(board => board.winner);
+        const w = checkForWinner(winners);
+        setWinner(w);
     };
 
     const superBoardProps = { boards, handleClick };

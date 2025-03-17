@@ -1,6 +1,6 @@
 import { Winner } from "~types";
 
-const checkForWinner = (squares: string[]) => {
+const checkForWinner = (squares: (string | null)[]) => {
     const winStates = [
         [0, 1, 2],
         [3, 4, 5],
