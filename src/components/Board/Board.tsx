@@ -3,20 +3,22 @@ import Square from "~components/Square/Square";
 import "./Board.css";
 
 export type BoardProps = {
-    winner: string | null;
+    boardIndex: number;
     squares: string[];
+    winner: string | null;
     handleClick: (arg: number) => void;
 };
 
 const Board = (props: BoardProps) => {
-    const { winner, squares, handleClick } = props;
+    const { boardIndex, squares, winner, handleClick } = props;
 
     return (
         <div className="board">
             {winner && <div className="winner">{winner}</div>}
             {!winner && squares.map((square, i) => {
+                const key = `square-${boardIndex}-${i}`;
                 return (
-                    <Square key={i} value={square} onSquareClick={() => handleClick(i)} />
+                    <Square key={key} value={square} onSquareClick={() => handleClick(i)} />
                 );
             })}
         </div>

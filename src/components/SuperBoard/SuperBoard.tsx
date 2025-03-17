@@ -23,7 +23,7 @@ const SuperBoard = () => {
         setWinner(checkForWinner(nextSquares));
     };
 
-    const boardProps = { winner, squares, handleClick };
+    const boardProps = { boardIndex: 0, squares, winner, handleClick };
 
     return (
         <Board {...boardProps} />
