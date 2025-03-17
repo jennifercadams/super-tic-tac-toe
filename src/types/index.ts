@@ -10,6 +10,7 @@ enum Winner {
 }
 
 type BoardState = {
+    playable: boolean;
     squares: string[];
     winner: string | null;
 };

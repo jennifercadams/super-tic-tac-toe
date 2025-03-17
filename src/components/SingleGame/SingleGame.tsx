@@ -23,7 +23,7 @@ const SingleGame = () => {
         setWinner(checkForWinner(nextSquares));
     };
 
-    const boardProps = { boardIndex: 0, squares, winner, handleClick };
+    const boardProps = { boardIndex: 0, playable: true, squares, winner, handleClick };
 
     return (
         <Board {...boardProps} />

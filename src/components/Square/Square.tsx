@@ -2,15 +2,16 @@ import * as React from "react";
 import "./Square.css";
 
 export type SquareProps = {
+    playable: boolean;
     value: string;
     onSquareClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const Square = (props: SquareProps) => {
-    const { value, onSquareClick } = props;
+    const { playable, value, onSquareClick } = props;
 
     return (
-        <button className="square" onClick={onSquareClick}>
+        <button className="square" onClick={onSquareClick} disabled={!playable}>
             {value}
         </button>
     );
