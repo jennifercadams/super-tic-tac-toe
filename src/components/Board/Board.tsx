@@ -1,7 +1,7 @@
 import * as React from "react";
 import Square from "~components/Square/Square";
-import "./Board.css";
 import { Winner } from "~types";
+import "./Board.css";
 
 export type BoardProps = {
     boardIndex: number;
