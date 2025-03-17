@@ -16,15 +16,13 @@ const SuperGame = () => {
         if (boards[boardIndex].squares[squareIndex])
             return;
 
-        const restrictPlayable = !boards[squareIndex].winner;
-
-        const nextBoards = boards.map((board, i) => {
+        const nextBoards1 = boards.map((board, i) => {
             if (boardIndex === i)
             {
                 const nextSquares = boards[boardIndex].squares.slice();
                 nextSquares[squareIndex] = player;
                 return {
-                    playable: !restrictPlayable || (squareIndex === i && !board.winner),
+                    ...board,
                     squares: nextSquares,
                     winner: checkForWinner(nextSquares),
                 };
@@ -33,13 +31,21 @@ const SuperGame = () => {
             {
                 return {
                     ...board,
-                    playable: !restrictPlayable || (squareIndex === i && !board.winner),
                     squares: board.squares.slice(),
                 };
             }
         });
 
-        setBoards(nextBoards);
+        const restrictPlayable = !nextBoards1[squareIndex].winner;
+
+        const nextBoards2 = nextBoards1.map((board, i) => {
+            return {
+                ...board,
+                playable: !board.winner && (!restrictPlayable || squareIndex === i),
+            };
+        });
+
+        setBoards(nextBoards2);
 
         const nextPlayer = player == Player.X ? Player.O : Player.X;
         setPlayer(nextPlayer);
