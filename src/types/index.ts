@@ -3,4 +3,10 @@ enum Player {
     O = "O"
 }
 
-export { Player };
+enum Winner {
+    X = "X",
+    O = "O",
+    Draw = "DRAW"
+}
+
+export { Player, Winner };

@@ -1,6 +1,7 @@
 import * as React from "react";
 import Square from "~components/Square/Square";
 import "./Board.css";
+import { Winner } from "~types";
 
 export type BoardProps = {
     boardIndex: number;
@@ -14,13 +15,14 @@ const Board = (props: BoardProps) => {
 
     return (
         <div className="board">
-            {winner && <div className="winner">{winner}</div>}
             {!winner && squares.map((square, i) => {
                 const key = `square-${boardIndex}-${i}`;
                 return (
                     <Square key={key} value={square} onSquareClick={() => handleClick(i)} />
                 );
             })}
+            {winner && winner !== Winner.Draw && <div className="winner">{winner}</div>}
+            {winner && winner === Winner.Draw && <div className="draw">{winner}</div>}
         </div>
     );
 };

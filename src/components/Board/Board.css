@@ -9,8 +9,15 @@
     border: solid 1px black;
 }
 
-.winner {
+.winner, .draw {
     grid-column: 1 / 4;
     grid-row: 1 / 4;
+}
+
+.winner {
     font-size: 120px;
+}
+
+.draw {
+    font-size: 32px;
 }

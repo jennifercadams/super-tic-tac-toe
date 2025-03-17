@@ -1,3 +1,5 @@
+import { Winner } from "~types";
+
 const checkForWinner = (squares: string[]) => {
     const winStates = [
         [0, 1, 2],
@@ -16,6 +18,9 @@ const checkForWinner = (squares: string[]) => {
             return squares[a];
         }
     }
+
+    if (squares.every((square) => square))
+        return Winner.Draw;
 
     return null;
 };
