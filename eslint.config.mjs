@@ -28,6 +28,7 @@ const customRules = [
           "caughtErrorsIgnorePattern": "^_",
         },
       ],
+      "@stylistic/js/quotes": ["error", "double"],
       "@stylistic/js/jsx-quotes": [ "error", "prefer-double" ],
       "@stylistic/js/semi": [ "error", "always" ],
       "@stylistic/js/comma-dangle": [ "error", "always-multiline"],
