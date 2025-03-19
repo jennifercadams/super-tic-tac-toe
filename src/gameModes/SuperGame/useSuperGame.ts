@@ -3,7 +3,7 @@ import { checkForWinner } from "~helpers/gameHelper";
 import { BoardState, Player, Winner } from "~types";
 
 const useSuperGame = () => {
-    const [ player, setPlayer ] = useState<string>(Player.X);
+    const [ currentMove, setCurrentMove ] = useState<number>(0);
     const [ boards, setBoards ] = useState<BoardState[]>(Array(9).fill({
         playable: true,
         squares: Array(9).fill(""),
@@ -11,6 +11,10 @@ const useSuperGame = () => {
     }));
     const [ status, setStatus ] = useState<string>("Player Turn: X");
     const [ winner, setWinner ] = useState<string | null>(null);
+
+    const getPlayer = (move: number) => {
+        return move % 2 === 0 ? Player.X : Player.O;
+    };
 
     useEffect(() => {
         if (!winner)
@@ -30,11 +34,12 @@ const useSuperGame = () => {
         const nextBoards = setPlayableSquares(updatedBoards, squareIndex);
         setBoards(nextBoards);
 
-        const nextPlayer = player == Player.X ? Player.O : Player.X;
-        setPlayer(nextPlayer);
+        const nextMove = currentMove + 1;
+        setCurrentMove(nextMove);
 
         const winners = nextBoards.map(board => board.winner);
         const nextWinner = checkForWinner(winners);
+        const nextPlayer = getPlayer(nextMove);
         updateStatus(nextWinner, nextPlayer);
         setWinner(nextWinner);
     };
@@ -44,7 +49,7 @@ const useSuperGame = () => {
             if (boardIndex === i)
             {
                 const nextSquares = boards[boardIndex].squares.slice();
-                nextSquares[squareIndex] = player;
+                nextSquares[squareIndex] = getPlayer(currentMove);
                 return {
                     ...board,
                     squares: nextSquares,
@@ -85,7 +90,7 @@ const useSuperGame = () => {
     };
     
     const handleRestart = () => {
-        setPlayer(Player.X);
+        setCurrentMove(0);
         setBoards(Array(9).fill({
             playable: true,
             squares: Array(9).fill(""),
