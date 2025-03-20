@@ -1,13 +1,13 @@
 enum Player {
     X = "X",
     O = "O"
-}
+};
 
 enum Winner {
     X = "X",
     O = "O",
     Draw = "DRAW"
-}
+};
 
 type BoardState = {
     playable: boolean;
@@ -15,4 +15,11 @@ type BoardState = {
     winner: string | null;
 };
 
-export { Player, Winner, BoardState };
+type Move = {
+    currentMove: number;
+    boardIndex: number;
+    squareIndex: number;
+    boards: BoardState[];
+};
+
+export { BoardState, Move, Player, Winner };
