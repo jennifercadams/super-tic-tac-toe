@@ -17,7 +17,7 @@ const SuperGame = () => {
         <div className="super-game">
             <SuperBoard {...superBoardProps} />
             <p className="status">{status}</p>
-            <button className="restart-button" onClick={handleRestart}>
+            <button className="ui-button" onClick={handleRestart}>
                 {winner ? "Play Again" : "Restart"}
             </button>
         </div>

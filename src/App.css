@@ -3,10 +3,10 @@ body {
     text-align: center;
 }
 
-.status, .restart-button {
+.status, .ui-button {
     font-size: 20px;
 }
 
-.restart-button {
+.ui-button {
     padding: 4px 12px;
 }
