@@ -22,4 +22,11 @@ type Move = {
     boards: BoardState[];
 };
 
-export { BoardState, Move, Player, Winner };
+type MoveResult = {
+    nextMove: number;
+    nextBoards: BoardState[];
+    nextStatus: string;
+    nextWinner: (string | null);
+}
+
+export { BoardState, Move, MoveResult, Player, Winner };

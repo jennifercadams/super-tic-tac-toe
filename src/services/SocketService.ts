@@ -3,13 +3,13 @@ import { Move } from "~types";
 
 export class SocketService {
     socket: Socket;
-    onProcessMove: (move: Move) => void;
+    onMove: (move: Move) => void;
 
-    constructor(onProcessMove: (move: Move) => void) {
+    constructor(onMove: (move: Move) => void) {
         this.socket = io("http://localhost:3000");
-        this.onProcessMove = onProcessMove;
+        this.onMove = onMove;
         this.socket.on("move", (move: Move) => {
-            onProcessMove(move);
+            onMove(move);
         });
     }
 

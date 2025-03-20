@@ -1,4 +1,67 @@
-import { Winner } from "~types";
+import { BoardState, Move, MoveResult, Player, Winner } from "~types";
+
+const processMove = (move: Move): MoveResult => {
+    const nextMove = move.currentMove + 1;
+
+    const updatedBoards = updateBoards(move);
+    const nextBoards = setPlayableSquares(updatedBoards, move.squareIndex);
+
+    const winners = nextBoards.map(board => board.winner);
+    const nextWinner = checkForWinner(winners);
+    const nextPlayer = getPlayer(nextMove);
+    const nextStatus = getStatus(nextWinner, nextPlayer);
+
+    return { nextMove, nextBoards, nextStatus, nextWinner };
+};
+
+const updateBoards = (move: Move): BoardState[] => {
+    return move.boards.map((board, i) => {
+        if (move.boardIndex === i)
+        {
+            const nextSquares = move.boards[move.boardIndex].squares.slice();
+            nextSquares[move.squareIndex] = getPlayer(move.currentMove);
+            return {
+                ...board,
+                squares: nextSquares,
+                winner: checkForWinner(nextSquares),
+            };
+        }
+        else
+        {
+            return {
+                ...board,
+                squares: board.squares.slice(),
+            };
+        }
+    });
+};
+
+const setPlayableSquares = (boards: BoardState[], squareIndex: number): BoardState[] => {
+    const restrictPlayable = !boards[squareIndex].winner;
+
+    return boards.map((board, i) => {
+        return {
+            ...board,
+            playable: !board.winner && (!restrictPlayable || squareIndex === i),
+        };
+    });
+};
+
+const getStatus = (nextWinner: (string | null), nextPlayer: Player) => {
+    if (!nextWinner) {
+        return `Player Turn: ${nextPlayer}`;
+    }
+    else if (nextWinner === Winner.Draw) {
+        return "Draw";
+    }
+    else {
+        return `Winner: ${nextWinner}`;
+    }
+};
+
+const getPlayer = (move: number) => {
+    return move % 2 === 0 ? Player.X : Player.O;
+};
 
 const checkForWinner = (squares: (string | null)[]) => {
     const winStates = [
@@ -25,4 +88,4 @@ const checkForWinner = (squares: (string | null)[]) => {
     return null;
 };
 
-export { checkForWinner };
+export { checkForWinner, processMove };
