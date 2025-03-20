@@ -1,12 +1,12 @@
-import { io, Socket } from "socket.io-client";
+import { Socket } from "socket.io-client";
 import { Move } from "~types";
 
 export class SocketService {
     socket: Socket;
     onMove: (move: Move) => void;
 
-    constructor(onMove: (move: Move) => void) {
-        this.socket = io("http://localhost:3000");
+    constructor(socket: Socket, onMove: (move: Move) => void) {
+        this.socket = socket;
         this.onMove = onMove;
         this.socket.on("move", (move: Move) => {
             onMove(move);

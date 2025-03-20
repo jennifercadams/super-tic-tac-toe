@@ -1,15 +1,22 @@
 import * as React from "react";
+import { Socket } from "socket.io-client";
 import SuperBoard from "~components/SuperBoard/SuperBoard";
+import { Player } from "~types";
 import useOnlineSuperGame from "./useOnlineSuperGame";
 
-const OnlineSuperGame = () => {
+export type OnlineSuperGameProps = {
+    socket: Socket;
+    player: (Player | null);
+};
+
+const OnlineSuperGame = (props: OnlineSuperGameProps) => {
     const {
         boards,
         status,
         winner,
         handleClick,
         handleRestart,
-    } = useOnlineSuperGame();
+    } = useOnlineSuperGame(props);
 
     const superBoardProps = { boards, handleClick };
 

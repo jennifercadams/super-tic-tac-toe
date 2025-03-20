@@ -2,8 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { processMove } from "~helpers/gameHelper";
 import { SocketService } from "~services/SocketService";
 import { BoardState, Move } from "~types";
+import { OnlineSuperGameProps } from "./OnlineSuperGame";
 
-const useOnlineSuperGame = () => {
+const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
     const [ currentMove, setCurrentMove ] = useState<number>(0);
     const [ boards, setBoards ] = useState<BoardState[]>(Array(9).fill({
         playable: true,
@@ -21,7 +22,7 @@ const useOnlineSuperGame = () => {
         setWinner(moveResult.nextWinner);
     };
 
-    const socketService = useMemo(() => new SocketService(onMove), []);
+    const socketService = useMemo(() => new SocketService(props.socket, onMove), []);
 
     useEffect(() => {
         if (!winner)
