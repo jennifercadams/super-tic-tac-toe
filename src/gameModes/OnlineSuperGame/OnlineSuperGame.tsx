@@ -6,7 +6,7 @@ import useOnlineSuperGame from "./useOnlineSuperGame";
 
 export type OnlineSuperGameProps = {
     socketService: SocketService;
-    player: (Player | null);
+    localPlayer: (Player | null);
 };
 
 const OnlineSuperGame = (props: OnlineSuperGameProps) => {

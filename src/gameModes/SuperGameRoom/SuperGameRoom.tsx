@@ -1,18 +1,30 @@
 import * as React from "react";
+import RoomPanel from "~components/RoomPanel/RoomPanel";
 import OnlineSuperGame from "~gameModes/OnlineSuperGame/OnlineSuperGame";
 import useSuperGameRoom from "./useSuperGameRoom";
+import "./SuperGameRoom.css";
 
 const SuperGameRoom = () => {
     const {
         socketService,
-        player,
+        roomCode,
+        localUser,
+        remoteUser,
     } = useSuperGameRoom();
 
-    const onlineSuperGameProps = { socketService, player};
+    const gameRoomProps = { roomCode, localUser, remoteUser };
+    const onlineSuperGameProps = { 
+        socketService,
+        localPlayer: localUser?.player || null,
+    };
 
     return (
         <div className="super-game-room">
-            <OnlineSuperGame {...onlineSuperGameProps} />
+            <h1>Super Tic Tac Toe</h1>
+            <div className="game-container">
+                <RoomPanel {...gameRoomProps} />
+                <OnlineSuperGame {...onlineSuperGameProps} />
+            </div>
         </div>
     );
 };

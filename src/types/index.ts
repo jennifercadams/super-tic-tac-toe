@@ -29,4 +29,9 @@ type MoveResult = {
     nextWinner: (string | null);
 }
 
-export { BoardState, Move, MoveResult, Player, Winner };
+type User = {
+    name: string;
+    player: Player;
+}
+
+export { BoardState, Move, MoveResult, Player, User, Winner };

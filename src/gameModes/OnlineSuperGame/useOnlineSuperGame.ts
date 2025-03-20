@@ -13,7 +13,7 @@ const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
     const [ status, setStatus ] = useState<string>("Player Turn: X");
     const [ winner, setWinner ] = useState<string | null>(null);
 
-    const { socketService, player } = props;
+    const { socketService, localPlayer } = props;
 
     useEffect(() => {
         const handleOnMove = (e: Event) => onMove((e as CustomEvent).detail);
