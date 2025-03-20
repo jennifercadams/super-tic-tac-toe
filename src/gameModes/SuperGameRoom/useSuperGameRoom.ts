@@ -1,13 +1,13 @@
 import { useMemo, useState } from "react";
-import { io } from "socket.io-client";
+import { SocketService } from "~services/SocketService";
 import { Player } from "~types";
 
 const useSuperGameRoom = () => {
-    const socket = useMemo(() => io("http://localhost:3000"), []);
+    const socketService = useMemo(() => new SocketService(), []);
     const [ player, setPlayer ] = useState<Player | null>(null);
 
     return {
-        socket,
+        socketService,
         player,
     };
 };

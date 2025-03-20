@@ -4,11 +4,11 @@ import useSuperGameRoom from "./useSuperGameRoom";
 
 const SuperGameRoom = () => {
     const {
-        socket,
+        socketService,
         player,
     } = useSuperGameRoom();
 
-    const onlineSuperGameProps = { socket, player};
+    const onlineSuperGameProps = { socketService, player};
 
     return (
         <div className="super-game-room">

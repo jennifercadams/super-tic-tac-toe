@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { processMove } from "~helpers/gameHelper";
-import { SocketService } from "~services/SocketService";
 import { BoardState, Move } from "~types";
 import { OnlineSuperGameProps } from "./OnlineSuperGame";
 
@@ -14,15 +13,16 @@ const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
     const [ status, setStatus ] = useState<string>("Player Turn: X");
     const [ winner, setWinner ] = useState<string | null>(null);
 
-    const onMove = (move: Move) => {
-        const moveResult = processMove(move);
-        setCurrentMove(moveResult.nextMove);
-        setBoards(moveResult.nextBoards);
-        setStatus(moveResult.nextStatus);
-        setWinner(moveResult.nextWinner);
-    };
+    const { socketService, player } = props;
 
-    const socketService = useMemo(() => new SocketService(props.socket, onMove), []);
+    useEffect(() => {
+        const handleOnMove = (e: Event) => onMove((e as CustomEvent).detail);
+        document.addEventListener("onMove", handleOnMove);
+
+        return () => {
+            window.removeEventListener("onMove", handleOnMove);
+        };
+    }, []);
 
     useEffect(() => {
         if (!winner)
@@ -39,6 +39,14 @@ const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
             return;
 
         socketService.sendMove({currentMove, boardIndex, squareIndex, boards });
+    };
+
+    const onMove = (move: Move) => {
+        const moveResult = processMove(move);
+        setCurrentMove(moveResult.nextMove);
+        setBoards(moveResult.nextBoards);
+        setStatus(moveResult.nextStatus);
+        setWinner(moveResult.nextWinner);
     };
     
     const handleRestart = () => {

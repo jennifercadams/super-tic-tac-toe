@@ -1,15 +1,14 @@
-import { Socket } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { Move } from "~types";
 
 export class SocketService {
     socket: Socket;
-    onMove: (move: Move) => void;
 
-    constructor(socket: Socket, onMove: (move: Move) => void) {
-        this.socket = socket;
-        this.onMove = onMove;
+    constructor() {
+        this.socket = io("http://localhost:3000");
         this.socket.on("move", (move: Move) => {
-            onMove(move);
+            const moveEvent = new CustomEvent("onMove", { detail: move } );
+            document.dispatchEvent(moveEvent);
         });
     }
 

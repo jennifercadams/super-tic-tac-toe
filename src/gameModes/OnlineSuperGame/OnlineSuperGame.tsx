@@ -1,11 +1,11 @@
 import * as React from "react";
-import { Socket } from "socket.io-client";
 import SuperBoard from "~components/SuperBoard/SuperBoard";
+import { SocketService } from "~services/SocketService";
 import { Player } from "~types";
 import useOnlineSuperGame from "./useOnlineSuperGame";
 
 export type OnlineSuperGameProps = {
-    socket: Socket;
+    socketService: SocketService;
     player: (Player | null);
 };
 
