@@ -12,7 +12,7 @@ const SuperGameRoom = () => {
         remoteUser,
     } = useSuperGameRoom();
 
-    const gameRoomProps = { roomCode, localUser, remoteUser };
+    const roomPanelProps = { roomCode, localUser, remoteUser };
     const onlineSuperGameProps = { 
         socketService,
         localPlayer: localUser?.player || null,
@@ -22,7 +22,7 @@ const SuperGameRoom = () => {
         <div className="super-game-room">
             <h1>Super Tic Tac Toe</h1>
             <div className="game-container">
-                <RoomPanel {...gameRoomProps} />
+                <RoomPanel {...roomPanelProps} />
                 <OnlineSuperGame {...onlineSuperGameProps} />
             </div>
         </div>
