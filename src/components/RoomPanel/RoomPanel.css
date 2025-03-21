@@ -1,10 +1,45 @@
 .room-panel {
     width: 200px;
     border: solid 1px black;
-    text-align: left;
     padding: 0px 10px;
 }
 
-.label {
+.room-start .ui-button {
+    margin-top: 16px;
+}
+
+.room-create, .room-join {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.room-create h2, .room-join h2 {
+    margin-bottom: 0;
+}
+
+.room-create label, .room-join label {
+    text-align: left;
+}
+
+.room-create input[type="text"], .room-join input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.room-create fieldset {
+    text-align: left;
+    margin: 0;
+}
+
+.room-create fieldset label {
+    margin-right: 16px;
+}
+
+.room-details {
+    text-align: left;
+}
+
+.room-details .label {
     font-weight: bold;
 }

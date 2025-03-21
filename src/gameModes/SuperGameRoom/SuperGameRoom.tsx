@@ -10,9 +10,11 @@ const SuperGameRoom = () => {
         roomCode,
         localUser,
         remoteUser,
+        handleCreateRoom,
+        handleJoinRoom,
     } = useSuperGameRoom();
 
-    const roomPanelProps = { roomCode, localUser, remoteUser };
+    const roomPanelProps = { roomCode, localUser, remoteUser, handleCreateRoom, handleJoinRoom };
     const onlineSuperGameProps = { 
         socketService,
         localPlayer: localUser?.player || null,
