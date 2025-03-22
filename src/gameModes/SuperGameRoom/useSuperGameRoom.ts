@@ -22,9 +22,9 @@ const useSuperGameRoom = () => {
         socketService.createRoom(user);
     };
 
-    const onCreateSuccess = ({roomCode, user}: {roomCode: string, user: User}) => {
-        setRoomCode(roomCode);
-        setLocalUser(user);
+    const onCreateSuccess = (response: {roomCode: string, user: User}) => {
+        setRoomCode(response.roomCode);
+        setLocalUser(response.user);
     };
 
     const handleJoinRoom = (roomCodeInput: string, nameInput: string) => {
