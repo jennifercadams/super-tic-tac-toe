@@ -6,9 +6,9 @@ export class SocketService {
 
     constructor() {
         this.socket = io("http://localhost:3000");
-        this.socket.on("roomCreated", (roomCode: string, user: User) => {
-            const createRoomEvent = new CustomEvent("onRoomCreated", { detail: { roomCode, user } } );
-            document.dispatchEvent(createRoomEvent);
+        this.socket.on("create-success", (roomCode: string, user: User) => {
+            const createSuccessEvent = new CustomEvent("onCreateSuccess", { detail: { roomCode, user } } );
+            document.dispatchEvent(createSuccessEvent);
         });
         this.socket.on("move", (move: Move) => {
             const moveEvent = new CustomEvent("onMove", { detail: move } );

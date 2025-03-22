@@ -9,11 +9,11 @@ const useSuperGameRoom = () => {
     const [ remoteUser, setRemoteUser ] = useState<User | null>(null);
 
     useEffect(() => {
-        const handleOnCreateRoom = (e: Event) => onCreateRoom((e as CustomEvent).detail);
-        document.addEventListener("onRoomCreated", handleOnCreateRoom);
+        const handleCreateSuccess = (e: Event) => onCreateSuccess((e as CustomEvent).detail);
+        document.addEventListener("onCreateSuccess", handleCreateSuccess);
 
         return () => {
-            window.removeEventListener("onRoomCreated", handleOnCreateRoom);
+            window.removeEventListener("onCreateSuccess", handleCreateSuccess);
         };
     }, []);
 
@@ -22,7 +22,7 @@ const useSuperGameRoom = () => {
         socketService.createRoom(user);
     };
 
-    const onCreateRoom = ({roomCode, user}: {roomCode: string, user: User}) => {
+    const onCreateSuccess = ({roomCode, user}: {roomCode: string, user: User}) => {
         setRoomCode(roomCode);
         setLocalUser(user);
     };
