@@ -1,15 +1,30 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { SocketService } from "~services/SocketService";
 import { Player, User } from "~types";
 
 const useSuperGameRoom = () => {
     const socketService = useMemo(() => new SocketService(), []);
     const [ roomCode, setRoomCode ] = useState<string | null>(null);
-    const [ localUser, setLocalUser ] = useState<User | null>({ name: "Player 1", player: Player.X});
-    const [ remoteUser, setRemoteUser ] = useState<User | null>({ name: "Player 2", player: Player.O});
+    const [ localUser, setLocalUser ] = useState<User | null>(null);
+    const [ remoteUser, setRemoteUser ] = useState<User | null>(null);
 
-    const handleCreateRoom = (nameInput: string, playerInput: Player) => {
-        console.log("create room: ", nameInput, playerInput);
+    useEffect(() => {
+        const handleOnCreateRoom = (e: Event) => onCreateRoom((e as CustomEvent).detail);
+        document.addEventListener("onRoomCreated", handleOnCreateRoom);
+
+        return () => {
+            window.removeEventListener("onRoomCreated", handleOnCreateRoom);
+        };
+    }, []);
+
+    const handleCreateRoom = (name: string, player: Player) => {
+        const user: User = { name, player };
+        socketService.createRoom(user);
+    };
+
+    const onCreateRoom = ({roomCode, user}: {roomCode: string, user: User}) => {
+        setRoomCode(roomCode);
+        setLocalUser(user);
     };
 
     const handleJoinRoom = (roomCodeInput: string, nameInput: string) => {
