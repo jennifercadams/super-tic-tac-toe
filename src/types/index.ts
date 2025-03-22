@@ -30,6 +30,7 @@ type MoveResult = {
 }
 
 type User = {
+    id?: string;
     name: string;
     player: Player;
 }
