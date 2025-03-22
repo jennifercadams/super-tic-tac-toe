@@ -23,6 +23,8 @@ const RoomPanel = (props: RoomPanelProps) => {
     const roomStart = !roomCode && !isCreating && !isJoining;
     const roomCreate = !roomCode && isCreating && !isJoining;
     const roomJoin = !roomCode && !isCreating && isJoining;
+    const player = `${localUser?.name} (${localUser?.player})`;
+    const opponent = remoteUser ? `${remoteUser.name} (${remoteUser.player})` : "Waiting for opponent...";
 
     return (
         <div className="room-panel">
@@ -67,9 +69,9 @@ const RoomPanel = (props: RoomPanelProps) => {
                 <p className="label">Room Code: </p>
                 <p className="room-code">{roomCode}</p>
                 <p className="label">User Name: </p>
-                <p className="player">{`${localUser?.name} (${localUser?.player})`}</p>
+                <p className="player">{player}</p>
                 <p className="label">Opponent: </p>
-                <p className="opponent">{`${remoteUser?.name} (${remoteUser?.player})`}</p>
+                <p className="opponent">{opponent}</p>
             </div>}
         </div>
     );
