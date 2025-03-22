@@ -27,11 +27,11 @@ const RoomPanel = (props: RoomPanelProps) => {
     return (
         <div className="room-panel">
             {roomStart && <div className="room-start">
-                <button className="ui-button" onClick={() => setIsCreating(true)}>Create Room</button>
-                <button className="ui-button" onClick={() => setIsJoining(true)}>Join Room</button>
+                <button className="ui-button" onClick={() => setIsCreating(true)}>New Game</button>
+                <button className="ui-button" onClick={() => setIsJoining(true)}>Join Game</button>
             </div>}
             {roomCreate && <div className="room-create">
-                <h2>Create Room</h2>
+                <h2>New Game</h2>
                 <label htmlFor="name-input">
                     Name
                     <input type="text" id="name-input" value={nameInput} onChange={e => setNameInput(e.target.value)} />
@@ -49,7 +49,7 @@ const RoomPanel = (props: RoomPanelProps) => {
                 <button className="ui-button" onClick={() => setIsCreating(false)}>Go Back</button>
             </div>}
             {roomJoin && <div className="room-join">
-                <h2>Join Room</h2>
+                <h2>Join Game</h2>
                 <label htmlFor="room-code-input">
                     Room Code
                     <input type="text" id="room-code-input" value={roomCodeInput} onChange={e => setRoomCodeInput(e.target.value)} />
