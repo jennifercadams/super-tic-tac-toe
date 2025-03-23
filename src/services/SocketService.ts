@@ -38,6 +38,9 @@ export class SocketService {
         this.socket.on("opponent-joined", (user: User) =>
             this.dispatchOnOpponentJoined(user));
 
+        this.socket.on("opponent-left", () => 
+            this.dispatchOnOpponentLeft());
+
         this.socket.on("move", (move: Move) =>
             this.dispatchOnMove(move));
     }
@@ -58,6 +61,11 @@ export class SocketService {
     private dispatchOnOpponentJoined(user: User) {
         const opponentJoinEvent = new CustomEvent("onOpponentJoined", { detail: user });
         document.dispatchEvent(opponentJoinEvent);
+    }
+
+    private dispatchOnOpponentLeft() {
+        const opponentLeftEvent = new CustomEvent("onOpponentLeft");
+        document.dispatchEvent(opponentLeftEvent);
     }
 
     private dispatchOnMove(move: Move) {

@@ -16,6 +16,8 @@ const useSuperGameRoom = () => {
         document.addEventListener("onJoinSuccess", handleOnJoinSuccess);
         const handleOpponentJoined = (e: Event) => onOpponentJoined((e as CustomEvent).detail);
         document.addEventListener("onOpponentJoined", handleOpponentJoined);
+        const handleOpponentLeft = onOpponentLeft;
+        document.addEventListener("onOpponentLeft", handleOpponentLeft);
         const handleOnError = (e: Event) => onError((e as CustomEvent).detail);
         document.addEventListener("onError", handleOnError);
 
@@ -23,6 +25,7 @@ const useSuperGameRoom = () => {
             document.removeEventListener("onCreateSuccess", handleCreateSuccess);
             document.removeEventListener("onJoinSuccess", handleOnJoinSuccess);
             document.removeEventListener("onOpponentJoined", handleOpponentJoined);
+            document.removeEventListener("onOpponentLeft", handleOpponentLeft);
             document.removeEventListener("onError", handleOnError);
         };
     }, []);
@@ -49,6 +52,10 @@ const useSuperGameRoom = () => {
 
     const onOpponentJoined = (user: User) => {
         setRemoteUser(user);
+    };
+
+    const onOpponentLeft = () => {
+        setRemoteUser(null);
     };
 
     const onError = (message: string) => {
