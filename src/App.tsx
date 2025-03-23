@@ -1,12 +1,11 @@
 import * as React from "react";
-import SuperGame from "~gameModes/SuperGame/SuperGame";
+import SuperGameRoom from "~gameModes/SuperGameRoom/SuperGameRoom";
 import "./App.css";
 
-const App = () => (
-  <>
-    <h1>Super Tic Tac Toe</h1>
-    <SuperGame />
-  </>
-);
+const App = () => {
+    return (
+        <SuperGameRoom />
+    );
+};
 
 export default App;
