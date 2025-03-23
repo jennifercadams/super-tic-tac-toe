@@ -11,9 +11,15 @@ const useSuperGameRoom = () => {
     useEffect(() => {
         const handleCreateSuccess = (e: Event) => onCreateSuccess((e as CustomEvent).detail);
         document.addEventListener("onCreateSuccess", handleCreateSuccess);
+        const handleOnJoinSuccess = (e: Event) => onJoinSuccess((e as CustomEvent).detail);
+        document.addEventListener("onJoinSuccess", handleOnJoinSuccess);
+        const handleOpponentJoined = (e: Event) => onOpponentJoined((e as CustomEvent).detail);
+        document.addEventListener("onOpponentJoined", handleOpponentJoined);
 
         return () => {
             document.removeEventListener("onCreateSuccess", handleCreateSuccess);
+            document.removeEventListener("onJoinSuccess", handleOnJoinSuccess);
+            document.removeEventListener("onOpponentJoined", handleOpponentJoined);
         };
     }, []);
 
@@ -27,8 +33,18 @@ const useSuperGameRoom = () => {
         setLocalUser(response.user);
     };
 
-    const handleJoinRoom = (roomCodeInput: string, nameInput: string) => {
-        console.log("join room: ", roomCodeInput, nameInput);
+    const handleJoinRoom = (roomCode: string, name: string) => {
+        socketService.joinRoom(roomCode, name);
+    };
+
+    const onJoinSuccess = (response: {roomCode: string, user: User, opponent: User}) => {
+        setRoomCode(response.roomCode);
+        setLocalUser(response.user);
+        setRemoteUser(response.opponent);
+    };
+
+    const onOpponentJoined = (user: User) => {
+        setRemoteUser(user);
     };
 
     return {
