@@ -70,6 +70,7 @@ const RoomPanel = (props: RoomPanelProps) => {
                     <input type="radio" id="select-o" name="select-x-or-o" value={Player.O} defaultChecked={playerInput === Player.O} />
                     <label htmlFor="select-o">O</label>
                 </fieldset>
+                <p className="error">{errorMessage}</p>
                 <button className="ui-button" disabled={!nameInput} onClick={() => handleCreateRoom(nameInput, playerInput)}>
                     Create
                 </button>

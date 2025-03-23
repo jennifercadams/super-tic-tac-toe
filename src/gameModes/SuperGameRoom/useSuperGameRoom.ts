@@ -14,16 +14,16 @@ const useSuperGameRoom = () => {
         document.addEventListener("onCreateSuccess", handleCreateSuccess);
         const handleOnJoinSuccess = (e: Event) => onJoinSuccess((e as CustomEvent).detail);
         document.addEventListener("onJoinSuccess", handleOnJoinSuccess);
-        const handleOnJoinFailure = (e: Event) => onJoinFailure((e as CustomEvent).detail);
-        document.addEventListener("onJoinFailure", handleOnJoinFailure);
         const handleOpponentJoined = (e: Event) => onOpponentJoined((e as CustomEvent).detail);
         document.addEventListener("onOpponentJoined", handleOpponentJoined);
+        const handleOnError = (e: Event) => onError((e as CustomEvent).detail);
+        document.addEventListener("onError", handleOnError);
 
         return () => {
             document.removeEventListener("onCreateSuccess", handleCreateSuccess);
             document.removeEventListener("onJoinSuccess", handleOnJoinSuccess);
-            document.removeEventListener("onJoinFailure", handleOnJoinFailure);
             document.removeEventListener("onOpponentJoined", handleOpponentJoined);
+            document.removeEventListener("onError", handleOnError);
         };
     }, []);
 
@@ -47,12 +47,12 @@ const useSuperGameRoom = () => {
         setRemoteUser(response.opponent);
     };
 
-    const onJoinFailure = (message: string) => {
-        setErrorMessage(message);
-    };
-
     const onOpponentJoined = (user: User) => {
         setRemoteUser(user);
+    };
+
+    const onError = (message: string) => {
+        setErrorMessage(message);
     };
 
     return {
