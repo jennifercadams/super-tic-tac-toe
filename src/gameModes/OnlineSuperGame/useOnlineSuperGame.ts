@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { processMove } from "~helpers/gameHelper";
 import { BoardState, Move, Player } from "~types";
 import { OnlineSuperGameProps } from "./OnlineSuperGame";
@@ -15,14 +15,22 @@ const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
 
     const { socketService, localPlayer, isRemoteUserConnected } = props;
 
+    const onMove = useCallback((move: Move) => {
+        const moveResult = processMove(move, localPlayer);
+        setCurrentMove(moveResult.nextMove);
+        setBoards(moveResult.nextBoards);
+        setStatus(moveResult.nextStatus);
+        setWinner(moveResult.nextWinner);
+    }, [currentMove, localPlayer]);
+
     useEffect(() => {
         const handleOnMove = (e: Event) => onMove((e as CustomEvent).detail);
         document.addEventListener("onMove", handleOnMove);
 
         return () => {
-            window.removeEventListener("onMove", handleOnMove);
+            document.removeEventListener("onMove", handleOnMove);
         };
-    }, []);
+    }, [onMove]);
 
     useEffect(() => {
         if (localPlayer === Player.X && currentMove === 0 && isRemoteUserConnected) {
@@ -50,14 +58,6 @@ const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
         socketService.sendMove({currentMove, boardIndex, squareIndex, boards });
     };
 
-    const onMove = (move: Move) => {
-        const moveResult = processMove(move);
-        setCurrentMove(moveResult.nextMove);
-        setBoards(moveResult.nextBoards);
-        setStatus(moveResult.nextStatus);
-        setWinner(moveResult.nextWinner);
-    };
-    
     const handleRestart = () => {
         setCurrentMove(0);
         setBoards(Array(9).fill({

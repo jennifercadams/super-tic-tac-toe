@@ -1,10 +1,10 @@
 import { BoardState, Move, MoveResult, Player, Winner } from "~types";
 
-const processMove = (move: Move): MoveResult => {
+const processMove = (move: Move, localPlayer: (Player | null)): MoveResult => {
     const nextMove = move.currentMove + 1;
 
     const updatedBoards = updateBoards(move);
-    const nextBoards = setPlayableSquares(updatedBoards, move.squareIndex);
+    const nextBoards = setPlayableSquares(updatedBoards, move.squareIndex, nextMove, localPlayer);
 
     const winners = nextBoards.map(board => board.winner);
     const nextWinner = checkForWinner(winners);
@@ -36,13 +36,19 @@ const updateBoards = (move: Move): BoardState[] => {
     });
 };
 
-const setPlayableSquares = (boards: BoardState[], squareIndex: number): BoardState[] => {
+const setPlayableSquares = (
+    boards: BoardState[], 
+    squareIndex: number, 
+    nextMove: number, 
+    localPlayer: (Player | null),
+): BoardState[] => {
     const restrictPlayable = !boards[squareIndex].winner;
+    const isLocalPlayerTurn = localPlayer !== null ? getPlayer(nextMove) === localPlayer : true;
 
     return boards.map((board, i) => {
         return {
             ...board,
-            playable: !board.winner && (!restrictPlayable || squareIndex === i),
+            playable: isLocalPlayerTurn && !board.winner && (!restrictPlayable || squareIndex === i),
         };
     });
 };

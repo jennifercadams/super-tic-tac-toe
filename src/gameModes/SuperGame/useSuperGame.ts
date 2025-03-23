@@ -26,7 +26,7 @@ const useSuperGame = () => {
         if (boards[boardIndex].squares[squareIndex])
             return;
 
-        const moveResult = processMove({currentMove, boardIndex, squareIndex, boards });
+        const moveResult = processMove({currentMove, boardIndex, squareIndex, boards }, null);
         setCurrentMove(moveResult.nextMove);
         setBoards(moveResult.nextBoards);
         setStatus(moveResult.nextStatus);
