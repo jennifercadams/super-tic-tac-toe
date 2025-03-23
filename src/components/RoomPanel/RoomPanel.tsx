@@ -40,6 +40,17 @@ const RoomPanel = (props: RoomPanelProps) => {
         setErrorMessage("");
     }, [isCreating, isJoining, nameInput, playerInput, roomCodeInput ]);
 
+    useEffect(() => {
+        if (roomCode) {
+            setIsCreating(false);
+            setIsJoining(false);
+        }
+
+        setNameInput("");
+        setPlayerInput(Player.X);
+        setRoomCodeInput("");
+    }, [isCreating, isJoining, roomCode]);
+
     return (
         <div className="room-panel">
             {roomStart && <div className="room-start">
