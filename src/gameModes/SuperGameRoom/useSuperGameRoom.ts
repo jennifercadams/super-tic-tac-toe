@@ -13,7 +13,7 @@ const useSuperGameRoom = () => {
         document.addEventListener("onCreateSuccess", handleCreateSuccess);
 
         return () => {
-            window.removeEventListener("onCreateSuccess", handleCreateSuccess);
+            document.removeEventListener("onCreateSuccess", handleCreateSuccess);
         };
     }, []);
 
