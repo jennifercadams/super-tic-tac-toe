@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { SocketService } from "~services/SocketService";
 import { Player, User } from "~types";
 
@@ -7,6 +7,7 @@ const useSuperGameRoom = () => {
     const [ roomCode, setRoomCode ] = useState<string | null>(null);
     const [ localUser, setLocalUser ] = useState<User | null>(null);
     const [ remoteUser, setRemoteUser ] = useState<User | null>(null);
+    const prevRemoteUser = useRef<User | null>(null);
     const [ errorMessage, setErrorMessage ] = useState<string>("");
 
     useEffect(() => {
@@ -29,6 +30,10 @@ const useSuperGameRoom = () => {
             document.removeEventListener("onError", handleOnError);
         };
     }, []);
+
+    useEffect(() => {
+        prevRemoteUser.current = remoteUser;
+    }, [remoteUser]);
 
     const handleCreateRoom = (name: string, player: Player) => {
         const user: User = { name, player };
@@ -67,6 +72,7 @@ const useSuperGameRoom = () => {
         roomCode,
         localUser,
         remoteUser,
+        prevRemoteUser,
         errorMessage,
         setErrorMessage,
         handleCreateRoom,

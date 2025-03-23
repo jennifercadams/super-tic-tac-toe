@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BaseSyntheticEvent, useEffect, useState } from "react";
+import { BaseSyntheticEvent, RefObject, useEffect, useState } from "react";
 import { Player, User } from "~types";
 import "./RoomPanel.css";
 
@@ -7,6 +7,7 @@ export type RoomPanelProps = {
     roomCode: (string | null);
     localUser: (User | null);
     remoteUser: (User | null);
+    prevRemoteUser: RefObject<User | null>;
     errorMessage: string;
     setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
     handleCreateRoom: (arg1: string, arg2: Player) => void;
@@ -19,11 +20,13 @@ const RoomPanel = (props: RoomPanelProps) => {
     const [ nameInput, setNameInput ] = useState<string>("");
     const [ playerInput, setPlayerInput ] = useState<Player>(Player.X);
     const [ roomCodeInput, setRoomCodeInput ] = useState<string>("");
+    const [ remoteDisconnected, setRemoteDisconnected ] = useState<boolean>(false);
 
     const {
         roomCode,
         localUser,
         remoteUser,
+        prevRemoteUser,
         errorMessage,
         setErrorMessage,
         handleCreateRoom,
@@ -34,7 +37,11 @@ const RoomPanel = (props: RoomPanelProps) => {
     const roomCreate = !roomCode && isCreating && !isJoining;
     const roomJoin = !roomCode && !isCreating && isJoining;
     const player = `${localUser?.name} (${localUser?.player})`;
-    const opponent = remoteUser ? `${remoteUser.name} (${remoteUser.player})` : "Waiting for opponent...";
+    const opponent = remoteUser ? 
+        `${remoteUser.name} (${remoteUser.player})` : 
+        remoteDisconnected ?
+        "Opponent disconnected" :
+        "Waiting for opponent...";
 
     useEffect(() => {
         setErrorMessage("");
@@ -50,6 +57,13 @@ const RoomPanel = (props: RoomPanelProps) => {
         setPlayerInput(Player.X);
         setRoomCodeInput("");
     }, [isCreating, isJoining, roomCode]);
+
+    useEffect(() => {
+        if (remoteUser)
+            setRemoteDisconnected(false);
+        else if (!remoteUser && prevRemoteUser.current)
+            setRemoteDisconnected(true);
+    }, [remoteUser]);
 
     return (
         <div className="room-panel">
@@ -98,7 +112,7 @@ const RoomPanel = (props: RoomPanelProps) => {
                 <p className="label">User Name: </p>
                 <p className="player">{player}</p>
                 <p className="label">Opponent: </p>
-                <p className="opponent">{opponent}</p>
+                <p className={`opponent${remoteDisconnected ? " disconnected" : ""}`}>{opponent}</p>
             </div>}
         </div>
     );

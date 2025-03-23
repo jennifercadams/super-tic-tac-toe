@@ -48,3 +48,7 @@
 .room-details .label {
     font-weight: bold;
 }
+
+.opponent.disconnected {
+    color: red;
+}
