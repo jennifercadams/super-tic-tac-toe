@@ -83,6 +83,8 @@ const checkForWinner = (squares: (string | null)[]) => {
 
     for (let i = 0; i < winStates.length; i++) {
         const [a, b, c] = winStates[i];
+        if ([squares[a], squares[a], squares[c]].some(winner => winner === Winner.Draw))
+            continue;
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
             return squares[a];
         }
