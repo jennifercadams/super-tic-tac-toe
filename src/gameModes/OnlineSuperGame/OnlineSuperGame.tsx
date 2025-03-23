@@ -7,6 +7,7 @@ import useOnlineSuperGame from "./useOnlineSuperGame";
 export type OnlineSuperGameProps = {
     socketService: SocketService;
     localPlayer: (Player | null);
+    isRemoteUserConnected: boolean;
 };
 
 const OnlineSuperGame = (props: OnlineSuperGameProps) => {

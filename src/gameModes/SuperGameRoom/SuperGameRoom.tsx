@@ -1,6 +1,6 @@
 import * as React from "react";
 import RoomPanel from "~components/RoomPanel/RoomPanel";
-import OnlineSuperGame from "~gameModes/OnlineSuperGame/OnlineSuperGame";
+import OnlineSuperGame, { OnlineSuperGameProps } from "~gameModes/OnlineSuperGame/OnlineSuperGame";
 import useSuperGameRoom from "./useSuperGameRoom";
 import "./SuperGameRoom.css";
 
@@ -15,9 +15,10 @@ const SuperGameRoom = () => {
     } = useSuperGameRoom();
 
     const roomPanelProps = { roomCode, localUser, remoteUser, handleCreateRoom, handleJoinRoom };
-    const onlineSuperGameProps = { 
+    const onlineSuperGameProps: OnlineSuperGameProps = { 
         socketService,
         localPlayer: localUser?.player || null,
+        isRemoteUserConnected: remoteUser !== null,
     };
 
     return (

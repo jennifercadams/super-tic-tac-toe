@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { processMove } from "~helpers/gameHelper";
-import { BoardState, Move } from "~types";
+import { BoardState, Move, Player } from "~types";
 import { OnlineSuperGameProps } from "./OnlineSuperGame";
 
 const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
     const [ currentMove, setCurrentMove ] = useState<number>(0);
     const [ boards, setBoards ] = useState<BoardState[]>(Array(9).fill({
-        playable: true,
+        playable: false,
         squares: Array(9).fill(""),
         winner: null,
     }));
     const [ status, setStatus ] = useState<string>("Player Turn: X");
     const [ winner, setWinner ] = useState<string | null>(null);
 
-    const { socketService, localPlayer } = props;
+    const { socketService, localPlayer, isRemoteUserConnected } = props;
 
     useEffect(() => {
         const handleOnMove = (e: Event) => onMove((e as CustomEvent).detail);
@@ -23,6 +23,15 @@ const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
             window.removeEventListener("onMove", handleOnMove);
         };
     }, []);
+
+    useEffect(() => {
+        if (localPlayer === Player.X && currentMove === 0 && isRemoteUserConnected) {
+            const nextBoards = boards.map(board => {
+                return { ...board, playable: true };
+            });
+            setBoards(nextBoards);
+        }
+    }, [isRemoteUserConnected]);
 
     useEffect(() => {
         if (!winner)
