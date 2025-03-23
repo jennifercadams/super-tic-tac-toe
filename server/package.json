@@ -1,0 +1,21 @@
+{
+    "name": "st3-server",
+    "version": "0.1.0",
+    "description": "Super Tic Tac Toe server",
+    "type": "module",
+    "dependencies": {
+        "express": "^4.21.2",
+        "nanoid": "^5.1.5",
+        "socket.io": "^4.8.1",
+        "typescript": "^5.8.2"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.22.0",
+        "@stylistic/eslint-plugin-js": "^4.2.0",
+        "@types/express": "^5.0.0",
+        "eslint": "^9.22.0",
+        "globals": "^16.0.0",
+        "tsx": "^4.19.3",
+        "typescript-eslint": "^8.26.1"
+    }
+}
