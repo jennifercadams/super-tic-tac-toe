@@ -11,8 +11,12 @@ export class SocketService {
             document.dispatchEvent(createSuccessEvent);
         });
         this.socket.on("join-success", (roomCode: string, user: User, opponent: User) => {
-            const joinRoomEvent = new CustomEvent("onJoinSuccess", { detail: { roomCode, user, opponent } });
-            document.dispatchEvent(joinRoomEvent);
+            const joinSuccessEvent = new CustomEvent("onJoinSuccess", { detail: { roomCode, user, opponent } });
+            document.dispatchEvent(joinSuccessEvent);
+        });
+        this.socket.on("join-failure", (errorMessage: string) => {
+            const joinFailureEvent = new CustomEvent("onJoinFailure", { detail: errorMessage });
+            document.dispatchEvent(joinFailureEvent);
         });
         this.socket.on("opponent-joined", (user: User) => {
             const opponentJoinEvent = new CustomEvent("onOpponentJoined", { detail: user });

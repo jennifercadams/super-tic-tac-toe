@@ -7,18 +7,22 @@ const useSuperGameRoom = () => {
     const [ roomCode, setRoomCode ] = useState<string | null>(null);
     const [ localUser, setLocalUser ] = useState<User | null>(null);
     const [ remoteUser, setRemoteUser ] = useState<User | null>(null);
+    const [ errorMessage, setErrorMessage ] = useState<string>("");
 
     useEffect(() => {
         const handleCreateSuccess = (e: Event) => onCreateSuccess((e as CustomEvent).detail);
         document.addEventListener("onCreateSuccess", handleCreateSuccess);
         const handleOnJoinSuccess = (e: Event) => onJoinSuccess((e as CustomEvent).detail);
         document.addEventListener("onJoinSuccess", handleOnJoinSuccess);
+        const handleOnJoinFailure = (e: Event) => onJoinFailure((e as CustomEvent).detail);
+        document.addEventListener("onJoinFailure", handleOnJoinFailure);
         const handleOpponentJoined = (e: Event) => onOpponentJoined((e as CustomEvent).detail);
         document.addEventListener("onOpponentJoined", handleOpponentJoined);
 
         return () => {
             document.removeEventListener("onCreateSuccess", handleCreateSuccess);
             document.removeEventListener("onJoinSuccess", handleOnJoinSuccess);
+            document.removeEventListener("onJoinFailure", handleOnJoinFailure);
             document.removeEventListener("onOpponentJoined", handleOpponentJoined);
         };
     }, []);
@@ -43,6 +47,10 @@ const useSuperGameRoom = () => {
         setRemoteUser(response.opponent);
     };
 
+    const onJoinFailure = (message: string) => {
+        setErrorMessage(message);
+    };
+
     const onOpponentJoined = (user: User) => {
         setRemoteUser(user);
     };
@@ -52,6 +60,7 @@ const useSuperGameRoom = () => {
         roomCode,
         localUser,
         remoteUser,
+        errorMessage,
         handleCreateRoom,
         handleJoinRoom,
     };

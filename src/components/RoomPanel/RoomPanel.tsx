@@ -7,6 +7,7 @@ export type RoomPanelProps = {
     roomCode: (string | null);
     localUser: (User | null);
     remoteUser: (User | null);
+    errorMessage: string;
     handleCreateRoom: (arg1: string, arg2: Player) => void;
     handleJoinRoom: (arg1: string, arg2: string) => void;
 };
@@ -18,7 +19,7 @@ const RoomPanel = (props: RoomPanelProps) => {
     const [ playerInput, setPlayerInput ] = useState<Player>(Player.X);
     const [ roomCodeInput, setRoomCodeInput ] = useState<string>("");
 
-    const { roomCode, localUser, remoteUser, handleCreateRoom, handleJoinRoom } = props;
+    const { roomCode, localUser, remoteUser, errorMessage, handleCreateRoom, handleJoinRoom } = props;
 
     const roomStart = !roomCode && !isCreating && !isJoining;
     const roomCreate = !roomCode && isCreating && !isJoining;
@@ -60,6 +61,7 @@ const RoomPanel = (props: RoomPanelProps) => {
                     Name
                     <input type="text" id="name-input" value={nameInput} onChange={e => setNameInput(e.target.value)} />
                 </label>
+                <p className="error">{errorMessage}</p>
                 <button className="ui-button" disabled={!nameInput} onClick={() => handleJoinRoom(roomCodeInput, nameInput)}>
                     Join
                 </button>

@@ -36,6 +36,11 @@
     margin-right: 16px;
 }
 
+.error {
+    margin: 0;
+    text-align: left;
+}
+
 .room-details {
     text-align: left;
 }
