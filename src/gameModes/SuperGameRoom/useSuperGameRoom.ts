@@ -61,6 +61,7 @@ const useSuperGameRoom = () => {
         localUser,
         remoteUser,
         errorMessage,
+        setErrorMessage,
         handleCreateRoom,
         handleJoinRoom,
     };

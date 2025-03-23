@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BaseSyntheticEvent, useState } from "react";
+import { BaseSyntheticEvent, useEffect, useState } from "react";
 import { Player, User } from "~types";
 import "./RoomPanel.css";
 
@@ -8,6 +8,7 @@ export type RoomPanelProps = {
     localUser: (User | null);
     remoteUser: (User | null);
     errorMessage: string;
+    setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
     handleCreateRoom: (arg1: string, arg2: Player) => void;
     handleJoinRoom: (arg1: string, arg2: string) => void;
 };
@@ -19,13 +20,25 @@ const RoomPanel = (props: RoomPanelProps) => {
     const [ playerInput, setPlayerInput ] = useState<Player>(Player.X);
     const [ roomCodeInput, setRoomCodeInput ] = useState<string>("");
 
-    const { roomCode, localUser, remoteUser, errorMessage, handleCreateRoom, handleJoinRoom } = props;
+    const {
+        roomCode,
+        localUser,
+        remoteUser,
+        errorMessage,
+        setErrorMessage,
+        handleCreateRoom,
+        handleJoinRoom,
+    } = props;
 
     const roomStart = !roomCode && !isCreating && !isJoining;
     const roomCreate = !roomCode && isCreating && !isJoining;
     const roomJoin = !roomCode && !isCreating && isJoining;
     const player = `${localUser?.name} (${localUser?.player})`;
     const opponent = remoteUser ? `${remoteUser.name} (${remoteUser.player})` : "Waiting for opponent...";
+
+    useEffect(() => {
+        setErrorMessage("");
+    }, [isCreating, isJoining, nameInput, playerInput, roomCodeInput ]);
 
     return (
         <div className="room-panel">
