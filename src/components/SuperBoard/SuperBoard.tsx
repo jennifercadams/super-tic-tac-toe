@@ -1,5 +1,5 @@
 import * as React from "react";
-import Board from "~components/Board/Board";
+import Board, { BoardProps } from "~components/Board/Board";
 import { BoardState } from "~types";
 import "./SuperBoard.css";
 
@@ -15,7 +15,7 @@ const SuperBoard = (props: SuperBoardProps) => {
         <div className="super-board">
             {boards.map((board, boardIndex) => {
                 const key = `board-${boardIndex}`;
-                const boardProps = { boardIndex, ...board, handleClick };
+                const boardProps: BoardProps = { boardIndex, ...board, handleClick };
                 return (
                     <Board key={key} {...boardProps} />
                 );

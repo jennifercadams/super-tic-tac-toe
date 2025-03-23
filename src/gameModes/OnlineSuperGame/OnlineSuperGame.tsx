@@ -1,5 +1,5 @@
 import * as React from "react";
-import SuperBoard from "~components/SuperBoard/SuperBoard";
+import SuperBoard, { SuperBoardProps } from "~components/SuperBoard/SuperBoard";
 import { SocketService } from "~services/SocketService";
 import { Player } from "~types";
 import useOnlineSuperGame from "./useOnlineSuperGame";
@@ -17,7 +17,7 @@ const OnlineSuperGame = (props: OnlineSuperGameProps) => {
         handleClick,
     } = useOnlineSuperGame(props);
 
-    const superBoardProps = { boards, handleClick };
+    const superBoardProps: SuperBoardProps = { boards, handleClick };
 
     return (
         <div className="online-super-game">

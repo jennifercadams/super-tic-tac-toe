@@ -1,5 +1,5 @@
 import * as React from "react";
-import Square from "~components/Square/Square";
+import Square, { SquareProps } from "~components/Square/Square";
 import { Winner } from "~types";
 import "./Board.css";
 
@@ -18,7 +18,7 @@ const Board = (props: BoardProps) => {
         <div className="board">
             {!winner && squares.map((square, squareIndex) => {
                 const key = `square-${boardIndex}-${squareIndex}`;
-                const squareProps = {
+                const squareProps: SquareProps = {
                     playable,
                     value: square,
                     onSquareClick: () => handleClick(squareIndex, boardIndex),

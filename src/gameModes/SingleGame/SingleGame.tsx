@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import Board from "~components/Board/Board";
+import Board, { BoardProps } from "~components/Board/Board";
 import { checkForWinner } from "~helpers/gameHelper";
 import { Player, Winner } from "~types";
 
@@ -43,7 +43,7 @@ const SingleGame = () => {
         setWinner(null);
     };
 
-    const boardProps = { boardIndex: 0, playable: winner === null, squares, winner: null, handleClick };
+    const boardProps: BoardProps = { boardIndex: 0, playable: winner === null, squares, winner: null, handleClick };
 
     return (
         <div className="single-game">
