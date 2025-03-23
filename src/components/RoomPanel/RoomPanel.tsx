@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BaseSyntheticEvent, RefObject, useEffect, useState } from "react";
+import { BaseSyntheticEvent, Dispatch, RefObject, SetStateAction, useEffect, useState } from "react";
 import { Player, User } from "~types";
 import "./RoomPanel.css";
 
@@ -9,7 +9,7 @@ export type RoomPanelProps = {
     remoteUser: (User | null);
     prevRemoteUser: RefObject<User | null>;
     errorMessage: string;
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
+    setErrorMessage: Dispatch<SetStateAction<string>>;
     handleCreateRoom: (arg1: string, arg2: Player) => void;
     handleJoinRoom: (arg1: string, arg2: string) => void;
 };
