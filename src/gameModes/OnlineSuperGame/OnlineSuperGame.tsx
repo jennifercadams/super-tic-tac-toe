@@ -14,9 +14,7 @@ const OnlineSuperGame = (props: OnlineSuperGameProps) => {
     const {
         boards,
         status,
-        winner,
         handleClick,
-        handleRestart,
     } = useOnlineSuperGame(props);
 
     const superBoardProps = { boards, handleClick };
@@ -25,9 +23,6 @@ const OnlineSuperGame = (props: OnlineSuperGameProps) => {
         <div className="online-super-game">
             <SuperBoard {...superBoardProps} />
             <p className="status">{status}</p>
-            <button className="ui-button" onClick={handleRestart}>
-                {winner ? "Play Again" : "Restart"}
-            </button>
         </div>
     );
 };
