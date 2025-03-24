@@ -6,6 +6,7 @@ import { Server, Socket } from "socket.io";
 import { generateRoomCode } from "./helpers/roomCodeHelper.js";
 import { Move, Player, Room, User } from "./types/index.js";
 
+const port = process.env.PORT || 3000;
 const app = express();
 const server = createServer(app);
 const io = new Server(server, {
@@ -100,6 +101,6 @@ io.of("/").adapter.on("delete-room", (room: string) => {
     delete rooms[room];
 });
 
-server.listen(3000, () => {
-    console.log("server running at http://localhost:3000");
+server.listen(port, () => {
+    console.log(`server running at http://localhost:${port}`);
 });

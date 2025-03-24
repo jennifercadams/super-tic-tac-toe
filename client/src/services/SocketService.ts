@@ -6,7 +6,7 @@ export class SocketService {
     socket: Socket;
 
     constructor() {
-        this.socket = io("http://localhost:3000");
+        this.socket = io("https://super-tic-tac-toe-l11z.onrender.com");
         this.registerEventListeners();
     }
 
