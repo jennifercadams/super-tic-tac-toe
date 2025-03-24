@@ -1,6 +1,7 @@
 import * as React from "react";
-import { BaseSyntheticEvent, Dispatch, RefObject, SetStateAction, useEffect, useState } from "react";
+import { BaseSyntheticEvent, Dispatch, RefObject, SetStateAction } from "react";
 import { Player, User } from "~types";
+import useRoomPanel from "./useRoomPanel";
 import "./RoomPanel.css";
 
 export type RoomPanelProps = {
@@ -15,23 +16,28 @@ export type RoomPanelProps = {
 };
 
 const RoomPanel = (props: RoomPanelProps) => {
-    const [ isCreating, setIsCreating ] = useState<boolean>(false);
-    const [ isJoining, setIsJoining ] = useState<boolean>(false);
-    const [ nameInput, setNameInput ] = useState<string>("");
-    const [ playerInput, setPlayerInput ] = useState<Player>(Player.X);
-    const [ roomCodeInput, setRoomCodeInput ] = useState<string>("");
-    const [ remoteDisconnected, setRemoteDisconnected ] = useState<boolean>(false);
-
     const {
         roomCode,
-        localUser,
-        remoteUser,
-        prevRemoteUser,
         errorMessage,
-        setErrorMessage,
         handleCreateRoom,
         handleJoinRoom,
     } = props;
+
+    const {
+        isCreating,
+        setIsCreating,
+        isJoining,
+        setIsJoining,
+        nameInput,
+        setNameInput,
+        playerInput,
+        setPlayerInput,
+        roomCodeInput,
+        setRoomCodeInput,
+        remoteDisconnected,
+        localUser,
+        remoteUser,
+    } = useRoomPanel(props);
 
     const roomStart = !roomCode && !isCreating && !isJoining;
     const roomCreate = !roomCode && isCreating && !isJoining;
@@ -42,28 +48,6 @@ const RoomPanel = (props: RoomPanelProps) => {
         remoteDisconnected ?
         "Opponent disconnected" :
         "Waiting for opponent...";
-
-    useEffect(() => {
-        setErrorMessage("");
-    }, [isCreating, isJoining, nameInput, playerInput, roomCodeInput ]);
-
-    useEffect(() => {
-        if (roomCode) {
-            setIsCreating(false);
-            setIsJoining(false);
-        }
-
-        setNameInput("");
-        setPlayerInput(Player.X);
-        setRoomCodeInput("");
-    }, [isCreating, isJoining, roomCode]);
-
-    useEffect(() => {
-        if (remoteUser)
-            setRemoteDisconnected(false);
-        else if (!remoteUser && prevRemoteUser.current)
-            setRemoteDisconnected(true);
-    }, [remoteUser]);
 
     return (
         <div className="room-panel">
