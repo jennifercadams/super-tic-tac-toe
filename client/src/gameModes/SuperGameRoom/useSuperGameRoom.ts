@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SocketService } from "~services/SocketService";
-import { Player, User } from "~types";
+import { Move, Player, User } from "~types";
 
 const useSuperGameRoom = () => {
     const socketService = useMemo(() => new SocketService(), []);
@@ -8,6 +8,7 @@ const useSuperGameRoom = () => {
     const [ localUser, setLocalUser ] = useState<User | null>(null);
     const [ remoteUser, setRemoteUser ] = useState<User | null>(null);
     const prevRemoteUser = useRef<User | null>(null);
+    const [ lastMove, setLastMove ] = useState<Move | null>(null);
     const [ errorMessage, setErrorMessage ] = useState<string>("");
 
     useEffect(() => {
@@ -49,10 +50,14 @@ const useSuperGameRoom = () => {
         socketService.joinRoom(roomCode, name);
     };
 
-    const onJoinSuccess = (response: {roomCode: string, user: User, opponent: User}) => {
+    const onJoinSuccess = (response: {roomCode: string, user: User, opponent: User, lastMove: (Move | null)}) => {
         setRoomCode(response.roomCode);
         setLocalUser(response.user);
         setRemoteUser(response.opponent);
+
+        if (response.lastMove) {
+            setLastMove(response.lastMove);
+        }
     };
 
     const onOpponentJoined = (user: User) => {
@@ -73,6 +78,8 @@ const useSuperGameRoom = () => {
         localUser,
         remoteUser,
         prevRemoteUser,
+        lastMove,
+        setLastMove,
         errorMessage,
         setErrorMessage,
         handleCreateRoom,

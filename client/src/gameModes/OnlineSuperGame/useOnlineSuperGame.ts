@@ -13,7 +13,7 @@ const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
     const [ status, setStatus ] = useState<string>("Player Turn: X");
     const [ winner, setWinner ] = useState<string | null>(null);
 
-    const { socketService, localPlayer, isRemoteUserConnected } = props;
+    const { socketService, localPlayer, isRemoteUserConnected, lastMove, setLastMove } = props;
 
     const onMove = useCallback((move: Move) => {
         const moveResult = processMove(move, localPlayer);
@@ -21,6 +21,7 @@ const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
         setBoards(moveResult.nextBoards);
         setStatus(moveResult.nextStatus);
         setWinner(moveResult.nextWinner);
+        setLastMove(null);
     }, [currentMove, localPlayer]);
 
     useEffect(() => {
@@ -50,6 +51,11 @@ const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
         });
         setBoards(nextBoards);
     }, [winner]);
+
+    useEffect(() => {
+        if (lastMove)
+            onMove(lastMove);
+    }, [lastMove]);
 
     const handleClick = (squareIndex: number, boardIndex: number) => {
         if (boards[boardIndex].squares[squareIndex])

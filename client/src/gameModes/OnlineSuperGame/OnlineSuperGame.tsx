@@ -1,13 +1,16 @@
 import * as React from "react";
+import { Dispatch, SetStateAction } from "react";
 import SuperBoard, { SuperBoardProps } from "~components/SuperBoard/SuperBoard";
 import { SocketService } from "~services/SocketService";
-import { Player } from "~types";
+import { Move, Player } from "~types";
 import useOnlineSuperGame from "./useOnlineSuperGame";
 
 export type OnlineSuperGameProps = {
     socketService: SocketService;
     localPlayer: (Player | null);
     isRemoteUserConnected: boolean;
+    lastMove: (Move | null);
+    setLastMove: Dispatch<SetStateAction<Move | null>>;
 };
 
 const OnlineSuperGame = (props: OnlineSuperGameProps) => {

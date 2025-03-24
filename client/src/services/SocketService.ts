@@ -51,11 +51,8 @@ export class SocketService {
     }
 
     private dispatchOnJoinSuccess({roomCode, user, opponent, lastMove}: JoinResponse) {
-        const joinSuccessEvent = new CustomEvent("onJoinSuccess", { detail: { roomCode, user, opponent } });
+        const joinSuccessEvent = new CustomEvent("onJoinSuccess", { detail: { roomCode, user, opponent, lastMove } });
         document.dispatchEvent(joinSuccessEvent);
-
-        if (lastMove) 
-            this.dispatchOnMove(lastMove);
     }
 
     private dispatchOnOpponentJoined(user: User) {

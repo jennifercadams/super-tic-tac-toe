@@ -11,6 +11,8 @@ const SuperGameRoom = () => {
         localUser,
         remoteUser,
         prevRemoteUser,
+        lastMove,
+        setLastMove,
         errorMessage,
         setErrorMessage,
         handleCreateRoom,
@@ -32,6 +34,8 @@ const SuperGameRoom = () => {
         socketService,
         localPlayer: localUser?.player || null,
         isRemoteUserConnected: remoteUser !== null,
+        lastMove,
+        setLastMove,
     };
 
     return (
