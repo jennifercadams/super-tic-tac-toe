@@ -64,23 +64,11 @@ const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
         socketService.sendMove({currentMove, boardIndex, squareIndex, boards });
     };
 
-    const handleRestart = () => {
-        setCurrentMove(0);
-        setBoards(Array(9).fill({
-            playable: true,
-            squares: Array(9).fill(""),
-            winner: null,
-        }));
-        setStatus("Player Turn: X");
-        setWinner(null);
-    };
-
     return {
         boards,
         status,
         winner,
         handleClick,
-        handleRestart,
     };
 };
 
