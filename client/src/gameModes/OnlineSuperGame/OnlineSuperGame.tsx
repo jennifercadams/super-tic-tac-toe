@@ -11,21 +11,17 @@ export type OnlineSuperGameProps = {
     isRemoteUserConnected: boolean;
     lastMove: (Move | null);
     setLastMove: Dispatch<SetStateAction<Move | null>>;
+    setStatus: Dispatch<SetStateAction<string>>
 };
 
 const OnlineSuperGame = (props: OnlineSuperGameProps) => {
-    const {
-        boards,
-        status,
-        handleClick,
-    } = useOnlineSuperGame(props);
+    const { boards, handleClick } = useOnlineSuperGame(props);
 
     const superBoardProps: SuperBoardProps = { boards, handleClick };
 
     return (
         <div className="online-super-game">
             <SuperBoard {...superBoardProps} />
-            <p className="status">{status}</p>
         </div>
     );
 };

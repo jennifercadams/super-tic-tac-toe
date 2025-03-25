@@ -10,6 +10,7 @@ const useSuperGameRoom = () => {
     const prevRemoteUser = useRef<User | null>(null);
     const [ lastMove, setLastMove ] = useState<Move | null>(null);
     const [ errorMessage, setErrorMessage ] = useState<string>("");
+    const [ status, setStatus ] = useState<string>("Player Turn: X");
 
     useEffect(() => {
         const handleCreateSuccess = (e: Event) => onCreateSuccess((e as CustomEvent).detail);
@@ -82,6 +83,8 @@ const useSuperGameRoom = () => {
         setLastMove,
         errorMessage,
         setErrorMessage,
+        status,
+        setStatus,
         handleCreateRoom,
         handleJoinRoom,
     };

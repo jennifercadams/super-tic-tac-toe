@@ -4,6 +4,7 @@
     padding: 0px 10px;
 }
 
+/* RoomStart, RoomCreate, RoomJoin */
 .room-start .ui-button {
     margin-top: 16px;
 }
@@ -41,8 +42,13 @@
     text-align: left;
 }
 
+/* RoomDetails */
 .room-details {
     text-align: left;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .room-details .label {

@@ -11,6 +11,7 @@ export type RoomPanelProps = {
     prevRemoteUser: RefObject<User | null>;
     errorMessage: string;
     setErrorMessage: Dispatch<SetStateAction<string>>;
+    status: string;
     handleCreateRoom: (arg1: string, arg2: Player) => void;
     handleJoinRoom: (arg1: string, arg2: string) => void;
 };
@@ -21,6 +22,7 @@ const RoomPanel = (props: RoomPanelProps) => {
         localUser,
         remoteUser,
         errorMessage,
+        status,
         handleCreateRoom,
         handleJoinRoom,
     } = props;
@@ -96,12 +98,17 @@ const RoomPanel = (props: RoomPanelProps) => {
 
     const RoomDetails = () => (
         <div className="room-details">
-            <p className="label">Room Code: </p>
-            <p className="room-code">{roomCode}</p>
-            <p className="label">User Name: </p>
-            <p className="player">{player}</p>
-            <p className="label">Opponent: </p>
-            <p className={`opponent${remoteDisconnected ? " disconnected" : ""}`}>{opponent}</p>
+            <div>
+                <p className="label">Room Code: </p>
+                <p className="room-code">{roomCode}</p>
+                <p className="label">User Name: </p>
+                <p className="player">{player}</p>
+                <p className="label">Opponent: </p>
+                <p className={`opponent${remoteDisconnected ? " disconnected" : ""}`}>{opponent}</p>
+            </div>
+            <div className="game-status">
+                <p className="status">{status}</p>
+            </div>
         </div>
     );
 

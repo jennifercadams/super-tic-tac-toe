@@ -15,6 +15,8 @@ const SuperGameRoom = () => {
         setLastMove,
         errorMessage,
         setErrorMessage,
+        status,
+        setStatus,
         handleCreateRoom,
         handleJoinRoom,
     } = useSuperGameRoom();
@@ -26,6 +28,7 @@ const SuperGameRoom = () => {
         prevRemoteUser,
         errorMessage,
         setErrorMessage,
+        status,
         handleCreateRoom,
         handleJoinRoom,
     };
@@ -36,6 +39,7 @@ const SuperGameRoom = () => {
         isRemoteUserConnected: remoteUser !== null,
         lastMove,
         setLastMove,
+        setStatus,
     };
 
     return (
