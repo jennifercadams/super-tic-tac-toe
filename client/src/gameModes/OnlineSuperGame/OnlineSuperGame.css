@@ -1,0 +1,5 @@
+@media (orientation: portrait) {
+    .online-super-game.portrait-hide {
+        display: none;
+    }
+}

@@ -98,7 +98,7 @@ const RoomPanel = (props: RoomPanelProps) => {
 
     const RoomDetails = () => (
         <div className="room-details">
-            <div>
+            <div className="game-details">
                 <p className="label">Room Code: </p>
                 <p className="room-code">{roomCode}</p>
                 <p className="label">User Name: </p>

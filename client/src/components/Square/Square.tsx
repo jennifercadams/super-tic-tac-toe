@@ -13,7 +13,9 @@ const Square = (props: SquareProps) => {
 
     return (
         <button className="square" onClick={onSquareClick} disabled={!playable}>
-            {value}
+            <svg viewBox="0 0 16 16">
+                <text x="50%" y="50%">{value}</text>
+            </svg>
         </button>
     );
 };

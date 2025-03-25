@@ -27,8 +27,16 @@ const Board = (props: BoardProps) => {
                     <Square key={key} {...squareProps} />
                 );
             })}
-            {winner && winner !== Winner.Draw && <div className="winner">{winner}</div>}
-            {winner && winner === Winner.Draw && <div className="draw">{winner}</div>}
+            {winner && winner !== Winner.Draw && <div className="winner">
+                <svg viewBox="0 0 20 20">
+                    <text x="50%" y="50%">{winner}</text>
+                </svg>
+            </div>}
+            {winner && winner === Winner.Draw && <div className="draw">
+                <svg viewBox="0 0 64 32">
+                    <text x="50%" y="50%">{winner}</text>
+                </svg>
+            </div>}
         </div>
     );
 };

@@ -35,6 +35,7 @@ const SuperGameRoom = () => {
 
     const onlineSuperGameProps: OnlineSuperGameProps = { 
         socketService,
+        roomCode,
         localPlayer: localUser?.player || null,
         isRemoteUserConnected: remoteUser !== null,
         lastMove,

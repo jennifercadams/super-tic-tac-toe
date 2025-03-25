@@ -4,9 +4,11 @@ import SuperBoard, { SuperBoardProps } from "~components/SuperBoard/SuperBoard";
 import { SocketService } from "~services/SocketService";
 import { Move, Player } from "~types";
 import useOnlineSuperGame from "./useOnlineSuperGame";
+import "./OnlineSuperGame.css";
 
 export type OnlineSuperGameProps = {
     socketService: SocketService;
+    roomCode: (string | null);
     localPlayer: (Player | null);
     isRemoteUserConnected: boolean;
     lastMove: (Move | null);
@@ -20,7 +22,7 @@ const OnlineSuperGame = (props: OnlineSuperGameProps) => {
     const superBoardProps: SuperBoardProps = { boards, handleClick };
 
     return (
-        <div className="online-super-game">
+        <div className={`online-super-game${props.roomCode ? "" : " portrait-hide"}`}>
             <SuperBoard {...superBoardProps} />
         </div>
     );

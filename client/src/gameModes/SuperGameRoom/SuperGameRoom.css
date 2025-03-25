@@ -1,5 +1,22 @@
+.super-game-room {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+}
+
 .game-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto;
     justify-content: center;
     gap: 20px;
+}
+
+/* Portrait */
+
+@media (orientation: portrait) {
+    .game-container {
+        grid-template-columns: auto;
+        grid-template-rows: auto auto;
+        padding-bottom: 20px;
+    }
 }
