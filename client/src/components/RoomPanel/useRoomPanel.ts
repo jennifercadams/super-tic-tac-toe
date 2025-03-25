@@ -12,7 +12,6 @@ const useRoomPanel = (props: RoomPanelProps) => {
 
     const {
         roomCode,
-        localUser,
         remoteUser,
         prevRemoteUser,
         setErrorMessage,
@@ -52,8 +51,6 @@ const useRoomPanel = (props: RoomPanelProps) => {
         roomCodeInput,
         setRoomCodeInput,
         remoteDisconnected,
-        localUser,
-        remoteUser,
     };
 };
 
