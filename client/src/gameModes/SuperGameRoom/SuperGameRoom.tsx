@@ -19,6 +19,7 @@ const SuperGameRoom = () => {
         setStatus,
         handleCreateRoom,
         handleJoinRoom,
+        handleLeaveRoom,
     } = useSuperGameRoom();
 
     const roomPanelProps: RoomPanelProps = { 
@@ -31,6 +32,7 @@ const SuperGameRoom = () => {
         status,
         handleCreateRoom,
         handleJoinRoom,
+        handleLeaveRoom,
     };
 
     const onlineSuperGameProps: OnlineSuperGameProps = { 

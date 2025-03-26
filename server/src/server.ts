@@ -35,6 +35,17 @@ const onDisconnect = (socket: Socket, roomCode: string) => {
     socket.broadcast.to(roomCode).emit("opponent-left");
 };
 
+const onLeaveRoom = (socket: Socket, roomCode: string) => {
+    socket.leave(roomCode);
+    socket.broadcast.to(roomCode).emit("opponent-left");
+};
+
+const registerEventListeners = (socket: Socket, roomCode: string) => {
+    socket.on("move", (move: Move) => onMove(roomCode, move));
+    socket.on("disconnect", () => onDisconnect(socket, roomCode));
+    socket.on("leave-room", () => onLeaveRoom(socket, roomCode));
+};
+
 io.on("connection", (socket: Socket) => {
     socket.on("create", (user: User) => {
         try {
@@ -45,8 +56,7 @@ io.on("connection", (socket: Socket) => {
 
             rooms[roomCode] = { users: [ user ], lastMove: null };
 
-            socket.on("move", (move: Move) => onMove(roomCode, move));
-            socket.on("disconnect", () => onDisconnect(socket, roomCode));
+            registerEventListeners(socket, roomCode);
 
             socket.emit("create-success", { roomCode, user });
         } catch (error) {
@@ -78,8 +88,7 @@ io.on("connection", (socket: Socket) => {
             };
             rooms[roomCode].users.push(user);
 
-            socket.on("move", (move: Move) => onMove(roomCode, move));
-            socket.on("disconnect", () => onDisconnect(socket, roomCode));
+            registerEventListeners(socket, roomCode);
 
             const lastMove = rooms[roomCode].lastMove;
             socket.emit("join-success", { roomCode, user, opponent, lastMove });

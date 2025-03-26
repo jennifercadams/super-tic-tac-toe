@@ -66,6 +66,11 @@
     color: red;
 }
 
+.game-status {
+    margin-bottom: 16px;
+    text-align: center;
+}
+
 /* Portrait */
 
 @media (orientation: portrait) {
@@ -104,17 +109,21 @@
 
     .room-details {
         padding: 0 16px;
-        flex-direction: column-reverse;
     }
 
     .game-details {
         display: grid;
         grid-template-columns: 120px auto;
-        margin: 4px 0px;
+        margin-bottom: 8px;
     }
 
     .game-details p {
-        margin: 0px 0px 16px 0px;
+        margin: 16px 0px 0px;
+    }
+
+    .game-status {
+        display: flex;
+        flex-direction: column;
     }
 
     .game-status .status {

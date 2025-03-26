@@ -14,6 +14,7 @@ export type RoomPanelProps = {
     status: string;
     handleCreateRoom: (arg1: string, arg2: Player) => void;
     handleJoinRoom: (arg1: string, arg2: string) => void;
+    handleLeaveRoom: () => void;
 };
 
 const RoomPanel = (props: RoomPanelProps) => {
@@ -25,6 +26,7 @@ const RoomPanel = (props: RoomPanelProps) => {
         status,
         handleCreateRoom,
         handleJoinRoom,
+        handleLeaveRoom,
     } = props;
 
     const {
@@ -108,6 +110,7 @@ const RoomPanel = (props: RoomPanelProps) => {
             </div>
             <div className="game-status">
                 <p className="status">{status}</p>
+                <button className="ui-button" onClick={handleLeaveRoom}>Leave Room</button>
             </div>
         </div>
     );

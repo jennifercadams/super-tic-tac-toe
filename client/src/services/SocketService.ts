@@ -22,6 +22,10 @@ export class SocketService {
         this.socket.emit("move", move);
     }
 
+    public leaveRoom() {
+        this.socket.emit("leave-room");
+    }
+
     private registerEventListeners() {
         this.socket.on("create-success", (response: CreateResponse) =>
             this.dispatchOnCreateSuccess(response));

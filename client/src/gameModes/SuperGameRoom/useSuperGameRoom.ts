@@ -73,6 +73,11 @@ const useSuperGameRoom = () => {
         setErrorMessage(message);
     };
 
+    const handleLeaveRoom = () => {
+        socketService.leaveRoom();
+        setRoomCode(null);
+    };
+
     return {
         socketService,
         roomCode,
@@ -87,6 +92,7 @@ const useSuperGameRoom = () => {
         setStatus,
         handleCreateRoom,
         handleJoinRoom,
+        handleLeaveRoom,
     };
 };
 
