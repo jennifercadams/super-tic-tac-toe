@@ -36,27 +36,36 @@ const onDisconnect = (socket: Socket, roomCode: string) => {
 };
 
 const onLeaveRoom = (socket: Socket, roomCode: string) => {
+    removeEventListeners(socket);
     socket.leave(roomCode);
     socket.broadcast.to(roomCode).emit("opponent-left");
 };
 
-const registerEventListeners = (socket: Socket, roomCode: string) => {
+const addEventListeners = (socket: Socket, roomCode: string) => {
     socket.on("move", (move: Move) => onMove(roomCode, move));
     socket.on("disconnect", () => onDisconnect(socket, roomCode));
     socket.on("leave-room", () => onLeaveRoom(socket, roomCode));
 };
 
+const removeEventListeners = (socket: Socket) => {
+    socket.removeAllListeners("move");
+    socket.removeAllListeners("disconnect");
+    socket.removeAllListeners("leave-room");
+};
+
 io.on("connection", (socket: Socket) => {
+    let roomCode: string;
+
     socket.on("create", (user: User) => {
         try {
             user.id = socket.id;
 
-            const roomCode = generateRoomCode(rooms);
+            roomCode = generateRoomCode(rooms);
             socket.join(roomCode);
 
             rooms[roomCode] = { users: [ user ], lastMove: null };
 
-            registerEventListeners(socket, roomCode);
+            addEventListeners(socket, roomCode);
 
             socket.emit("create-success", { roomCode, user });
         } catch (error) {
@@ -66,18 +75,19 @@ io.on("connection", (socket: Socket) => {
         }
     });
 
-    socket.on("join", (roomCode: string, userName: string) => {
-        if (!(roomCode in rooms)) {
+    socket.on("join", (roomCodeInput: string, userName: string) => {
+        if (!(roomCodeInput in rooms)) {
             socket.emit("join-failure", "Room not found");
             return;
         }
 
-        if (rooms[roomCode].users.length > 1) {
+        if (rooms[roomCodeInput].users.length > 1) {
             socket.emit("join-failure", "Room is full");
             return;
         }
 
         try {
+            roomCode = roomCodeInput;
             socket.join(roomCode);
 
             const opponent = rooms[roomCode].users[0];
@@ -88,7 +98,7 @@ io.on("connection", (socket: Socket) => {
             };
             rooms[roomCode].users.push(user);
 
-            registerEventListeners(socket, roomCode);
+            addEventListeners(socket, roomCode);
 
             const lastMove = rooms[roomCode].lastMove;
             socket.emit("join-success", { roomCode, user, opponent, lastMove });
