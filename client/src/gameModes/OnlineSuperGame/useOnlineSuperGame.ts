@@ -14,6 +14,7 @@ const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
 
     const {
         socketService,
+        roomCode,
         localPlayer,
         localReconnected,
         setLocalReconnected,
@@ -59,6 +60,18 @@ const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
         });
         setBoards(nextBoards);
     }, [winner]);
+
+    useEffect(() => {
+        if (!roomCode) {
+            setCurrentMove(0);
+            setBoards(Array(9).fill({
+                playable: false,
+                squares: Array(9).fill(""),
+                winner: null,
+            }));
+            setWinner(null);
+        }
+    }, [roomCode]);
 
     useEffect(() => {
         if (localReconnected && lastMove) {

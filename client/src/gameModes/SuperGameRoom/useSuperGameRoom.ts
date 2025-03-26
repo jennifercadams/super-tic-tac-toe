@@ -79,6 +79,11 @@ const useSuperGameRoom = () => {
     const handleLeaveRoom = () => {
         socketService.leaveRoom();
         setRoomCode(null);
+        setLocalReconnected(false);
+        setRemoteUser(null);
+        prevRemoteUser.current = null;
+        setLastMove(null);
+        setStatus("Player Turn: X");
     };
 
     return {
