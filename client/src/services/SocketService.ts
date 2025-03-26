@@ -6,7 +6,7 @@ export class SocketService {
     socket: Socket;
 
     constructor() {
-        this.socket = io("https://super-tic-tac-toe-l11z.onrender.com");
+        this.socket = io(window.location.origin);
         this.registerEventListeners();
     }
 
