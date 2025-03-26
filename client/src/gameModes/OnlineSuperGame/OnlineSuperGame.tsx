@@ -10,6 +10,8 @@ export type OnlineSuperGameProps = {
     socketService: SocketService;
     roomCode: (string | null);
     localPlayer: (Player | null);
+    localReconnected: boolean;
+    setLocalReconnected: Dispatch<SetStateAction<boolean>>
     isRemoteUserConnected: boolean;
     lastMove: (Move | null);
     setLastMove: Dispatch<SetStateAction<Move | null>>;
@@ -17,9 +19,10 @@ export type OnlineSuperGameProps = {
 };
 
 const OnlineSuperGame = (props: OnlineSuperGameProps) => {
+    const { lastMove } = props;
     const { boards, handleClick } = useOnlineSuperGame(props);
 
-    const superBoardProps: SuperBoardProps = { boards, handleClick };
+    const superBoardProps: SuperBoardProps = { boards, lastMove, handleClick };
 
     return (
         <div className={`online-super-game${props.roomCode ? "" : " portrait-hide"}`}>

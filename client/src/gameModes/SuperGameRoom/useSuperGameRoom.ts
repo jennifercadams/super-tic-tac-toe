@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SocketService } from "~services/SocketService";
+import { JoinResponse } from "~services/types";
 import { Move, Player, User } from "~types";
 
 const useSuperGameRoom = () => {
     const socketService = useMemo(() => new SocketService(), []);
     const [ roomCode, setRoomCode ] = useState<string | null>(null);
     const [ localUser, setLocalUser ] = useState<User | null>(null);
+    const [ localReconnected, setLocalReconnected ] = useState<boolean>(false);
     const [ remoteUser, setRemoteUser ] = useState<User | null>(null);
     const prevRemoteUser = useRef<User | null>(null);
     const [ lastMove, setLastMove ] = useState<Move | null>(null);
@@ -51,12 +53,13 @@ const useSuperGameRoom = () => {
         socketService.joinRoom(roomCode, name);
     };
 
-    const onJoinSuccess = (response: {roomCode: string, user: User, opponent: User, lastMove: (Move | null)}) => {
+    const onJoinSuccess = (response: JoinResponse) => {
         setRoomCode(response.roomCode);
         setLocalUser(response.user);
         setRemoteUser(response.opponent);
 
         if (response.lastMove) {
+            setLocalReconnected(true);
             setLastMove(response.lastMove);
         }
     };
@@ -82,6 +85,8 @@ const useSuperGameRoom = () => {
         socketService,
         roomCode,
         localUser,
+        localReconnected,
+        setLocalReconnected,
         remoteUser,
         prevRemoteUser,
         lastMove,

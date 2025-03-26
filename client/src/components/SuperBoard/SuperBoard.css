@@ -4,3 +4,7 @@
     grid-template-rows: 1fr 1fr 1fr;
     height: 100%;
 }
+
+.board .last-move, .square.last-move {
+    background-color: #a2ff94;
+}

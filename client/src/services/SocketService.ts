@@ -49,13 +49,13 @@ export class SocketService {
             this.dispatchOnMove(move));
     }
 
-    private dispatchOnCreateSuccess({ roomCode, user }: CreateResponse) {
-        const createSuccessEvent = new CustomEvent("onCreateSuccess", { detail: { roomCode, user } });
+    private dispatchOnCreateSuccess(response: CreateResponse) {
+        const createSuccessEvent = new CustomEvent("onCreateSuccess", { detail: response });
         document.dispatchEvent(createSuccessEvent);
     }
 
-    private dispatchOnJoinSuccess({roomCode, user, opponent, lastMove}: JoinResponse) {
-        const joinSuccessEvent = new CustomEvent("onJoinSuccess", { detail: { roomCode, user, opponent, lastMove } });
+    private dispatchOnJoinSuccess(response: JoinResponse) {
+        const joinSuccessEvent = new CustomEvent("onJoinSuccess", { detail: response });
         document.dispatchEvent(joinSuccessEvent);
     }
 
