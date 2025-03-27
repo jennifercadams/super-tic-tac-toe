@@ -5,13 +5,14 @@ import useSuperGame from "./useSuperGame";
 const SuperGame = () => {
     const {
         boards,
+        lastMove,
         status,
         winner,
         handleClick,
         handleRestart,
     } = useSuperGame();
 
-    const superBoardProps: SuperBoardProps = { boards, handleClick };
+    const superBoardProps: SuperBoardProps = { boards, lastMove, handleClick };
 
     return (
         <div className="super-game">
