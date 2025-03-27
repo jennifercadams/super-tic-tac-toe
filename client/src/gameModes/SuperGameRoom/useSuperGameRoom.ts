@@ -7,6 +7,7 @@ const useSuperGameRoom = () => {
     const socketService = useMemo(() => new SocketService(), []);
     const [ roomCode, setRoomCode ] = useState<string | null>(null);
     const [ localUser, setLocalUser ] = useState<User | null>(null);
+    const [ localReconnected, setLocalReconnected ] = useState<boolean>(false);
     const [ remoteUser, setRemoteUser ] = useState<User | null>(null);
     const prevRemoteUser = useRef<User | null>(null);
     const [ lastMove, setLastMove ] = useState<Move | null>(null);
@@ -58,6 +59,7 @@ const useSuperGameRoom = () => {
         setRemoteUser(response.opponent);
 
         if (response.lastMove) {
+            setLocalReconnected(true);
             setLastMove(response.lastMove);
         }
     };
@@ -77,6 +79,7 @@ const useSuperGameRoom = () => {
     const handleLeaveRoom = () => {
         socketService.leaveRoom();
         setRoomCode(null);
+        setLocalReconnected(false);
         setRemoteUser(null);
         prevRemoteUser.current = null;
         setLastMove(null);
@@ -87,6 +90,8 @@ const useSuperGameRoom = () => {
         socketService,
         roomCode,
         localUser,
+        localReconnected,
+        setLocalReconnected,
         remoteUser,
         prevRemoteUser,
         lastMove,
