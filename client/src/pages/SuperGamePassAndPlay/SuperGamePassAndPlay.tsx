@@ -1,11 +1,11 @@
 import * as React from "react";
-import SuperGame from "~gameModes/SuperGame/SuperGame";
+import LocalSuperGame from "~gameModes/LocalSuperGame/LocalSuperGame";
 
 const SuperGamePassAndPlay = () => {
     return (
         <div className="local-super-game">
             <h1>Super Tic Tac Toe</h1>
-            <SuperGame />
+            <LocalSuperGame />
         </div>
     );
 };

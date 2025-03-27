@@ -1,15 +1,15 @@
-.super-game .super-board {
+.local-super-game .super-board {
     justify-content: center;
 }
 
 @media (orientation: landscape) {
-    .super-game .super-board {
+    .local-super-game .super-board {
         grid-template-columns: repeat(3, calc((100vh / 3) - 80px));
     }
 }
 
 @media (orientation: portrait) {
-    .super-game .super-board {
+    .local-super-game .super-board {
         grid-template-columns: repeat(3, calc((100vw / 3) - 16px));
     }
 }
