@@ -1,6 +1,7 @@
 import * as React from "react";
 import SuperBoard, { SuperBoardProps } from "~components/SuperBoard/SuperBoard";
 import useSuperGame from "./useSuperGame";
+import "./SuperGame.css";
 
 const SuperGame = () => {
     const {
