@@ -1,6 +1,10 @@
 .super-board {
     display: grid;
-    grid-template-columns: auto auto auto;
-    justify-content: center;
-    align-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    height: 100%;
+}
+
+.board .last-move, .square.last-move {
+    background-color: #a2ff94;
 }

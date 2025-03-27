@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "dev:client": "cd client && npm start",
+    "dev:server": "cd server && npx tsx src/server.ts"
+  }
+}

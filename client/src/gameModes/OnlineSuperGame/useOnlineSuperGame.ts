@@ -10,18 +10,27 @@ const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
         squares: Array(9).fill(""),
         winner: null,
     }));
-    const [ status, setStatus ] = useState<string>("Player Turn: X");
     const [ winner, setWinner ] = useState<string | null>(null);
 
-    const { socketService, localPlayer, isRemoteUserConnected, lastMove, setLastMove } = props;
+    const {
+        socketService,
+        roomCode,
+        localPlayer,
+        localReconnected,
+        setLocalReconnected,
+        isRemoteUserConnected,
+        lastMove,
+        setLastMove,
+        setStatus,
+    } = props;
 
     const onMove = useCallback((move: Move) => {
+        setLastMove(move);
         const moveResult = processMove(move, localPlayer);
         setCurrentMove(moveResult.nextMove);
         setBoards(moveResult.nextBoards);
         setStatus(moveResult.nextStatus);
         setWinner(moveResult.nextWinner);
-        setLastMove(null);
     }, [currentMove, localPlayer]);
 
     useEffect(() => {
@@ -53,9 +62,23 @@ const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
     }, [winner]);
 
     useEffect(() => {
-        if (lastMove)
+        if (!roomCode) {
+            setCurrentMove(0);
+            setBoards(Array(9).fill({
+                playable: false,
+                squares: Array(9).fill(""),
+                winner: null,
+            }));
+            setWinner(null);
+        }
+    }, [roomCode]);
+
+    useEffect(() => {
+        if (localReconnected && lastMove) {
             onMove(lastMove);
-    }, [lastMove]);
+            setLocalReconnected(false);
+        }
+    }, [localReconnected]);
 
     const handleClick = (squareIndex: number, boardIndex: number) => {
         if (boards[boardIndex].squares[squareIndex])
@@ -64,23 +87,9 @@ const useOnlineSuperGame = (props: OnlineSuperGameProps) => {
         socketService.sendMove({currentMove, boardIndex, squareIndex, boards });
     };
 
-    const handleRestart = () => {
-        setCurrentMove(0);
-        setBoards(Array(9).fill({
-            playable: true,
-            squares: Array(9).fill(""),
-            winner: null,
-        }));
-        setStatus("Player Turn: X");
-        setWinner(null);
-    };
-
     return {
         boards,
-        status,
-        winner,
         handleClick,
-        handleRestart,
     };
 };
 

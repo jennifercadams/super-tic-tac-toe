@@ -1,5 +1,12 @@
 .square {
-    width: 48px;
-    height: 48px;
-    font-size: 32px;
+    aspect-ratio: 1;
+}
+
+.square svg {
+    vertical-align: middle;
+}
+
+.square svg text {
+    dominant-baseline: central;
+    text-anchor: middle;
 }

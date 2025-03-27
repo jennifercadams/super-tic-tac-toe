@@ -1,9 +1,17 @@
 .room-panel {
     width: 200px;
+    height: calc(100vh - 120px);
     border: solid 1px black;
     padding: 0px 10px;
 }
 
+@media (max-aspect-ratio: 1.2) {
+    .room-panel {
+        height: calc(100vw - 300px);
+    }
+}
+
+/* RoomStart, RoomCreate, RoomJoin */
 .room-start .ui-button {
     margin-top: 16px;
 }
@@ -41,8 +49,13 @@
     text-align: left;
 }
 
+/* RoomDetails */
 .room-details {
     text-align: left;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .room-details .label {
@@ -51,4 +64,69 @@
 
 .opponent.disconnected {
     color: red;
+}
+
+.game-status {
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+/* Portrait */
+
+@media (orientation: portrait) {
+    .room-panel {
+        width: calc(100vw - 40px);
+        height: auto;
+        grid-row: 2;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .room-panel .ui-button, .room-start, .room-create, .room-join {
+        padding: 16px;
+    }
+
+    .room-start {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .room-start .ui-button {
+        flex: 1;
+        margin: 16px;
+    }
+
+    .room-create, .room-join {
+        gap: 24px;
+    }
+    .room-create h2, .room-join h2 {
+        margin: 0;
+    }
+
+    .room-panel input#name-input, .room-panel input#room-code-input {
+        height: 48px;
+    }
+
+    .room-details {
+        padding: 0 16px;
+    }
+
+    .game-details {
+        display: grid;
+        grid-template-columns: 120px auto;
+        margin-bottom: 8px;
+    }
+
+    .game-details p {
+        margin: 16px 0px 0px;
+    }
+
+    .game-status {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .game-status .status {
+        text-align: center;
+    }
 }
