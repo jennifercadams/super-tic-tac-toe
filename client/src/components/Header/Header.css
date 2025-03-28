@@ -2,6 +2,14 @@
     padding: 0px 16px;
 }
 
+.header h1 {
+    position: relative;
+    z-index: 2;
+    background-color: white;
+    margin: 0px 0px 22px 0px;
+    padding-top: 22px;
+}
+
 @media (max-width: 400px)
 {
     .header.show-burger h1 {
