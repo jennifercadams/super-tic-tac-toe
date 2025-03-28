@@ -51,7 +51,6 @@ const SuperGameRoom = () => {
 
     return (
         <div className="super-game-room">
-            <h1>Super Tic Tac Toe</h1>
             <div className="game-container">
                 <RoomPanel {...roomPanelProps} />
                 <OnlineSuperGame {...onlineSuperGameProps} />

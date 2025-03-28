@@ -8,6 +8,7 @@ import "./App.css";
 const App = () => {
     return (
         <BrowserRouter>
+            <h1>Super Tic Tac Toe</h1>
             <Routes>
                 <Route index element={<LandingPage />} />
                 <Route path="local-pass-and-play" element={<SuperGamePassAndPlay />} />
