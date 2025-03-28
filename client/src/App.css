@@ -48,10 +48,17 @@ a.ui-button {
 .static-page {
     max-width: 600px;
     margin: auto;
+    padding: 0px 16px;
 }
 
 .static-page .content {
     text-align: left;
     line-height: 1.5;
-    padding: 0px 16px;
+}
+
+@media (max-width: 400px)
+{
+    h2 {
+        text-align: left;
+    }
 }

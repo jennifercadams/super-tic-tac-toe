@@ -1,0 +1,15 @@
+.header {
+    padding: 0px 16px;
+}
+
+@media (max-width: 400px)
+{
+    .header.show-burger h1 {
+        text-align: right;
+        font-size: 28px;
+    }
+
+    .header.hide-burger h1 {
+        text-align: center;
+    }
+}

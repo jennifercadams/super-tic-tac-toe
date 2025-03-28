@@ -1,0 +1,29 @@
+import * as React from "react";
+import { useState } from "react";
+import { Link } from "react-router";
+import "./BurgerMenu.css";
+
+const BurgerMenu = () => {
+    const [ menuOpen, setMenuOpen ] = useState(false);
+
+    const toggleMenu = () => setMenuOpen(!menuOpen);
+
+    return (
+        <div className="burger-menu" onClick={toggleMenu}>
+            <div className="hamburger">
+                <div className="burger" />
+                <div className="burger" />
+                <div className="burger" />
+            </div>
+            {menuOpen && <div className="navigation">
+                <Link to="/">Home</Link>
+                <Link to="/local-pass-and-play">Local Pass And Play</Link>
+                <Link to="/online-multiplayer">Online Multiplayer</Link>
+                <Link to="/how-to-play">How To Play</Link>
+                <Link to="/about">About</Link>
+            </div>}
+        </div>
+    );
+};
+
+export default BurgerMenu;
