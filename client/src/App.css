@@ -29,10 +29,29 @@ body {
     background-color: #f0f0f0;
 }
 
+a.ui-button {
+    color: black;
+    text-decoration: none;
+    display: block;
+    margin: 16px auto;
+    width: 200px;
+}
+
 .ui-button:hover {
     background-color: #dddddd;
 }
 
 .error {
     color: red;
+}
+
+.static-page {
+    max-width: 600px;
+    margin: auto;
+}
+
+.static-page .content {
+    text-align: left;
+    line-height: 1.5;
+    padding: 0px 16px;
 }
