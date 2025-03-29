@@ -9,8 +9,8 @@ const BurgerMenu = () => {
     const toggleMenu = () => setMenuOpen(!menuOpen);
 
     return (
-        <div className="burger-menu" onClick={toggleMenu}>
-            <div className="hamburger">
+        <div className="burger-menu">
+            <div className="hamburger" onClick={toggleMenu}>
                 <div className={`burger top-bun${menuOpen ? " menu-open" : " menu-closed"}`} />
                 <div className={`burger patty${menuOpen ? " menu-open" : " menu-closed"}`} />
                 <div className={`burger bottom-bun${menuOpen ? " menu-open" : " menu-closed"}`} />
