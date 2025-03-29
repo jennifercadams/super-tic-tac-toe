@@ -16,14 +16,15 @@ const useSuperGameRoom = () => {
 
     useEffect(() => {
         const handleCreateSuccess = (e: Event) => onCreateSuccess((e as CustomEvent).detail);
-        document.addEventListener("onCreateSuccess", handleCreateSuccess);
         const handleOnJoinSuccess = (e: Event) => onJoinSuccess((e as CustomEvent).detail);
-        document.addEventListener("onJoinSuccess", handleOnJoinSuccess);
         const handleOpponentJoined = (e: Event) => onOpponentJoined((e as CustomEvent).detail);
-        document.addEventListener("onOpponentJoined", handleOpponentJoined);
         const handleOpponentLeft = onOpponentLeft;
-        document.addEventListener("onOpponentLeft", handleOpponentLeft);
         const handleOnError = (e: Event) => onError((e as CustomEvent).detail);
+
+        document.addEventListener("onCreateSuccess", handleCreateSuccess);
+        document.addEventListener("onJoinSuccess", handleOnJoinSuccess);
+        document.addEventListener("onOpponentJoined", handleOpponentJoined);
+        document.addEventListener("onOpponentLeft", handleOpponentLeft);
         document.addEventListener("onError", handleOnError);
 
         return () => {
