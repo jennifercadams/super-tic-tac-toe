@@ -5,6 +5,7 @@ import { Move, Player, User } from "~types";
 
 const useSuperGameRoom = () => {
     const socketService = useMemo(() => new SocketService(), []);
+    const [ socketIsConnected, setSocketIsConnected ] = useState<boolean>(false);
     const [ roomCode, setRoomCode ] = useState<string | null>(null);
     const [ localUser, setLocalUser ] = useState<User | null>(null);
     const [ localReconnected, setLocalReconnected ] = useState<boolean>(false);
@@ -15,12 +16,14 @@ const useSuperGameRoom = () => {
     const [ status, setStatus ] = useState<string>("Player Turn: X");
 
     useEffect(() => {
+        const handleOnConnect = onConnect;
         const handleCreateSuccess = (e: Event) => onCreateSuccess((e as CustomEvent).detail);
         const handleOnJoinSuccess = (e: Event) => onJoinSuccess((e as CustomEvent).detail);
         const handleOpponentJoined = (e: Event) => onOpponentJoined((e as CustomEvent).detail);
         const handleOpponentLeft = onOpponentLeft;
         const handleOnError = (e: Event) => onError((e as CustomEvent).detail);
 
+        document.addEventListener("onConnect", handleOnConnect);
         document.addEventListener("onCreateSuccess", handleCreateSuccess);
         document.addEventListener("onJoinSuccess", handleOnJoinSuccess);
         document.addEventListener("onOpponentJoined", handleOpponentJoined);
@@ -28,6 +31,7 @@ const useSuperGameRoom = () => {
         document.addEventListener("onError", handleOnError);
 
         return () => {
+            document.removeEventListener("onConnect", handleOnConnect);
             document.removeEventListener("onCreateSuccess", handleCreateSuccess);
             document.removeEventListener("onJoinSuccess", handleOnJoinSuccess);
             document.removeEventListener("onOpponentJoined", handleOpponentJoined);
@@ -39,6 +43,10 @@ const useSuperGameRoom = () => {
     useEffect(() => {
         prevRemoteUser.current = remoteUser;
     }, [remoteUser]);
+
+    const onConnect = () => {
+        setSocketIsConnected(true);
+    };
 
     const handleCreateRoom = (name: string, player: Player) => {
         const user: User = { name, player };
@@ -89,6 +97,7 @@ const useSuperGameRoom = () => {
 
     return {
         socketService,
+        socketIsConnected,
         roomCode,
         localUser,
         localReconnected,

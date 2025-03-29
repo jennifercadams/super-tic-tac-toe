@@ -28,6 +28,8 @@ export class SocketService {
     }
 
     private registerEventListeners() {
+        this.socket.on("connect", this.dispatchOnConnect);
+
         this.socket.on("create-success", (response: CreateResponse) =>
             this.dispatchOnCreateSuccess(response));
 
@@ -48,6 +50,11 @@ export class SocketService {
 
         this.socket.on("move", (move: Move) =>
             this.dispatchOnMove(move));
+    }
+
+    private dispatchOnConnect() {
+        const connectEvent = new CustomEvent("onConnect");
+        document.dispatchEvent(connectEvent);
     }
 
     private dispatchOnCreateSuccess(response: CreateResponse) {
