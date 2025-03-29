@@ -11,7 +11,6 @@ import "./App.css";
 const App = () => {
     return (
         <BrowserRouter>
-            
             <Routes>
                 <Route element={<Header showBurgerMenu={false} />}>
                     <Route index element={<LandingPage />} />
