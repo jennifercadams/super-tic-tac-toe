@@ -3,7 +3,7 @@ import LocalSuperGame from "~gameModes/LocalSuperGame/LocalSuperGame";
 
 const SuperGamePassAndPlay = () => {
     return (
-        <div className="local-super-game">
+        <div className="super-game-pass-and-play">
             <LocalSuperGame />
         </div>
     );
