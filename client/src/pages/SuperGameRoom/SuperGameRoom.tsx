@@ -1,4 +1,5 @@
 import * as React from "react";
+import LoadingOverlay from "~components/LoadingOverlay/LoadingOverlay";
 import RoomPanel, { RoomPanelProps } from "~components/RoomPanel/RoomPanel";
 import OnlineSuperGame, { OnlineSuperGameProps } from "~gameModes/OnlineSuperGame/OnlineSuperGame";
 import useSuperGameRoom from "./useSuperGameRoom";
@@ -7,6 +8,7 @@ import "./SuperGameRoom.css";
 const SuperGameRoom = () => {
     const {
         socketService,
+        socketIsConnected,
         roomCode,
         localUser,
         localReconnected,
@@ -55,6 +57,7 @@ const SuperGameRoom = () => {
                 <RoomPanel {...roomPanelProps} />
                 <OnlineSuperGame {...onlineSuperGameProps} />
             </div>
+            {!socketIsConnected && <LoadingOverlay />}
         </div>
     );
 };
