@@ -27,11 +27,27 @@ const RoomJoin = (props: RoomJoinProps) => {
             <h2>Join Game</h2>
             <label htmlFor="room-code-input">
                 Room Code
-                <input type="text" id="room-code-input" value={roomCodeInput} onChange={e => setRoomCodeInput(e.target.value)} />
+                <input
+                    type="text"
+                    id="room-code-input"
+                    name="room-code"
+                    autoComplete="off"
+                    value={roomCodeInput}
+                    onChange={e => setRoomCodeInput(e.target.value)}
+                    maxLength={8}
+                />
             </label>
             <label htmlFor="name-input">
                 Name
-                <input type="text" id="name-input" value={nameInput} onChange={e => setNameInput(e.target.value)} />
+                <input
+                    type="text"
+                    id="name-input"
+                    name="display-name"
+                    autoComplete="on"
+                    value={nameInput}
+                    onChange={e => setNameInput(e.target.value)}
+                    maxLength={20}
+                />
             </label>
             <p className="error">{errorMessage}</p>
             <button className="ui-button" disabled={!nameInput} onClick={() => handleJoinRoom(roomCodeInput, nameInput)}>

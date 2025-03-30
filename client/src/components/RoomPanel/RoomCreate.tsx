@@ -28,7 +28,15 @@ const RoomCreate = (props: RoomCreateProps) => {
             <h2>New Game</h2>
             <label htmlFor="name-input">
                 Name
-                <input type="text" id="name-input" value={nameInput} onChange={e => setNameInput(e.target.value)} />
+                <input
+                    type="text"
+                    id="name-input"
+                    name="display-name"
+                    autoComplete="on"
+                    value={nameInput}
+                    onChange={e => setNameInput(e.target.value)}
+                    maxLength={20}
+                />
             </label>
             <fieldset onChange={e => setPlayerInput((e as BaseSyntheticEvent).target.value)}>
                 <legend>Select X or O:</legend>
