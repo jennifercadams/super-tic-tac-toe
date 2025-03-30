@@ -7,13 +7,19 @@ export type SquareProps = {
     value: string;
     isLastMove: boolean;
     onSquareClick: MouseEventHandler<HTMLButtonElement>;
+    label: string;
 };
 
 const Square = (props: SquareProps) => {
-    const { playable, value, isLastMove, onSquareClick } = props;
+    const { playable, value, isLastMove, onSquareClick, label } = props;
 
     return (
-        <button className={`square${isLastMove ? " last-move" : ""}`} onClick={onSquareClick} disabled={!playable}>
+        <button 
+            className={`square${isLastMove ? " last-move" : ""}`}
+            onClick={onSquareClick}
+            disabled={!playable}
+            aria-label={label}
+        >
             <svg viewBox="0 0 16 16">
                 <text x="50%" y="50%">{value}</text>
             </svg>
