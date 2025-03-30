@@ -1,20 +1,22 @@
 import * as React from "react";
 import SuperBoard, { SuperBoardProps } from "~components/SuperBoard/SuperBoard";
-import useSuperGame from "./useSuperGame";
+import useSuperGame from "./useLocalSuperGame";
+import "./LocalSuperGame.css";
 
-const SuperGame = () => {
+const LocalSuperGame = () => {
     const {
         boards,
+        lastMove,
         status,
         winner,
         handleClick,
         handleRestart,
     } = useSuperGame();
 
-    const superBoardProps: SuperBoardProps = { boards, handleClick };
+    const superBoardProps: SuperBoardProps = { boards, lastMove, handleClick };
 
     return (
-        <div className="super-game">
+        <div className="local-super-game">
             <SuperBoard {...superBoardProps} />
             <p className="status">{status}</p>
             <button className="ui-button" onClick={handleRestart}>
@@ -24,4 +26,4 @@ const SuperGame = () => {
     );
 };
 
-export default SuperGame;
+export default LocalSuperGame;

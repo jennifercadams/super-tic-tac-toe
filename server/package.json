@@ -1,11 +1,11 @@
 {
     "name": "st3-server",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "Super Tic Tac Toe server",
     "type": "module",
     "scripts": {
-        "start": "cd ../client && npm run build && cd ../server && npx tsx src/server.ts",
-        "build": "npm install && cd ../client && npm install"
+        "start": "npx tsx src/server.ts",
+        "build": "npm install"
     },
     "dependencies": {
         "express": "^4.21.2",

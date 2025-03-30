@@ -1,6 +1,6 @@
 {
   "name": "super-tic-tac-toe",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Super Tic Tac Toe client",
   "type": "module",
   "scripts": {
@@ -14,6 +14,7 @@
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-router": "^7.4.0",
     "socket.io-client": "^4.8.1"
   },
   "devDependencies": {

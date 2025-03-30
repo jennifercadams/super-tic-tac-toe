@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { processMove } from "~helpers/gameHelper";
-import { BoardState } from "~types";
+import { BoardState, Move } from "~types";
 
 const useSuperGame = () => {
     const [ currentMove, setCurrentMove ] = useState<number>(0);
@@ -9,6 +9,7 @@ const useSuperGame = () => {
         squares: Array(9).fill(""),
         winner: null,
     }));
+    const [ lastMove, setLastMove ] = useState<Move | null>(null);
     const [ status, setStatus ] = useState<string>("Player Turn: X");
     const [ winner, setWinner ] = useState<string | null>(null);
 
@@ -26,7 +27,10 @@ const useSuperGame = () => {
         if (boards[boardIndex].squares[squareIndex])
             return;
 
-        const moveResult = processMove({currentMove, boardIndex, squareIndex, boards }, null);
+        const move: Move = {currentMove, boardIndex, squareIndex, boards };
+        setLastMove(move);
+
+        const moveResult = processMove(move, null);
         setCurrentMove(moveResult.nextMove);
         setBoards(moveResult.nextBoards);
         setStatus(moveResult.nextStatus);
@@ -40,12 +44,14 @@ const useSuperGame = () => {
             squares: Array(9).fill(""),
             winner: null,
         }));
+        setLastMove(null);
         setStatus("Player Turn: X");
         setWinner(null);
     };
 
     return {
         boards,
+        lastMove,
         status,
         winner,
         handleClick,

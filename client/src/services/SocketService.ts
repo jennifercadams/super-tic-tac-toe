@@ -6,8 +6,13 @@ export class SocketService {
     socket: Socket;
 
     constructor() {
-        this.socket = io(window.location.origin);
+        const url = import.meta.env.DEV ? "http://localhost:3000" : "https://super-tic-tac-toe-l11z.onrender.com";
+        this.socket = io(url);
         this.registerEventListeners();
+    }
+
+    public get isConnected() {
+        return this.socket.connected;
     }
 
     public createRoom(user: User) {
@@ -27,6 +32,8 @@ export class SocketService {
     }
 
     private registerEventListeners() {
+        this.socket.on("connect", this.dispatchOnConnect);
+
         this.socket.on("create-success", (response: CreateResponse) =>
             this.dispatchOnCreateSuccess(response));
 
@@ -47,6 +54,11 @@ export class SocketService {
 
         this.socket.on("move", (move: Move) =>
             this.dispatchOnMove(move));
+    }
+
+    private dispatchOnConnect() {
+        const connectEvent = new CustomEvent("onConnect");
+        document.dispatchEvent(connectEvent);
     }
 
     private dispatchOnCreateSuccess(response: CreateResponse) {

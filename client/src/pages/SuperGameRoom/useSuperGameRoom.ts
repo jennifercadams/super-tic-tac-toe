@@ -5,6 +5,7 @@ import { Move, Player, User } from "~types";
 
 const useSuperGameRoom = () => {
     const socketService = useMemo(() => new SocketService(), []);
+    const [ loading, setLoading ] = useState<boolean>(false);
     const [ roomCode, setRoomCode ] = useState<string | null>(null);
     const [ localUser, setLocalUser ] = useState<User | null>(null);
     const [ localReconnected, setLocalReconnected ] = useState<boolean>(false);
@@ -15,18 +16,31 @@ const useSuperGameRoom = () => {
     const [ status, setStatus ] = useState<string>("Player Turn: X");
 
     useEffect(() => {
+        const timeoutId = window.setTimeout(() => {
+            if (!socketService.isConnected)
+                setLoading(true);
+        }, 250);
+
+        const handleOnConnect = (id: number) => {
+            window.clearTimeout(id);
+            setLoading(false);
+        };
+
         const handleCreateSuccess = (e: Event) => onCreateSuccess((e as CustomEvent).detail);
-        document.addEventListener("onCreateSuccess", handleCreateSuccess);
         const handleOnJoinSuccess = (e: Event) => onJoinSuccess((e as CustomEvent).detail);
-        document.addEventListener("onJoinSuccess", handleOnJoinSuccess);
         const handleOpponentJoined = (e: Event) => onOpponentJoined((e as CustomEvent).detail);
-        document.addEventListener("onOpponentJoined", handleOpponentJoined);
         const handleOpponentLeft = onOpponentLeft;
-        document.addEventListener("onOpponentLeft", handleOpponentLeft);
         const handleOnError = (e: Event) => onError((e as CustomEvent).detail);
+
+        document.addEventListener("onConnect", () => handleOnConnect(timeoutId));
+        document.addEventListener("onCreateSuccess", handleCreateSuccess);
+        document.addEventListener("onJoinSuccess", handleOnJoinSuccess);
+        document.addEventListener("onOpponentJoined", handleOpponentJoined);
+        document.addEventListener("onOpponentLeft", handleOpponentLeft);
         document.addEventListener("onError", handleOnError);
 
         return () => {
+            document.removeEventListener("onConnect", () => handleOnConnect(timeoutId));
             document.removeEventListener("onCreateSuccess", handleCreateSuccess);
             document.removeEventListener("onJoinSuccess", handleOnJoinSuccess);
             document.removeEventListener("onOpponentJoined", handleOpponentJoined);
@@ -88,6 +102,7 @@ const useSuperGameRoom = () => {
 
     return {
         socketService,
+        loading,
         roomCode,
         localUser,
         localReconnected,
