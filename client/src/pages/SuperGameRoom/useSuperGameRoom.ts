@@ -18,7 +18,7 @@ const useSuperGameRoom = () => {
     useEffect(() => {
         const timeoutId = window.setTimeout(() => {
             setLoading(true);
-        }, 150);
+        }, 250);
 
         const handleOnConnect = (id: number) => {
             window.clearTimeout(id);
