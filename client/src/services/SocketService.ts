@@ -11,6 +11,10 @@ export class SocketService {
         this.registerEventListeners();
     }
 
+    public get isConnected() {
+        return this.socket.connected;
+    }
+
     public createRoom(user: User) {
         this.socket.emit("create", user);
     }

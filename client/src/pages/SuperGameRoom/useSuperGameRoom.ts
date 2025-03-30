@@ -17,7 +17,8 @@ const useSuperGameRoom = () => {
 
     useEffect(() => {
         const timeoutId = window.setTimeout(() => {
-            setLoading(true);
+            if (!socketService.isConnected)
+                setLoading(true);
         }, 250);
 
         const handleOnConnect = (id: number) => {
