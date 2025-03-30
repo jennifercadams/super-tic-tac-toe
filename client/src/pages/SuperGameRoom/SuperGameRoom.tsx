@@ -8,7 +8,7 @@ import "./SuperGameRoom.css";
 const SuperGameRoom = () => {
     const {
         socketService,
-        socketIsConnected,
+        loading,
         roomCode,
         localUser,
         localReconnected,
@@ -57,7 +57,7 @@ const SuperGameRoom = () => {
                 <RoomPanel {...roomPanelProps} />
                 <OnlineSuperGame {...onlineSuperGameProps} />
             </div>
-            {!socketIsConnected && <LoadingOverlay />}
+            {loading && <LoadingOverlay />}
         </div>
     );
 };
