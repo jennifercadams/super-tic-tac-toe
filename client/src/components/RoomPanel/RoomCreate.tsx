@@ -36,6 +36,7 @@ const RoomCreate = (props: RoomCreateProps) => {
                     value={nameInput}
                     onChange={e => setNameInput(e.target.value)}
                     maxLength={20}
+                    required
                 />
             </label>
             <fieldset onChange={e => setPlayerInput((e as BaseSyntheticEvent).target.value)}>

@@ -35,6 +35,7 @@ const RoomJoin = (props: RoomJoinProps) => {
                     value={roomCodeInput}
                     onChange={e => setRoomCodeInput(e.target.value)}
                     maxLength={8}
+                    required
                 />
             </label>
             <label htmlFor="name-input">
@@ -47,6 +48,7 @@ const RoomJoin = (props: RoomJoinProps) => {
                     value={nameInput}
                     onChange={e => setNameInput(e.target.value)}
                     maxLength={20}
+                    required
                 />
             </label>
             <p className="error">{errorMessage}</p>
