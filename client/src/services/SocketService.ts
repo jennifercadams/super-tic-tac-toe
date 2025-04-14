@@ -87,7 +87,7 @@ export class SocketService {
     }
 
     private dispatchOnError(errorMessage: string) {
-        const createErrorEvent = new CustomEvent("onError", { detail: errorMessage });
-        document.dispatchEvent(createErrorEvent);
+        const errorEvent = new CustomEvent("onError", { detail: errorMessage });
+        document.dispatchEvent(errorEvent);
     }
 }
