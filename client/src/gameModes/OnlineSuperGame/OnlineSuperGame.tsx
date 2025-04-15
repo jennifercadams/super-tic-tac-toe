@@ -11,11 +11,11 @@ export type OnlineSuperGameProps = {
     roomCode: (string | null);
     localPlayer: (Player | null);
     localReconnected: boolean;
-    setLocalReconnected: Dispatch<SetStateAction<boolean>>
+    setLocalReconnected: Dispatch<SetStateAction<boolean>>;
     isRemoteUserConnected: boolean;
     lastMove: (Move | null);
     setLastMove: Dispatch<SetStateAction<Move | null>>;
-    setStatus: Dispatch<SetStateAction<string>>
+    setStatus: Dispatch<SetStateAction<string>>;
 };
 
 const OnlineSuperGame = (props: OnlineSuperGameProps) => {
