@@ -50,6 +50,7 @@ const useSuperGameRoom = () => {
     }, []);
 
     const onDisconnect = useCallback(() => {
+        setLoading(true);
         if (roomCode && localUser) {
             socketService.reJoinRoom(roomCode, localUser, remoteUser, lastMove);
         }
