@@ -1,4 +1,5 @@
 import { io, Socket } from "socket.io-client";
+import { DisconnectDescription } from "socket.io-client/build/esm/socket";
 import { Move, User } from "~types";
 import { CreateResponse, JoinResponse } from "./types";
 
@@ -31,6 +32,10 @@ export class SocketService {
         this.socket.emit("leave-room");
     }
 
+    public reJoinRoom(roomCode: string, localUser: User, remoteUser: (User | null), lastMove: (Move | null)) {
+        this.socket.emit("rejoin", roomCode, localUser, remoteUser, lastMove);
+    }
+
     private registerEventListeners() {
         this.socket.on("connect", this.dispatchOnConnect);
 
@@ -54,6 +59,9 @@ export class SocketService {
 
         this.socket.on("move", (move: Move) =>
             this.dispatchOnMove(move));
+
+        this.socket.on("disconnect", (reason: string, details: (DisconnectDescription | undefined)) =>
+            this.dispatchOnDisconnect(reason, details));
     }
 
     private dispatchOnConnect() {
@@ -89,5 +97,20 @@ export class SocketService {
     private dispatchOnError(errorMessage: string) {
         const errorEvent = new CustomEvent("onError", { detail: errorMessage });
         document.dispatchEvent(errorEvent);
+    }
+
+    private dispatchOnDisconnect(reason: string, details: (DisconnectDescription | undefined)) {
+        let description: string;
+        if (!details) {
+            description = "unknown error";
+        } else if ("description" in details) {
+            description = details.description;
+        } else {
+            description = details.toString();
+        }
+        console.log(`Socket disconnect: ${reason} - ${description}`);
+
+        const disconnectEvent = new CustomEvent("onDisconnect");
+        document.dispatchEvent(disconnectEvent);
     }
 }

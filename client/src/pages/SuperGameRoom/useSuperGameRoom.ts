@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { SocketService } from "~services/SocketService";
 import { JoinResponse } from "~services/types";
 import { Move, Player, User } from "~types";
@@ -48,6 +48,21 @@ const useSuperGameRoom = () => {
             document.removeEventListener("onError", handleOnError);
         };
     }, []);
+
+    const onDisconnect = useCallback(() => {
+        if (roomCode && localUser) {
+            socketService.reJoinRoom(roomCode, localUser, remoteUser, lastMove);
+        }
+    }, [roomCode, localUser, remoteUser, lastMove]);
+
+    useEffect(() => {
+        const handleOnDisconnect = onDisconnect;
+        document.addEventListener("onDisconnect", handleOnDisconnect);
+
+        return () => {
+            document.removeEventListener("onDisconnect", handleOnDisconnect);
+        };
+    }, [onDisconnect]);
 
     useEffect(() => {
         prevRemoteUser.current = remoteUser;

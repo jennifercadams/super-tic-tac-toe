@@ -98,6 +98,31 @@ io.on("connection", (socket: Socket) => {
             socket.emit("join-failure", "Unknown error");
         }
     });
+
+    socket.on("rejoin", (roomCodeInput: string, user: User, opponent: (User | null), lastMove: (Move | null)) => {
+        if (roomCodeInput in socket.rooms)
+            return;
+
+        try {
+            roomCode = roomCodeInput;
+            socket.join(roomCode);
+
+            if (roomCode in rooms) {
+                rooms[roomCode].users.push(user);
+                if (!rooms[roomCode].lastMove || rooms[roomCode].lastMove.currentMove < lastMove.currentMove) {
+                    rooms[roomCode].lastMove = lastMove;
+                }
+            } else {
+                rooms[roomCode] = { users: [ user ], lastMove: lastMove };
+            }
+
+            addEventListeners(socket, roomCode);
+            socket.emit("join-success", { roomCode, user, opponent, lastMove });
+            socket.broadcast.to(roomCode).emit("opponent-joined", user);
+        } catch (error) {
+            console.error(`Error rejoining room ${roomCode}:`, error);
+        }
+    });
 });
 
 io.of("/").adapter.on("leave-room", (room: string, id: string) => {
