@@ -138,5 +138,5 @@ io.of("/").adapter.on("delete-room", (room: string) => {
 });
 
 server.listen(port, () => {
-    console.log(`server running at http://localhost:${port}`);
+    console.log(`server running on port ${port}`);
 });
