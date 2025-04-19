@@ -53,7 +53,7 @@ io.on("connection", (socket: Socket) => {
             roomCode = generateRoomCode(rooms);
             socket.join(roomCode);
 
-            rooms[roomCode] = { users: [ user ], lastMove: null };
+            rooms[roomCode] = { users: { [user.id]: user }, lastMove: null };
 
             addEventListeners(socket, roomCode);
 
@@ -71,7 +71,7 @@ io.on("connection", (socket: Socket) => {
             return;
         }
 
-        if (rooms[roomCodeInput].users.length > 1) {
+        if (Object.keys(rooms[roomCodeInput].users).length > 1) {
             socket.emit("join-failure", "Room is full");
             return;
         }
@@ -80,13 +80,14 @@ io.on("connection", (socket: Socket) => {
             roomCode = roomCodeInput;
             socket.join(roomCode);
 
-            const opponent = rooms[roomCode].users[0];
+            const opponentId = Object.keys(rooms[roomCode].users)[0];
+            const opponent = rooms[roomCode].users[opponentId];
             const user: User = {
                 id: socket.id,
                 name: userName,
                 player: opponent.player === Player.X ? Player.O : Player.X,
             };
-            rooms[roomCode].users.push(user);
+            rooms[roomCode].users[user.id] = user;
 
             addEventListeners(socket, roomCode);
 
@@ -109,12 +110,12 @@ io.on("connection", (socket: Socket) => {
 
             user.id = socket.id;
             if (roomCode in rooms) {
-                rooms[roomCode].users.push(user);
+                rooms[roomCode].users[user.id] = user;
                 if (!rooms[roomCode].lastMove || rooms[roomCode].lastMove.currentMove < lastMove.currentMove) {
                     rooms[roomCode].lastMove = lastMove;
                 }
             } else {
-                rooms[roomCode] = { users: [ user ], lastMove: lastMove };
+                rooms[roomCode] = { users: { [user.id]: user }, lastMove: lastMove };
             }
 
             addEventListeners(socket, roomCode);
@@ -128,7 +129,7 @@ io.on("connection", (socket: Socket) => {
 
 io.of("/").adapter.on("leave-room", (room: string, id: string) => {
     if (room in rooms) {
-        rooms[room].users = rooms[room].users.filter(r => r.id !== id);
+        delete rooms[room].users[id];
     }
 });
 

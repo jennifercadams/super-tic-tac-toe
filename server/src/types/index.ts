@@ -23,7 +23,7 @@ type User = {
 }
 
 type Room = {
-    users: User[];
+    users: { [key: string]: User; };
     lastMove: Move | null;
 }
 
