@@ -1,15 +1,19 @@
 import express from "express";
 import { createServer } from "node:http";
 import { Server, Socket } from "socket.io";
+import { loadDotEnv } from "./helpers/dotEnvHelper.js";
 import { generateRoomCode } from "./helpers/roomCodeHelper.js";
 import { Move, Player, Room, User } from "./types/index.js";
+
+const dotEnvPath =  import.meta.dirname + "\\..\\.env";
+loadDotEnv(dotEnvPath);
 
 const port = process.env.PORT || 3000;
 const app = express();
 const server = createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "https://super-tic-tac-toe-skai.onrender.com",
+        origin: process.env.CORS_ORIGIN,
     },
     connectionStateRecovery: {},
 });
