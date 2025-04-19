@@ -107,6 +107,7 @@ io.on("connection", (socket: Socket) => {
             roomCode = roomCodeInput;
             socket.join(roomCode);
 
+            user.id = socket.id;
             if (roomCode in rooms) {
                 rooms[roomCode].users.push(user);
                 if (!rooms[roomCode].lastMove || rooms[roomCode].lastMove.currentMove < lastMove.currentMove) {
