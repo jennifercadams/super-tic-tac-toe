@@ -1,3 +1,4 @@
+import cors, { CorsOptions } from "cors";
 import express from "express";
 import { createServer } from "node:http";
 import { Server, Socket } from "socket.io";
@@ -143,4 +144,11 @@ io.of("/").adapter.on("delete-room", (room: string) => {
 
 server.listen(port, () => {
     console.log(`server running on port ${port}`);
+});
+
+const corsOptions: CorsOptions = { origin: [ process.env.CORS_ORIGIN ] };
+app.use(cors(corsOptions));
+app.get("/keep-alive", (req, res) => {
+    console.log("Received ping from client");
+    res.send("OK");
 });

@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { KeepAliveService } from "~services/KeepAliveService";
 import { SocketService } from "~services/SocketService";
 import { JoinResponse } from "~services/types";
 import { Move, Player, User } from "~types";
 
 const useSuperGameRoom = () => {
+    const keepAliveService = useMemo(() => new KeepAliveService(), []);
     const socketService = useMemo(() => new SocketService(), []);
     const [ loading, setLoading ] = useState<boolean>(false);
     const [ roomCode, setRoomCode ] = useState<string | null>(null);
@@ -16,6 +18,8 @@ const useSuperGameRoom = () => {
     const [ status, setStatus ] = useState<string>("Player Turn: X");
 
     useEffect(() => {
+        keepAliveService.start();
+
         const timeoutId = window.setTimeout(() => {
             if (!socketService.isConnected)
                 setLoading(true);
@@ -40,6 +44,7 @@ const useSuperGameRoom = () => {
         document.addEventListener("onError", handleOnError);
 
         return () => {
+            keepAliveService.stop();
             document.removeEventListener("onConnect", () => handleOnConnect(timeoutId));
             document.removeEventListener("onCreateSuccess", handleCreateSuccess);
             document.removeEventListener("onJoinSuccess", handleOnJoinSuccess);
