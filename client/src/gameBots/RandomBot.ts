@@ -14,15 +14,8 @@ export class RandomBot extends Bot {
     }
 
     public getNextMove(currentMove: number, boards: BoardState[]): Move {
-        const playableBoards: number[] = boards.map((_, i) => i)
-            .filter(v => boards[v].playable === true);
-        const randomBoardIndex = Math.floor(Math.random() * playableBoards.length);
-        const boardIndex = playableBoards[randomBoardIndex];
-
-        const playableSquares: number[] = boards[boardIndex].squares.map((_, i) => i)
-            .filter(v => !boards[boardIndex].squares[v]);
-        const randomSquareIndex = Math.floor(Math.random() * playableSquares.length);
-        const squareIndex = playableSquares[randomSquareIndex];
+        const boardIndex = this.getRandomBoardIndex(boards);
+        const squareIndex = this.getRandomSquareIndex(boards[boardIndex].squares);
 
         return { currentMove, boardIndex, squareIndex, boards };
     }
