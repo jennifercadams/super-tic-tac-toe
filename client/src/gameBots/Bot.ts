@@ -15,6 +15,13 @@ export class Bot {
         throw new Error("Method 'getNextMove()' must be implemented.");
     }
 
+    protected getRandomFirstMove(boards: BoardState[]) {
+        const boardIndex = Math.floor(Math.random() * 9);
+        const squareIndex = Math.floor(Math.random() * 9);
+
+        return { currentMove: 0, boardIndex, squareIndex, boards };
+    }
+
     protected getPlayableBoards(boards: BoardState[]) {
         return boards.map((_, i) => i).filter(v => boards[v].playable === true);
     }

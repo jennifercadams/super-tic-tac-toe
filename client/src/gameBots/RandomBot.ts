@@ -7,10 +7,7 @@ export class RandomBot extends Bot {
     }
 
     public getFirstMove(boards: BoardState[]): Move {
-        const boardIndex = Math.floor(Math.random() * 9);
-        const squareIndex = Math.floor(Math.random() * 9);
-
-        return { currentMove: 0, boardIndex, squareIndex, boards };
+        return this.getRandomFirstMove(boards);
     }
 
     public getNextMove(currentMove: number, boards: BoardState[]): Move {
