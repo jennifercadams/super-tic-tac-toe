@@ -41,6 +41,12 @@ const useBotSuperGame = (player: Player) => {
         const move: Move = { currentMove, boardIndex, squareIndex, boards };
         const playerMoveResult = processMove(move, null);
 
+        if (playerMoveResult.nextWinner) {
+            setLastMove(move);
+            updateGameState(playerMoveResult);
+            return;
+        }
+
         const botMove = bot.getNextMove(playerMoveResult.nextMove, playerMoveResult.nextBoards);
         const botMoveResult = processMove(botMove, null);
 
