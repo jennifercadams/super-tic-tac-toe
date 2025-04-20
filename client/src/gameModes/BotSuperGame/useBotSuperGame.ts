@@ -19,8 +19,7 @@ const useBotSuperGame = (player: Player) => {
         if (currentMove === 0 && player === Player.O) {
             const botMove = bot.getFirstMove(boards);
             const botMoveResult = processMove(botMove, null);
-            setLastMove(botMove);
-            updateGameState(botMoveResult);
+            updateGameState(botMove, botMoveResult);
         }
     }, []);
 
@@ -42,21 +41,19 @@ const useBotSuperGame = (player: Player) => {
         const playerMoveResult = processMove(move, null);
 
         if (playerMoveResult.nextWinner) {
-            setLastMove(move);
-            updateGameState(playerMoveResult);
+            updateGameState(move, playerMoveResult);
             return;
         }
 
         const botMove = bot.getNextMove(playerMoveResult.nextMove, playerMoveResult.nextBoards);
         const botMoveResult = processMove(botMove, null);
-
-        setLastMove(botMove);
-        updateGameState(botMoveResult);
+        updateGameState(botMove, botMoveResult);
     };
 
-    const updateGameState = (moveResult: MoveResult) => {
+    const updateGameState = (move: Move, moveResult: MoveResult) => {
         setCurrentMove(moveResult.nextMove);
         setBoards(moveResult.nextBoards);
+        setLastMove(move);
         setStatus(moveResult.nextStatus);
         setWinner(moveResult.nextWinner);
     };
