@@ -4,7 +4,7 @@ import { SocketService } from "~services/SocketService";
 import { JoinResponse } from "~services/types";
 import { Move, Player, User } from "~types";
 
-const useSuperGameRoom = () => {
+const useOnlineMultiplayer = () => {
     const keepAliveService = useMemo(() => new KeepAliveService(), []);
     const socketService = useMemo(() => new SocketService(), []);
     const [ loading, setLoading ] = useState<boolean>(false);
@@ -142,4 +142,4 @@ const useSuperGameRoom = () => {
     };
 };
 
-export default useSuperGameRoom;
+export default useOnlineMultiplayer;

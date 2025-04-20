@@ -1,12 +1,12 @@
 import * as React from "react";
 import LocalSuperGame from "~gameModes/LocalSuperGame/LocalSuperGame";
 
-const SuperGamePassAndPlay = () => {
+const LocalPassAndPlay = () => {
     return (
-        <div className="super-game-pass-and-play">
+        <div className="local-pass-and-play">
             <LocalSuperGame />
         </div>
     );
 };
 
-export default SuperGamePassAndPlay;
+export default LocalPassAndPlay;

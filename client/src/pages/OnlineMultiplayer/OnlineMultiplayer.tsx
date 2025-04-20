@@ -2,10 +2,10 @@ import * as React from "react";
 import LoadingOverlay from "~components/LoadingOverlay/LoadingOverlay";
 import RoomPanel, { RoomPanelProps } from "~components/RoomPanel/RoomPanel";
 import OnlineSuperGame, { OnlineSuperGameProps } from "~gameModes/OnlineSuperGame/OnlineSuperGame";
-import useSuperGameRoom from "./useSuperGameRoom";
-import "./SuperGameRoom.css";
+import useOnlineMultiplayer from "./useOnlineMultiplayer";
+import "./OnlineMultiplayer.css";
 
-const SuperGameRoom = () => {
+const OnlineMultiplayer = () => {
     const {
         socketService,
         loading,
@@ -24,7 +24,7 @@ const SuperGameRoom = () => {
         handleCreateRoom,
         handleJoinRoom,
         handleLeaveRoom,
-    } = useSuperGameRoom();
+    } = useOnlineMultiplayer();
 
     const roomPanelProps: RoomPanelProps = { 
         roomCode,
@@ -52,7 +52,7 @@ const SuperGameRoom = () => {
     };
 
     return (
-        <div className="super-game-room">
+        <div className="online-multiplayer">
             <div className="game-container">
                 <RoomPanel {...roomPanelProps} />
                 <OnlineSuperGame {...onlineSuperGameProps} />
@@ -62,4 +62,4 @@ const SuperGameRoom = () => {
     );
 };
 
-export default SuperGameRoom;
+export default OnlineMultiplayer;
