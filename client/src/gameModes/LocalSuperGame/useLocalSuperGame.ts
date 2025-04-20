@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { processMove } from "~helpers/gameHelper";
 import { BoardState, Move } from "~types";
 
-const useSuperGame = () => {
+const useLocalSuperGame = () => {
     const [ currentMove, setCurrentMove ] = useState<number>(0);
     const [ boards, setBoards ] = useState<BoardState[]>(Array(9).fill({
         playable: true,
@@ -59,4 +59,4 @@ const useSuperGame = () => {
     };
 };
 
-export default useSuperGame;
+export default useLocalSuperGame;

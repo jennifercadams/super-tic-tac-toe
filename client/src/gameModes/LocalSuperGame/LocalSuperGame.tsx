@@ -1,6 +1,6 @@
 import * as React from "react";
 import SuperBoard, { SuperBoardProps } from "~components/SuperBoard/SuperBoard";
-import useSuperGame from "./useLocalSuperGame";
+import useLocalSuperGame from "./useLocalSuperGame";
 import "./LocalSuperGame.css";
 
 const LocalSuperGame = () => {
@@ -11,7 +11,7 @@ const LocalSuperGame = () => {
         winner,
         handleClick,
         handleRestart,
-    } = useSuperGame();
+    } = useLocalSuperGame();
 
     const superBoardProps: SuperBoardProps = { boards, lastMove, handleClick };
 
