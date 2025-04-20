@@ -4,7 +4,7 @@ import { processMove } from "~helpers/gameHelper";
 import { BoardState, Move, MoveResult, Player } from "~types";
 
 const useBotSuperGame = (player: Player) => {
-    const bot = useMemo(() => new RandomBot(), []);
+    const bot = useMemo(() => new RandomBot(player), []);
     const [ currentMove, setCurrentMove ] = useState<number>(0);
     const [ boards, setBoards ] = useState<BoardState[]>(Array(9).fill({
         playable: true,

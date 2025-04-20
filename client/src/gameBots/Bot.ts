@@ -1,10 +1,16 @@
-import { BoardState, Move } from "~types";
+import { BoardState, Move, Player } from "~types";
 
 export class Bot {
-    constructor() {
+    protected humanPlayer: Player;
+    protected botPlayer: Player;
+
+    constructor(humanPlayer: Player) {
         if (this.constructor == Bot) {
             throw new Error("Abstract classes can't be instantiated.");
         }
+
+        this.humanPlayer = humanPlayer;
+        this.botPlayer = humanPlayer === Player.X ? Player.O : Player.X;
     }
 
     public getFirstMove(_boards: BoardState[]): Move {

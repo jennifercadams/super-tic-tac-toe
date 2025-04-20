@@ -1,9 +1,9 @@
-import { BoardState, Move } from "~types";
+import { BoardState, Move, Player } from "~types";
 import { Bot } from "./Bot";
 
 export class RandomBot extends Bot {
-    constructor() {
-        super();
+    constructor(humanPlayer: Player) {
+        super(humanPlayer);
     }
 
     public getFirstMove(boards: BoardState[]): Move {
