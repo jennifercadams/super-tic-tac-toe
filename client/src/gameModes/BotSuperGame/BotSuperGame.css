@@ -1,0 +1,17 @@
+.bot-super-game .super-board {
+    justify-content: center;
+}
+
+@media (orientation: landscape), (orientation: portrait) and (min-aspect-ratio: 0.8) {
+    .bot-super-game .super-board {
+        grid-template-columns: repeat(3, calc((100vh / 3) - 70px));
+        grid-template-rows: repeat(3, calc((100vh / 3) - 70px));
+    }
+}
+
+@media (orientation: portrait) and (max-aspect-ratio: 0.8) {
+    .bot-super-game .super-board {
+        grid-template-columns: repeat(3, calc((100vw / 3) - 16px));
+        grid-template-rows: repeat(3, calc((100vw / 3) - 16px));
+    }
+}

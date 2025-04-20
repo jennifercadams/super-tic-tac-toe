@@ -18,6 +18,7 @@ const BurgerMenu = () => {
             <div className={`navigation${menuOpen ? " menu-open" : " menu-closed"}`} onClick={toggleMenu}>
                 <Link to="/">Home</Link>
                 <Link to="/local-pass-and-play">Local Pass And Play</Link>
+                <Link to="/play-versus-bot">Play Versus Bot</Link>
                 <Link to="/online-multiplayer">Online Multiplayer</Link>
                 <Link to="/how-to-play">How To Play</Link>
                 <Link to="/about">About</Link>
