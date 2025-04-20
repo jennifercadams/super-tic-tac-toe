@@ -7,7 +7,7 @@ export class SocketService {
     socket: Socket;
 
     constructor() {
-        const url = import.meta.env.DEV ? "http://localhost:3000" : "https://super-tic-tac-toe-l11z.onrender.com";
+        const url = import.meta.env.VITE_SERVER_URL;
         this.socket = io(url);
         this.registerEventListeners();
     }
