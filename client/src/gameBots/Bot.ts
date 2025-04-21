@@ -21,29 +21,29 @@ export class Bot {
         throw new Error("Method 'getNextMove()' must be implemented.");
     }
 
-    protected getRandomFirstMove(boards: BoardState[]) {
+    protected getRandomFirstMove(boards: BoardState[]): Move {
         const boardIndex = Math.floor(Math.random() * 9);
         const squareIndex = Math.floor(Math.random() * 9);
 
         return { currentMove: 0, boardIndex, squareIndex, boards };
     }
 
-    protected getPlayableBoards(boards: BoardState[]) {
+    protected getPlayableBoards(boards: BoardState[]): number[] {
         return boards.map((_, i) => i).filter(v => boards[v].playable === true);
     }
 
-    protected getPlayableSquares(squares: string[]) {
+    protected getPlayableSquares(squares: string[]): number[] {
         return squares.map((_, i) => i).filter(v => !squares[v]);
     }
 
-    protected getRandomBoardIndex(boards: BoardState[]) {
+    protected getRandomBoardIndex(boards: BoardState[]): number {
         const playableBoards = this.getPlayableBoards(boards);
         const randomBoardIndex = Math.floor(Math.random() * playableBoards.length);
 
         return playableBoards[randomBoardIndex];
     }
 
-    protected getRandomSquareIndex(squares: string[]) {
+    protected getRandomSquareIndex(squares: string[]): number {
         const playableSquares = this.getPlayableSquares(squares);
         const randomSquareIndex = Math.floor(Math.random() * playableSquares.length);
 
