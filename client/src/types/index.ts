@@ -9,6 +9,11 @@ enum Winner {
     Draw = "DRAW"
 };
 
+type BoardLocation = {
+    boardIndex: number;
+    squareIndex: number;
+}
+
 type BoardState = {
     playable: boolean;
     squares: string[];
@@ -35,4 +40,4 @@ type User = {
     player: Player;
 }
 
-export { BoardState, Move, MoveResult, Player, User, Winner };
+export { BoardLocation, BoardState, Move, MoveResult, Player, User, Winner };

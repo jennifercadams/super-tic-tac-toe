@@ -1,4 +1,4 @@
-import { BoardState, Move, Player } from "~types";
+import { BoardLocation, BoardState, Player } from "~types";
 
 export class Bot {
     protected humanPlayer: Player;
@@ -13,19 +13,19 @@ export class Bot {
         this.botPlayer = humanPlayer === Player.X ? Player.O : Player.X;
     }
 
-    public getFirstMove(_boards: BoardState[]): Move {
+    public getFirstMove(): BoardLocation {
         throw new Error("Method 'getFirstMove()' must be implemented.");
     }
 
-    public getNextMove(_currentMove: number, _boards: BoardState[]): Move {
+    public getNextMove(_boards: BoardState[]): BoardLocation {
         throw new Error("Method 'getNextMove()' must be implemented.");
     }
 
-    protected getRandomFirstMove(boards: BoardState[]): Move {
+    protected getRandomFirstMove(): BoardLocation {
         const boardIndex = Math.floor(Math.random() * 9);
         const squareIndex = Math.floor(Math.random() * 9);
 
-        return { currentMove: 0, boardIndex, squareIndex, boards };
+        return { boardIndex, squareIndex };
     }
 
     protected getPlayableBoards(boards: BoardState[]): number[] {
@@ -48,5 +48,12 @@ export class Bot {
         const randomSquareIndex = Math.floor(Math.random() * playableSquares.length);
 
         return playableSquares[randomSquareIndex];
+    }
+
+    protected getWinningMoves(boards: BoardState[]) {
+        const wonBoards = boards.map((_, i) => i).filter(v => {
+            const winner = boards[v].winner;
+            return winner === Player.X || winner === Player.O;
+        });
     }
 }

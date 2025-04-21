@@ -1,4 +1,4 @@
-import { BoardState, Move, Player } from "~types";
+import { BoardLocation, BoardState, Player } from "~types";
 import { Bot } from "./Bot";
 
 export class RandomBot extends Bot {
@@ -6,14 +6,14 @@ export class RandomBot extends Bot {
         super(humanPlayer);
     }
 
-    public getFirstMove(boards: BoardState[]): Move {
-        return this.getRandomFirstMove(boards);
+    public getFirstMove(): BoardLocation {
+        return this.getRandomFirstMove();
     }
 
-    public getNextMove(currentMove: number, boards: BoardState[]): Move {
+    public getNextMove(boards: BoardState[]): BoardLocation {
         const boardIndex = this.getRandomBoardIndex(boards);
         const squareIndex = this.getRandomSquareIndex(boards[boardIndex].squares);
 
-        return { currentMove, boardIndex, squareIndex, boards };
+        return { boardIndex, squareIndex };
     }
 }

@@ -17,7 +17,8 @@ const useBotSuperGame = (player: Player) => {
 
     useEffect(() => {
         if (currentMove === 0 && player === Player.O) {
-            const botMove = bot.getFirstMove(boards);
+            const { boardIndex, squareIndex } = bot.getFirstMove();
+            const botMove: Move = { currentMove, boardIndex, squareIndex, boards};
             const botMoveResult = processMove(botMove, null);
             updateGameState(botMove, botMoveResult);
         }
@@ -45,7 +46,13 @@ const useBotSuperGame = (player: Player) => {
             return;
         }
 
-        const botMove = bot.getNextMove(playerMoveResult.nextMove, playerMoveResult.nextBoards);
+        const botMoveLocation = bot.getNextMove(playerMoveResult.nextBoards);
+        const botMove: Move = {
+            currentMove: playerMoveResult.nextMove,
+            boardIndex: botMoveLocation.boardIndex,
+            squareIndex: botMoveLocation.squareIndex,
+            boards: playerMoveResult.nextBoards,
+        };
         const botMoveResult = processMove(botMove, null);
         updateGameState(botMove, botMoveResult);
     };
