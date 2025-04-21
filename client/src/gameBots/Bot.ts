@@ -1,3 +1,4 @@
+import { winStates } from "~constants";
 import { BoardLocation, BoardState, Player } from "~types";
 
 export class Bot {
@@ -50,10 +51,47 @@ export class Bot {
         return playableSquares[randomSquareIndex];
     }
 
-    protected getWinningMoves(boards: BoardState[]) {
-        const wonBoards = boards.map((_, i) => i).filter(v => {
-            const winner = boards[v].winner;
-            return winner === Player.X || winner === Player.O;
-        });
+    protected getWinningMoves(player: Player, boards: BoardState[]): BoardLocation[] {
+        const winningMoves: BoardLocation[] = [];
+
+        const wonBoards = boards.map((_, i) => i).filter(v => boards[v].winner === player);
+        if (wonBoards.length < 2)
+            return winningMoves;
+
+        const possibleWinningBoards: number[] = [];
+
+        for (const winState of winStates) {
+            const [a, b, c] = winState;
+            const line = [ boards[a].winner, boards[b].winner, boards[c].winner ];
+            const numWonByPlayer = line.filter(v => v === player).length;
+
+            if (numWonByPlayer !== 2)
+                continue;
+
+            const playable = winState.filter(v => boards[v].winner === null);
+            if (playable.length === 1) {
+                possibleWinningBoards.push(playable[0]);
+            }
+        }
+
+        for (const boardIndex of possibleWinningBoards) {
+            const squares = boards[boardIndex].squares;
+            for (const winState of winStates) {
+                const [a, b, c] = winState;
+                const line = [ squares[a], squares[b], squares[c] ];
+                const numMarkedByPlayer = line.filter(v => v === player).length;
+
+                if (numMarkedByPlayer !== 2)
+                    continue;
+
+                const playable = winState.filter(v => squares[v] === "");
+                if (playable.length === 1) {
+                    const squareIndex = playable[0];
+                    winningMoves.push({ boardIndex, squareIndex });
+                }
+            }
+        }
+
+        return winningMoves;
     }
 }
