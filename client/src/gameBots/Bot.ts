@@ -51,12 +51,10 @@ export class Bot {
         return playableSquares[randomSquareIndex];
     }
 
-    protected getWinningMoves(player: Player, boards: BoardState[]): BoardLocation[] {
-        const winningMoves: BoardLocation[] = [];
-
+    protected getWinningMovesForGame(player: Player, boards: BoardState[]): BoardLocation[] {
         const wonBoards = boards.map((_, i) => i).filter(v => boards[v].winner === player);
         if (wonBoards.length < 2)
-            return winningMoves;
+            return [];
 
         const possibleWinningBoards: number[] = [];
 
@@ -68,7 +66,18 @@ export class Bot {
             }
         }
 
-        for (const boardIndex of possibleWinningBoards) {
+        return this.getWinningMoves(player, boards, possibleWinningBoards);
+    }
+
+    protected getWinningMovesForBoard(player: Player, boards: BoardState[]): BoardLocation[] {
+        const playableBoards = this.getPlayableBoards(boards);
+        return this.getWinningMoves(player, boards, playableBoards);
+    }
+
+    private getWinningMoves(player: Player, boards: BoardState[], boardsToCheck: number[]): BoardLocation[] {
+        const winningMoves: BoardLocation[] = [];
+
+        for (const boardIndex of boardsToCheck) {
             const squares = boards[boardIndex].squares;
             for (const winState of winStates) {
                 const winningIndex = this.getWinningIndex(player, squares, winState);
