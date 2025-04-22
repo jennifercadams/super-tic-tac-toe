@@ -61,37 +61,38 @@ export class Bot {
         const possibleWinningBoards: number[] = [];
 
         for (const winState of winStates) {
-            const [a, b, c] = winState;
-            const line = [ boards[a].winner, boards[b].winner, boards[c].winner ];
-            const numWonByPlayer = line.filter(v => v === player).length;
-
-            if (numWonByPlayer !== 2)
-                continue;
-
-            const playable = winState.filter(v => boards[v].winner === null);
-            if (playable.length === 1) {
-                possibleWinningBoards.push(playable[0]);
+            const squares = boards.map(v => v.winner || "");
+            const winningIndex = this.getWinningIndex(player, squares, winState);
+            if (winningIndex !== null) {
+                possibleWinningBoards.push(winningIndex);
             }
         }
 
         for (const boardIndex of possibleWinningBoards) {
             const squares = boards[boardIndex].squares;
             for (const winState of winStates) {
-                const [a, b, c] = winState;
-                const line = [ squares[a], squares[b], squares[c] ];
-                const numMarkedByPlayer = line.filter(v => v === player).length;
-
-                if (numMarkedByPlayer !== 2)
-                    continue;
-
-                const playable = winState.filter(v => squares[v] === "");
-                if (playable.length === 1) {
-                    const squareIndex = playable[0];
-                    winningMoves.push({ boardIndex, squareIndex });
+                const winningIndex = this.getWinningIndex(player, squares, winState);
+                if (winningIndex !== null) {
+                    winningMoves.push({ boardIndex, squareIndex: winningIndex });
                 }
             }
         }
 
         return winningMoves;
+    }
+
+    private getWinningIndex(player: Player, squares: string[], winState: [number,number,number]): (number | null) {
+        const [a, b, c] = winState;
+        const line = [ squares[a], squares[b], squares[c] ];
+        const numMarkedByPlayer = line.filter(v => v === player).length;
+
+        if (numMarkedByPlayer !== 2)
+            return null;
+
+        const playable = winState.filter(v => squares[v] === "");
+        if (playable.length === 1)
+            return playable[0];
+        else
+            return null;
     }
 }
