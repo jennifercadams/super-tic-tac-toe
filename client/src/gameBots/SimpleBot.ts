@@ -77,6 +77,7 @@ export class SimpleBot extends Bot {
             return boardWinBlockingMoves[randomIndex];
         }
 
+        // Play random move
         const boardIndex = this.getRandomBoardIndex(boards);
         const squareIndex = this.getRandomSquareIndex(boards[boardIndex].squares);
 
