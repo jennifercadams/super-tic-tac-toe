@@ -43,6 +43,40 @@ export class SimpleBot extends Bot {
             return winBlockingMoves[randomIndex];
         }
 
+        // Win board if possible (unless it would leave a win condition open)
+        const boardWinningMovesForBot = this.getWinningMovesForBoard(this.botPlayer, boards);
+
+        const boardWinningMoves = boardWinningMovesForBot.filter(move => {
+            const nextBoardHasWinner = boards[move.squareIndex].winner !== null;
+            const nextBoardHasWinCondition = gameWinningBoardsForHuman.includes(move.squareIndex);
+            if (anyWinConditions && (nextBoardHasWinner || nextBoardHasWinCondition))
+                return false;
+
+            return true;
+        });
+
+        if (boardWinningMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * boardWinningMoves.length);
+            return boardWinningMoves[randomIndex];
+        }
+
+        // Block human from winning board if possible (unless it would leave a win condition open)
+        const boardWinningMovesForHuman = this.getWinningMovesForBoard(this.humanPlayer, boards);
+
+        const boardWinBlockingMoves = boardWinningMovesForHuman.filter(move => {
+            const nextBoardHasWinner = boards[move.squareIndex].winner !== null;
+            const nextBoardHasWinCondition = gameWinningBoardsForHuman.includes(move.squareIndex);
+            if (anyWinConditions && (nextBoardHasWinner || nextBoardHasWinCondition))
+                return false;
+
+            return true;
+        });
+
+        if (boardWinBlockingMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * boardWinBlockingMoves.length);
+            return boardWinBlockingMoves[randomIndex];
+        }
+
         const boardIndex = this.getRandomBoardIndex(boards);
         const squareIndex = this.getRandomSquareIndex(boards[boardIndex].squares);
 
