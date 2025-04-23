@@ -12,26 +12,35 @@ export class SimpleBot extends Bot {
 
     public getNextMove(boards: BoardState[]): BoardLocation {
         const playableBoards = this.getPlayableBoards(boards);
-        const winningMovesForBot = this.getWinningMovesForGame(this.botPlayer, boards);
 
-        for (const move of winningMovesForBot) {
-            if (playableBoards.includes(move.boardIndex))
-                return move;
+        // Play winning move if possible
+        const gameWinningMovesForBot = this.getWinningMovesForGame(this.botPlayer, boards);
+        const winningMoves = gameWinningMovesForBot.filter(move => playableBoards.includes(move.boardIndex));
+        if (winningMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * winningMoves.length);
+            return winningMoves[randomIndex];
         }
 
-        const winningMovesForHuman = this.getWinningMovesForGame(this.humanPlayer, boards);
-        const winningBoardsForHuman = winningMovesForHuman.map(v => v.boardIndex);
+        // Block human win if possible (unless it would leave another win condition open)
+        const gameWinningMovesForHuman = this.getWinningMovesForGame(this.humanPlayer, boards);
+        const gameWinningBoardsForHuman = gameWinningMovesForHuman.map(v => v.boardIndex);
+        const multipleWinConditions = gameWinningMovesForHuman.length > 1;
 
-        for (const move of winningMovesForHuman) {
-            const multipleWinConditions = winningMovesForHuman.length > 1;
+        const winBlockingMoves = gameWinningMovesForHuman.filter(move => {
+            if (!playableBoards.includes(move.boardIndex))
+                return false;
+
             const nextBoardHasWinner = boards[move.squareIndex].winner !== null;
-            const nextBoardHasWinCondition = winningBoardsForHuman.includes(move.squareIndex);
-            if (multipleWinConditions && (nextBoardHasWinner || nextBoardHasWinCondition)) {
-                continue;
-            }
-            if (playableBoards.includes(move.boardIndex)) {
-                return move;
-            }
+            const nextBoardHasWinCondition = gameWinningBoardsForHuman.includes(move.squareIndex);
+            if (multipleWinConditions && (nextBoardHasWinner || nextBoardHasWinCondition))
+                return false;
+
+            return true;
+        });
+
+        if (winBlockingMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * winBlockingMoves.length);
+            return winBlockingMoves[randomIndex];
         }
 
         const boardIndex = this.getRandomBoardIndex(boards);
