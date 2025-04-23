@@ -104,4 +104,8 @@ export class Bot {
         else
             return null;
     }
+
+    public getSquaresMarkedForPlayer(squares: string[], player: Player) {
+        return squares.map((_, i) => i).filter(v => squares[v] === player);
+    }
 }

@@ -1,3 +1,4 @@
+import { adjacentSquares } from "~constants";
 import { BoardLocation, BoardState, Player } from "~types";
 import { Bot } from "./Bot";
 
@@ -25,6 +26,7 @@ export class SimpleBot extends Bot {
         const gameWinningMovesForHuman = this.getWinningMovesForGame(this.humanPlayer, boards);
         const gameWinningBoardsForHuman = gameWinningMovesForHuman.map(v => v.boardIndex);
         const multipleWinConditions = gameWinningMovesForHuman.length > 1;
+        const anyWinConditions = gameWinningMovesForHuman.length > 0;
 
         const winBlockingMoves = gameWinningMovesForHuman.filter(move => {
             if (!playableBoards.includes(move.boardIndex))
@@ -75,6 +77,39 @@ export class SimpleBot extends Bot {
         if (boardWinBlockingMoves.length > 0) {
             const randomIndex = Math.floor(Math.random() * boardWinBlockingMoves.length);
             return boardWinBlockingMoves[randomIndex];
+        }
+
+        // Start building a line if possible
+        const markedPlayableBoards = playableBoards.filter(v => boards[v].squares.includes(this.botPlayer));
+        const lineBuildingMoves: BoardLocation[] = [];
+        for (const boardIndex of markedPlayableBoards) {
+            const squares = boards[boardIndex].squares;
+            const markedSquares = this.getSquaresMarkedForPlayer(squares, this.botPlayer);
+            const playableSquares = this.getPlayableSquares(squares);
+            const adjacents: Set<number> = new Set();
+            for (const squareIndex of markedSquares) {
+                adjacentSquares[squareIndex].forEach(v => {
+                    if (playableSquares.includes(v))
+                        adjacents.add(v);
+                });
+            }
+            for (const squareIndex of adjacents) {
+                lineBuildingMoves.push({ boardIndex, squareIndex });
+            }
+        }
+
+        const safeLineBuildingMoves = lineBuildingMoves.filter(move => {
+            const nextBoardHasWinner = boards[move.squareIndex].winner !== null;
+            const nextBoardHasWinCondition = gameWinningBoardsForHuman.includes(move.squareIndex);
+            if (anyWinConditions && (nextBoardHasWinner || nextBoardHasWinCondition))
+                return false;
+
+            return true;
+        });
+
+        if (safeLineBuildingMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * safeLineBuildingMoves.length);
+            return safeLineBuildingMoves[randomIndex];
         }
 
         // Play random move
