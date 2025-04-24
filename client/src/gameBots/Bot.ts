@@ -105,6 +105,20 @@ export class Bot {
             return null;
     }
 
+    public getSafeMoves(boards: BoardState[], moveSet: BoardLocation[], boardsToAvoid: number[]): BoardLocation[] {
+        if (boardsToAvoid.length < 1)
+            return moveSet;
+
+        return moveSet.filter(move => {
+            const nextBoardHasWinner = boards[move.squareIndex].winner !== null;
+            const nextBoardHasWinCondition = boardsToAvoid.includes(move.squareIndex);
+            if (nextBoardHasWinner || nextBoardHasWinCondition)
+                return false;
+
+            return true;
+        });
+    }
+
     public getSquaresMarkedForPlayer(squares: string[], player: Player) {
         return squares.map((_, i) => i).filter(v => squares[v] === player);
     }

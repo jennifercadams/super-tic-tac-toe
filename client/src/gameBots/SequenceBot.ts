@@ -51,15 +51,7 @@ export class SequenceBot extends Bot {
 
         // Win board if possible (unless it would leave a win condition open)
         const boardWinningMovesForBot = this.getWinningMovesForBoard(this.botPlayer, boards);
-
-        const safeBoardWinningMoves = boardWinningMovesForBot.filter(move => {
-            const nextBoardHasWinner = boards[move.squareIndex].winner !== null;
-            const nextBoardHasWinCondition = gameWinningBoardsForHuman.includes(move.squareIndex);
-            if (anyWinConditions && (nextBoardHasWinner || nextBoardHasWinCondition))
-                return false;
-
-            return true;
-        });
+        const safeBoardWinningMoves = this.getSafeMoves(boards, boardWinningMovesForBot, gameWinningBoardsForHuman);
 
         if (safeBoardWinningMoves.length > 0) {
             const randomIndex = Math.floor(Math.random() * safeBoardWinningMoves.length);
@@ -68,15 +60,7 @@ export class SequenceBot extends Bot {
 
         // Block human from winning board if possible (unless it would leave a win condition open)
         const boardWinningMovesForHuman = this.getWinningMovesForBoard(this.humanPlayer, boards);
-
-        const safeBoardWinBlockingMoves = boardWinningMovesForHuman.filter(move => {
-            const nextBoardHasWinner = boards[move.squareIndex].winner !== null;
-            const nextBoardHasWinCondition = gameWinningBoardsForHuman.includes(move.squareIndex);
-            if (anyWinConditions && (nextBoardHasWinner || nextBoardHasWinCondition))
-                return false;
-
-            return true;
-        });
+        const safeBoardWinBlockingMoves = this.getSafeMoves(boards, boardWinningMovesForHuman, gameWinningBoardsForHuman);
 
         if (safeBoardWinBlockingMoves.length > 0) {
             const randomIndex = Math.floor(Math.random() * safeBoardWinBlockingMoves.length);
@@ -102,14 +86,7 @@ export class SequenceBot extends Bot {
             }
         }
 
-        const safeLineBuildingMoves = lineBuildingMoves.filter(move => {
-            const nextBoardHasWinner = boards[move.squareIndex].winner !== null;
-            const nextBoardHasWinCondition = gameWinningBoardsForHuman.includes(move.squareIndex);
-            if (anyWinConditions && (nextBoardHasWinner || nextBoardHasWinCondition))
-                return false;
-
-            return true;
-        });
+        const safeLineBuildingMoves = this.getSafeMoves(boards, lineBuildingMoves, gameWinningBoardsForHuman);
 
         if (safeLineBuildingMoves.length > 0) {
             const randomIndex = Math.floor(Math.random() * safeLineBuildingMoves.length);
@@ -126,14 +103,7 @@ export class SequenceBot extends Bot {
                 }
             }
 
-            const safePlayableMoves = playableMoves.filter(move => {
-                const nextBoardHasWinner = boards[move.squareIndex].winner !== null;
-                const nextBoardHasWinCondition = gameWinningBoardsForHuman.includes(move.squareIndex);
-                if (anyWinConditions && (nextBoardHasWinner || nextBoardHasWinCondition)) 
-                    return false;
-
-                return true;
-            });
+            const safePlayableMoves = this.getSafeMoves(boards, playableMoves, gameWinningBoardsForHuman);
 
             if (safePlayableMoves.length > 0) {
                 const randomIndex = Math.floor(Math.random() * safePlayableMoves.length);
