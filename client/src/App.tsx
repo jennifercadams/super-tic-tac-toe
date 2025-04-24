@@ -1,6 +1,5 @@
 import * as React from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
-import About from "~pages/About/About";
 import HowToPlay from "~pages/HowToPlay/HowToPlay";
 import LandingPage from "~pages/LandingPage/LandingPage";
 import PageLayout from "~pages/PageLayout/PageLayout";
@@ -21,7 +20,6 @@ const App = () => {
                     <Route path="play-versus-bot" element={<PlayVersusBot />} />
                     <Route path="online-multiplayer" element={<OnlineMultiplayer />} />
                     <Route path="how-to-play" element={<HowToPlay />} />
-                    <Route path="about" element={<About />} />
                 </Route>
             </Routes>
         </BrowserRouter>

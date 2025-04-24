@@ -21,7 +21,6 @@ const BurgerMenu = () => {
                 <Link to="/play-versus-bot">Play Versus Bot</Link>
                 <Link to="/online-multiplayer">Online Multiplayer</Link>
                 <Link to="/how-to-play">How To Play</Link>
-                <Link to="/about">About</Link>
             </div>
         </div>
     );

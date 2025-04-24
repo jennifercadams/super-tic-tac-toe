@@ -9,7 +9,6 @@ const LandingPage = () => {
             <Link className="ui-button" to="/play-versus-bot">Play Versus Bot</Link>
             <Link className="ui-button" to="/online-multiplayer">Online Multiplayer</Link>
             <Link className="ui-button" to="/how-to-play">How To Play</Link>
-            <Link className="ui-button" to="/about">About</Link>
         </div>
     );
 };
