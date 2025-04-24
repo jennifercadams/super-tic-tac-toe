@@ -16,10 +16,10 @@ export class SequenceBot extends Bot {
 
         // Play winning move if possible
         const gameWinningMovesForBot = this.getWinningMovesForGame(this.botPlayer, boards);
-        const winningMoves = gameWinningMovesForBot.filter(move => playableBoards.includes(move.boardIndex));
-        if (winningMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * winningMoves.length);
-            return winningMoves[randomIndex];
+        const playableWinningMoves = gameWinningMovesForBot.filter(move => playableBoards.includes(move.boardIndex));
+        if (playableWinningMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * playableWinningMoves.length);
+            return playableWinningMoves[randomIndex];
         }
 
         // Block human win if possible (unless it would leave another win condition open)
@@ -27,7 +27,7 @@ export class SequenceBot extends Bot {
         const gameWinningBoardsForHuman = gameWinningMovesForHuman.map(v => v.boardIndex);
         const anyWinConditions = gameWinningMovesForHuman.length > 0;
 
-        const winBlockingMoves = gameWinningMovesForHuman.filter(move => {
+        const safeWinBlockingMoves = gameWinningMovesForHuman.filter(move => {
             if (!playableBoards.includes(move.boardIndex))
                 return false;
 
@@ -44,15 +44,15 @@ export class SequenceBot extends Bot {
             return true;
         });
 
-        if (winBlockingMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * winBlockingMoves.length);
-            return winBlockingMoves[randomIndex];
+        if (safeWinBlockingMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * safeWinBlockingMoves.length);
+            return safeWinBlockingMoves[randomIndex];
         }
 
         // Win board if possible (unless it would leave a win condition open)
         const boardWinningMovesForBot = this.getWinningMovesForBoard(this.botPlayer, boards);
 
-        const boardWinningMoves = boardWinningMovesForBot.filter(move => {
+        const safeBoardWinningMoves = boardWinningMovesForBot.filter(move => {
             const nextBoardHasWinner = boards[move.squareIndex].winner !== null;
             const nextBoardHasWinCondition = gameWinningBoardsForHuman.includes(move.squareIndex);
             if (anyWinConditions && (nextBoardHasWinner || nextBoardHasWinCondition))
@@ -61,15 +61,15 @@ export class SequenceBot extends Bot {
             return true;
         });
 
-        if (boardWinningMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * boardWinningMoves.length);
-            return boardWinningMoves[randomIndex];
+        if (safeBoardWinningMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * safeBoardWinningMoves.length);
+            return safeBoardWinningMoves[randomIndex];
         }
 
         // Block human from winning board if possible (unless it would leave a win condition open)
         const boardWinningMovesForHuman = this.getWinningMovesForBoard(this.humanPlayer, boards);
 
-        const boardWinBlockingMoves = boardWinningMovesForHuman.filter(move => {
+        const safeBoardWinBlockingMoves = boardWinningMovesForHuman.filter(move => {
             const nextBoardHasWinner = boards[move.squareIndex].winner !== null;
             const nextBoardHasWinCondition = gameWinningBoardsForHuman.includes(move.squareIndex);
             if (anyWinConditions && (nextBoardHasWinner || nextBoardHasWinCondition))
@@ -78,9 +78,9 @@ export class SequenceBot extends Bot {
             return true;
         });
 
-        if (boardWinBlockingMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * boardWinBlockingMoves.length);
-            return boardWinBlockingMoves[randomIndex];
+        if (safeBoardWinBlockingMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * safeBoardWinBlockingMoves.length);
+            return safeBoardWinBlockingMoves[randomIndex];
         }
 
         // Start building a line if possible
