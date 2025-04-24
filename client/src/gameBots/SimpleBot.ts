@@ -25,16 +25,20 @@ export class SimpleBot extends Bot {
         // Block human win if possible (unless it would leave another win condition open)
         const gameWinningMovesForHuman = this.getWinningMovesForGame(this.humanPlayer, boards);
         const gameWinningBoardsForHuman = gameWinningMovesForHuman.map(v => v.boardIndex);
-        const multipleWinConditions = gameWinningMovesForHuman.length > 1;
         const anyWinConditions = gameWinningMovesForHuman.length > 0;
 
         const winBlockingMoves = gameWinningMovesForHuman.filter(move => {
             if (!playableBoards.includes(move.boardIndex))
                 return false;
 
+            const otherWinConditions = gameWinningMovesForHuman.filter(v => {
+                return !(v.boardIndex === move.boardIndex && v.squareIndex === move.squareIndex);
+            });
+            const otherWinningBoards = otherWinConditions.map(v => v.boardIndex);
+            const hasOtherWinConditions = otherWinConditions.length > 0;
             const nextBoardHasWinner = boards[move.squareIndex].winner !== null;
-            const nextBoardHasWinCondition = gameWinningBoardsForHuman.includes(move.squareIndex);
-            if (multipleWinConditions && (nextBoardHasWinner || nextBoardHasWinCondition))
+            const nextBoardHasWinCondition = otherWinningBoards.includes(move.squareIndex);
+            if (hasOtherWinConditions && (nextBoardHasWinner || nextBoardHasWinCondition))
                 return false;
 
             return true;
