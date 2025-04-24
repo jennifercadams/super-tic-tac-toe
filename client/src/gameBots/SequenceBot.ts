@@ -2,7 +2,7 @@ import { adjacentSquares } from "~constants";
 import { BoardLocation, BoardState, Player } from "~types";
 import { Bot } from "./Bot";
 
-export class SimpleBot extends Bot {
+export class SequenceBot extends Bot {
     constructor(humanPlayer: Player) {
         super(humanPlayer);
     }
