@@ -1,6 +1,6 @@
 {
   "name": "super-tic-tac-toe",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Super Tic Tac Toe client",
   "type": "module",
   "scripts": {
