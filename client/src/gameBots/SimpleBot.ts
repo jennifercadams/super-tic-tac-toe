@@ -112,6 +112,31 @@ export class SimpleBot extends Bot {
             return safeLineBuildingMoves[randomIndex];
         }
 
+        // If there are win conditions, try to find a safe move
+        if (anyWinConditions) {
+            const playableMoves: BoardLocation[] = [];
+            for (const boardIndex of playableBoards) {
+                const playableSquares = this.getPlayableSquares(boards[boardIndex].squares);
+                for (const squareIndex of playableSquares) {
+                    playableMoves.push({ boardIndex, squareIndex });
+                }
+            }
+
+            const safePlayableMoves = playableMoves.filter(move => {
+                const nextBoardHasWinner = boards[move.squareIndex].winner !== null;
+                const nextBoardHasWinCondition = gameWinningBoardsForHuman.includes(move.squareIndex);
+                if (anyWinConditions && (nextBoardHasWinner || nextBoardHasWinCondition)) 
+                    return false;
+
+                return true;
+            });
+
+            if (safePlayableMoves.length > 0) {
+                const randomIndex = Math.floor(Math.random() * safePlayableMoves.length);
+                return safePlayableMoves[randomIndex];
+            }
+        }
+
         // Play random move
         const boardIndex = this.getRandomBoardIndex(boards);
         const squareIndex = this.getRandomSquareIndex(boards[boardIndex].squares);
