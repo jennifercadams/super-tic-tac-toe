@@ -1,4 +1,3 @@
-import { adjacentSquares } from "~constants";
 import { BoardLocation, BoardState, Player } from "~types";
 import { Bot } from "./Bot";
 
@@ -68,24 +67,7 @@ export class SequenceBot extends Bot {
         }
 
         // Start building a line if possible
-        const markedPlayableBoards = playableBoards.filter(v => boards[v].squares.includes(this.botPlayer));
-        const lineBuildingMoves: BoardLocation[] = [];
-        for (const boardIndex of markedPlayableBoards) {
-            const squares = boards[boardIndex].squares;
-            const markedSquares = this.getSquaresMarkedForPlayer(squares, this.botPlayer);
-            const playableSquares = this.getPlayableSquares(squares);
-            const adjacents: Set<number> = new Set();
-            for (const squareIndex of markedSquares) {
-                adjacentSquares[squareIndex].forEach(v => {
-                    if (playableSquares.includes(v))
-                        adjacents.add(v);
-                });
-            }
-            for (const squareIndex of adjacents) {
-                lineBuildingMoves.push({ boardIndex, squareIndex });
-            }
-        }
-
+        const lineBuildingMoves = this.getLineBuildingMoves(boards);
         const safeLineBuildingMoves = this.getSafeMoves(boards, lineBuildingMoves, gameWinningBoardsForHuman);
 
         if (safeLineBuildingMoves.length > 0) {
