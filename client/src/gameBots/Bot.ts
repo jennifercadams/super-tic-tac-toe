@@ -33,8 +33,26 @@ export class Bot {
         return boards.map((_, i) => i).filter(v => boards[v].playable === true);
     }
 
+    protected getEmptyBoards(boards: BoardState[]): number[] {
+        return boards.map((_, i) => i).filter(v => boards[v].squares.every(v => !v));
+    }
+
     protected getPlayableSquares(squares: string[]): number[] {
         return squares.map((_, i) => i).filter(v => !squares[v]);
+    }
+
+    protected getPlayableMoves(boards: BoardState[]): BoardLocation[] {
+        const playableMoves: BoardLocation[] = [];
+
+        const playableBoards = this.getPlayableBoards(boards);
+        for (const boardIndex of playableBoards) {
+            const playableSquares = this.getPlayableSquares(boards[boardIndex].squares);
+            for (const squareIndex of playableSquares) {
+                playableMoves.push({ boardIndex, squareIndex });
+            }
+        }
+
+        return playableMoves;
     }
 
     protected getRandomBoardIndex(boards: BoardState[]): number {
@@ -52,6 +70,11 @@ export class Bot {
     }
 
     protected getWinningMovesForGame(player: Player, boards: BoardState[]): BoardLocation[] {
+        const possibleWinningBoards = this.getPossibleWinningBoardsForGame(player, boards);
+        return this.getWinningMoves(player, boards, possibleWinningBoards);
+    }
+
+    protected getPossibleWinningBoardsForGame(player: Player, boards: BoardState[]): number[] {
         const wonBoards = boards.map((_, i) => i).filter(v => boards[v].winner === player);
         if (wonBoards.length < 2)
             return [];
@@ -66,12 +89,17 @@ export class Bot {
             }
         }
 
-        return this.getWinningMoves(player, boards, possibleWinningBoards);
+        return possibleWinningBoards;
     }
 
-    protected getWinningMovesForBoard(player: Player, boards: BoardState[]): BoardLocation[] {
+    protected getWinningMovesForPlayableBoards(player: Player, boards: BoardState[]): BoardLocation[] {
         const playableBoards = this.getPlayableBoards(boards);
         return this.getWinningMoves(player, boards, playableBoards);
+    }
+
+    protected getWinningMovesForAllBoards(player: Player, boards: BoardState[]): BoardLocation[] {
+        const allBoards = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        return this.getWinningMoves(player, boards, allBoards);
     }
 
     protected getWinningMoves(player: Player, boards: BoardState[], boardsToCheck: number[]): BoardLocation[] {
