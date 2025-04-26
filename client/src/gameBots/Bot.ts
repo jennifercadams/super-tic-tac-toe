@@ -105,7 +105,7 @@ export class Bot {
             return null;
     }
 
-    public getSafeMoves(boards: BoardState[], moveSet: BoardLocation[], boardsToAvoid: number[]): BoardLocation[] {
+    protected getSafeMoves(boards: BoardState[], moveSet: BoardLocation[], boardsToAvoid: number[]): BoardLocation[] {
         if (boardsToAvoid.length < 1)
             return moveSet;
 
@@ -119,7 +119,7 @@ export class Bot {
         });
     }
 
-    public getSafeWinBlockingMoves(boards: BoardState[], gameWinningMovesForHuman: BoardLocation[]): BoardLocation[] {
+    protected getSafeWinBlockingMoves(boards: BoardState[], gameWinningMovesForHuman: BoardLocation[]): BoardLocation[] {
         const playableBoards = this.getPlayableBoards(boards);
         return gameWinningMovesForHuman.filter(move => {
             if (!playableBoards.includes(move.boardIndex))
@@ -139,7 +139,7 @@ export class Bot {
         });
     }
 
-    public getLineBuildingMoves(boards: BoardState[]): BoardLocation[] {
+    protected getLineBuildingMoves(boards: BoardState[]): BoardLocation[] {
         const lineBuildingMoves: BoardLocation[] = [];
 
         const playableBoards = this.getPlayableBoards(boards);
@@ -166,7 +166,7 @@ export class Bot {
         return lineBuildingMoves;
     }
 
-    public getSquaresMarkedForPlayer(squares: string[], player: Player) {
+    protected getSquaresMarkedForPlayer(squares: string[], player: Player) {
         return squares.map((_, i) => i).filter(v => squares[v] === player);
     }
 }
