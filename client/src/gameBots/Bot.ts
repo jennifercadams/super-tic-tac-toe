@@ -74,7 +74,7 @@ export class Bot {
         return this.getWinningMoves(player, boards, playableBoards);
     }
 
-    private getWinningMoves(player: Player, boards: BoardState[], boardsToCheck: number[]): BoardLocation[] {
+    protected getWinningMoves(player: Player, boards: BoardState[], boardsToCheck: number[]): BoardLocation[] {
         const winningMoves: BoardLocation[] = [];
 
         for (const boardIndex of boardsToCheck) {
@@ -113,6 +113,26 @@ export class Bot {
             const nextBoardHasWinner = boards[move.squareIndex].winner !== null;
             const nextBoardHasWinCondition = boardsToAvoid.includes(move.squareIndex);
             if (nextBoardHasWinner || nextBoardHasWinCondition)
+                return false;
+
+            return true;
+        });
+    }
+
+    public getSafeWinBlockingMoves(boards: BoardState[], gameWinningMovesForHuman: BoardLocation[]): BoardLocation[] {
+        const playableBoards = this.getPlayableBoards(boards);
+        return gameWinningMovesForHuman.filter(move => {
+            if (!playableBoards.includes(move.boardIndex))
+                return false;
+
+            const otherWinConditions = gameWinningMovesForHuman.filter(v => {
+                return !(v.boardIndex === move.boardIndex && v.squareIndex === move.squareIndex);
+            });
+            const otherWinningBoards = otherWinConditions.map(v => v.boardIndex);
+            const hasOtherWinConditions = otherWinConditions.length > 0;
+            const nextBoardHasWinner = boards[move.squareIndex].winner !== null;
+            const nextBoardHasWinCondition = otherWinningBoards.includes(move.squareIndex);
+            if (hasOtherWinConditions && (nextBoardHasWinner || nextBoardHasWinCondition))
                 return false;
 
             return true;
