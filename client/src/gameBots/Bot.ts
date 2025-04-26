@@ -1,4 +1,4 @@
-import { adjacentSquares, winStates } from "~constants";
+import { winStates } from "~constants";
 import { BoardLocation, BoardState, Player } from "~types";
 
 export class Bot {
@@ -148,15 +148,17 @@ export class Bot {
         for (const boardIndex of markedPlayableBoards) {
             const squares = boards[boardIndex].squares;
             const markedSquares = this.getSquaresMarkedForPlayer(squares, this.botPlayer);
-            const playableSquares = this.getPlayableSquares(squares);
-            const adjacents: Set<number> = new Set();
+            const lineBuildingSquares: Set<number> = new Set();
             for (const squareIndex of markedSquares) {
-                adjacentSquares[squareIndex].forEach(v => {
-                    if (playableSquares.includes(v))
-                        adjacents.add(v);
-                });
+                const possibleLines = winStates.filter(v => v.includes(squareIndex));
+                for (const line of possibleLines) {
+                    const otherSquaresInLine = line.filter(v => v !== squareIndex);
+                    if (otherSquaresInLine.every(v => !squares[v])) {
+                        otherSquaresInLine.forEach(v => lineBuildingSquares.add(v));
+                    }
+                }
             }
-            for (const squareIndex of adjacents) {
+            for (const squareIndex of lineBuildingSquares) {
                 lineBuildingMoves.push({ boardIndex, squareIndex });
             }
         }
