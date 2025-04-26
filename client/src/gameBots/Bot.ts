@@ -159,7 +159,8 @@ export class Bot {
                 }
             }
             for (const squareIndex of lineBuildingSquares) {
-                lineBuildingMoves.push({ boardIndex, squareIndex });
+                if (boardIndex !== squareIndex)
+                    lineBuildingMoves.push({ boardIndex, squareIndex });
             }
         }
 
