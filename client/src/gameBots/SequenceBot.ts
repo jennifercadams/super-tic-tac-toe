@@ -35,7 +35,7 @@ export class SequenceBot extends Bot {
         if (playableWinningMoves.length > 0) 
             return this.getRandomMoveFromMoveSet(playableWinningMoves);
 
-        // Block human win if possible (unless it would leave another win condition open)
+        // Block human win if possible and safe
         const gameWinningMovesForHuman = this.getWinningMovesForGame(this.humanPlayer, boards);
         const gameWinningBoardsForHuman = gameWinningMovesForHuman.map(v => v.boardIndex);
 
@@ -51,7 +51,7 @@ export class SequenceBot extends Bot {
         if (safeWinBlockingMoves.length > 0)
             return this.getRandomMoveFromMoveSet(safeWinBlockingMoves);
 
-        // Play in possible winning board if possible
+        // Play in potential winning board if possible and safe
         const lineBuildingMoves = this.getLineBuildingMoves(boards);
         const safeLineBuildingMoves = this.getSafeMoves(boards, lineBuildingMoves, gameWinningBoardsForHuman);
         const winningBoardLineBuildingMoves = this.getPossibleWinningBoardMoves(safeLineBuildingMoves);
@@ -74,21 +74,21 @@ export class SequenceBot extends Bot {
         if (winningBoardMoves.length > 0)
             return this.getRandomMoveFromMoveSet(winningBoardMoves);
 
-        // Win board if possible (unless it would leave a win condition open)
+        // Win board if possible and safe
         const boardWinningMovesForBot = this.getWinningMovesForPlayableBoards(this.botPlayer, boards);
         const safeBoardWinningMoves = this.getSafeMoves(boards, boardWinningMovesForBot, gameWinningBoardsForHuman);
 
         if (safeBoardWinningMoves.length > 0)
             return this.getRandomMoveFromMoveSet(safeBoardWinningMoves);
 
-        // Block human from winning board if possible (unless it would leave a win condition open)
+        // Block human from winning board if possible and safe
         const boardWinningMovesForHuman = this.getWinningMovesForPlayableBoards(this.humanPlayer, boards);
         const safeBoardWinBlockingMoves = this.getSafeMoves(boards, boardWinningMovesForHuman, gameWinningBoardsForHuman);
 
         if (safeBoardWinBlockingMoves.length > 0)
             return this.getRandomMoveFromMoveSet(safeBoardWinBlockingMoves);
 
-        // Start building a line if possible
+        // Start building a line if possible and safe
         const priorityLineBuildingMoves = this.prioritizeMoves(safeLineBuildingMoves);
 
         if (priorityLineBuildingMoves.length > 0)
