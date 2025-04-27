@@ -41,16 +41,16 @@ export class SequenceBot extends Bot {
         const gameWinningMovesForHuman = this.getWinningMovesForGame(this.humanPlayer, boards);
         const gameWinningBoardsForHuman = gameWinningMovesForHuman.map(v => v.boardIndex);
 
-        const blockWinWithBoardWinMoves = this.getWinningMoves(this.botPlayer, boards, gameWinningBoardsForHuman);
-        const safeBlockWinWithBoardWinMoves = this.getSafeWinBlockingMoves(boards, blockWinWithBoardWinMoves)
+        const blockWinWithWinMoves = this.getWinningMoves(this.botPlayer, boards, gameWinningBoardsForHuman);
+        const safeBlockWinWithWinMoves = this.getSafeWinBlockingMoves(boards, blockWinWithWinMoves, gameWinningMovesForHuman)
             .filter(move => move.boardIndex !== move.squareIndex);
 
-        if (safeBlockWinWithBoardWinMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * safeBlockWinWithBoardWinMoves.length);
-            return safeBlockWinWithBoardWinMoves[randomIndex];
+        if (safeBlockWinWithWinMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * safeBlockWinWithWinMoves.length);
+            return safeBlockWinWithWinMoves[randomIndex];
         }
 
-        const safeWinBlockingMoves = this.getSafeWinBlockingMoves(boards, gameWinningMovesForHuman);
+        const safeWinBlockingMoves = this.getSafeWinBlockingMoves(boards, gameWinningMovesForHuman, gameWinningMovesForHuman);
 
         if (safeWinBlockingMoves.length > 0) {
             const randomIndex = Math.floor(Math.random() * safeWinBlockingMoves.length);

@@ -147,9 +147,13 @@ export class Bot {
         });
     }
 
-    protected getSafeWinBlockingMoves(boards: BoardState[], gameWinningMovesForHuman: BoardLocation[]): BoardLocation[] {
+    protected getSafeWinBlockingMoves(
+        boards: BoardState[], 
+        moveSet: BoardLocation[], 
+        gameWinningMovesForHuman: BoardLocation[],
+    ): BoardLocation[] {
         const playableBoards = this.getPlayableBoards(boards);
-        return gameWinningMovesForHuman.filter(move => {
+        return moveSet.filter(move => {
             if (!playableBoards.includes(move.boardIndex))
                 return false;
 
