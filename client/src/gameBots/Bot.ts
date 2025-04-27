@@ -69,6 +69,11 @@ export class Bot {
         return playableSquares[randomSquareIndex];
     }
 
+    protected getRandomMoveFromMoveSet(moveSet: BoardLocation[]) {
+        const randomIndex = Math.floor(Math.random() * moveSet.length);
+        return moveSet[randomIndex];
+    }
+
     protected getWinningMovesForGame(player: Player, boards: BoardState[]): BoardLocation[] {
         const possibleWinningBoards = this.getPossibleWinningBoardsForGame(player, boards);
         return this.getWinningMoves(player, boards, possibleWinningBoards);

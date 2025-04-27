@@ -32,10 +32,8 @@ export class SequenceBot extends Bot {
         // Play winning move if possible
         const gameWinningMovesForBot = this.getWinningMovesForGame(this.botPlayer, boards);
         const playableWinningMoves = gameWinningMovesForBot.filter(move => playableBoards.includes(move.boardIndex));
-        if (playableWinningMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * playableWinningMoves.length);
-            return playableWinningMoves[randomIndex];
-        }
+        if (playableWinningMoves.length > 0) 
+            return this.getRandomMoveFromMoveSet(playableWinningMoves);
 
         // Block human win if possible (unless it would leave another win condition open)
         const gameWinningMovesForHuman = this.getWinningMovesForGame(this.humanPlayer, boards);
@@ -45,17 +43,13 @@ export class SequenceBot extends Bot {
         const safeBlockWinWithWinMoves = this.getSafeWinBlockingMoves(boards, blockWinWithWinMoves, gameWinningMovesForHuman)
             .filter(move => move.boardIndex !== move.squareIndex);
 
-        if (safeBlockWinWithWinMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * safeBlockWinWithWinMoves.length);
-            return safeBlockWinWithWinMoves[randomIndex];
-        }
+        if (safeBlockWinWithWinMoves.length > 0)
+            return this.getRandomMoveFromMoveSet(safeBlockWinWithWinMoves);
 
         const safeWinBlockingMoves = this.getSafeWinBlockingMoves(boards, gameWinningMovesForHuman, gameWinningMovesForHuman);
 
-        if (safeWinBlockingMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * safeWinBlockingMoves.length);
-            return safeWinBlockingMoves[randomIndex];
-        }
+        if (safeWinBlockingMoves.length > 0)
+            return this.getRandomMoveFromMoveSet(safeWinBlockingMoves);
 
         // Play in possible winning board if possible
         const lineBuildingMoves = this.getLineBuildingMoves(boards);
@@ -63,77 +57,56 @@ export class SequenceBot extends Bot {
         const winningBoardLineBuildingMoves = this.getPossibleWinningBoardMoves(safeLineBuildingMoves);
         const priorityWinningBoardLineBuildingMoves = this.prioritizeMoves(winningBoardLineBuildingMoves);
 
-        if (priorityWinningBoardLineBuildingMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * priorityWinningBoardLineBuildingMoves.length);
-            return priorityWinningBoardLineBuildingMoves[randomIndex];
-        }
+        if (priorityWinningBoardLineBuildingMoves.length > 0)
+            return this.getRandomMoveFromMoveSet(priorityWinningBoardLineBuildingMoves);
 
-        if (winningBoardLineBuildingMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * winningBoardLineBuildingMoves.length);
-            return winningBoardLineBuildingMoves[randomIndex];
-        }
+        if (winningBoardLineBuildingMoves.length > 0)
+            return this.getRandomMoveFromMoveSet(winningBoardLineBuildingMoves);
 
         const playableMoves = this.getPlayableMoves(boards);
         const safePlayableMoves = this.getSafeMoves(boards, playableMoves, gameWinningBoardsForHuman);
         const winningBoardMoves = this.getPossibleWinningBoardMoves(safePlayableMoves);
         const priorityWinningBoardMoves = this.prioritizeMoves(winningBoardMoves);
 
-        if (priorityWinningBoardMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * priorityWinningBoardMoves.length);
-            return priorityWinningBoardMoves[randomIndex];
-        }
+        if (priorityWinningBoardMoves.length > 0)
+            return this.getRandomMoveFromMoveSet(priorityWinningBoardMoves);
 
-        if (winningBoardMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * winningBoardMoves.length);
-            return winningBoardMoves[randomIndex];
-        }
+        if (winningBoardMoves.length > 0)
+            return this.getRandomMoveFromMoveSet(winningBoardMoves);
 
         // Win board if possible (unless it would leave a win condition open)
         const boardWinningMovesForBot = this.getWinningMovesForPlayableBoards(this.botPlayer, boards);
         const safeBoardWinningMoves = this.getSafeMoves(boards, boardWinningMovesForBot, gameWinningBoardsForHuman);
 
-        if (safeBoardWinningMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * safeBoardWinningMoves.length);
-            return safeBoardWinningMoves[randomIndex];
-        }
+        if (safeBoardWinningMoves.length > 0)
+            return this.getRandomMoveFromMoveSet(safeBoardWinningMoves);
 
         // Block human from winning board if possible (unless it would leave a win condition open)
         const boardWinningMovesForHuman = this.getWinningMovesForPlayableBoards(this.humanPlayer, boards);
         const safeBoardWinBlockingMoves = this.getSafeMoves(boards, boardWinningMovesForHuman, gameWinningBoardsForHuman);
 
-        if (safeBoardWinBlockingMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * safeBoardWinBlockingMoves.length);
-            return safeBoardWinBlockingMoves[randomIndex];
-        }
+        if (safeBoardWinBlockingMoves.length > 0)
+            return this.getRandomMoveFromMoveSet(safeBoardWinBlockingMoves);
 
         // Start building a line if possible
         const priorityLineBuildingMoves = this.prioritizeMoves(safeLineBuildingMoves);
 
-        if (priorityLineBuildingMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * priorityLineBuildingMoves.length);
-            return priorityLineBuildingMoves[randomIndex];
-        }
+        if (priorityLineBuildingMoves.length > 0)
+            return this.getRandomMoveFromMoveSet(priorityLineBuildingMoves);
 
-        if (safeLineBuildingMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * safeLineBuildingMoves.length);
-            return safeLineBuildingMoves[randomIndex];
-        }
+        if (safeLineBuildingMoves.length > 0)
+            return this.getRandomMoveFromMoveSet(safeLineBuildingMoves);
 
         // Play a random move
         const priorityPlayableMoves = this.prioritizeMoves(safePlayableMoves);
 
-        if (priorityPlayableMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * priorityPlayableMoves.length);
-            return priorityPlayableMoves[randomIndex];
-        }
+        if (priorityPlayableMoves.length > 0)
+            return this.getRandomMoveFromMoveSet(priorityPlayableMoves);
 
-        if (safePlayableMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * safePlayableMoves.length);
-            return safePlayableMoves[randomIndex];
-        }
+        if (safePlayableMoves.length > 0)
+            return this.getRandomMoveFromMoveSet(safePlayableMoves);
 
-        const randomIndex = Math.floor(Math.random() * playableMoves.length);
-        return playableMoves[randomIndex];
+        return this.getRandomMoveFromMoveSet(playableMoves);
     }
 
     private getPossibleWinningBoardMoves(moveSet: BoardLocation[]): BoardLocation[] {
