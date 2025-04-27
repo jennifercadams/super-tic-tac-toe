@@ -57,6 +57,37 @@ export class SequenceBot extends Bot {
             return safeWinBlockingMoves[randomIndex];
         }
 
+        // Play in possible winning board if possible
+        const lineBuildingMoves = this.getLineBuildingMoves(boards);
+        const safeLineBuildingMoves = this.getSafeMoves(boards, lineBuildingMoves, gameWinningBoardsForHuman);
+        const winningBoardLineBuildingMoves = this.getPossibleWinningBoardMoves(safeLineBuildingMoves);
+        const priorityWinningBoardLineBuildingMoves = this.prioritizeMoves(winningBoardLineBuildingMoves);
+
+        if (priorityWinningBoardLineBuildingMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * priorityWinningBoardLineBuildingMoves.length);
+            return priorityWinningBoardLineBuildingMoves[randomIndex];
+        }
+
+        if (winningBoardLineBuildingMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * winningBoardLineBuildingMoves.length);
+            return winningBoardLineBuildingMoves[randomIndex];
+        }
+
+        const playableMoves = this.getPlayableMoves(boards);
+        const safePlayableMoves = this.getSafeMoves(boards, playableMoves, gameWinningBoardsForHuman);
+        const winningBoardMoves = this.getPossibleWinningBoardMoves(safePlayableMoves);
+        const priorityWinningBoardMoves = this.prioritizeMoves(winningBoardMoves);
+
+        if (priorityWinningBoardMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * priorityWinningBoardMoves.length);
+            return priorityWinningBoardMoves[randomIndex];
+        }
+
+        if (winningBoardMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * winningBoardMoves.length);
+            return winningBoardMoves[randomIndex];
+        }
+
         // Win board if possible (unless it would leave a win condition open)
         const boardWinningMovesForBot = this.getWinningMovesForPlayableBoards(this.botPlayer, boards);
         const safeBoardWinningMoves = this.getSafeMoves(boards, boardWinningMovesForBot, gameWinningBoardsForHuman);
@@ -76,8 +107,6 @@ export class SequenceBot extends Bot {
         }
 
         // Start building a line if possible
-        const lineBuildingMoves = this.getLineBuildingMoves(boards);
-        const safeLineBuildingMoves = this.getSafeMoves(boards, lineBuildingMoves, gameWinningBoardsForHuman);
         const priorityLineBuildingMoves = this.prioritizeMoves(safeLineBuildingMoves);
 
         if (priorityLineBuildingMoves.length > 0) {
@@ -91,8 +120,6 @@ export class SequenceBot extends Bot {
         }
 
         // Play a random move
-        const playableMoves = this.getPlayableMoves(boards);
-        const safePlayableMoves = this.getSafeMoves(boards, playableMoves, gameWinningBoardsForHuman);
         const priorityPlayableMoves = this.prioritizeMoves(safePlayableMoves);
 
         if (priorityPlayableMoves.length > 0) {
@@ -107,6 +134,10 @@ export class SequenceBot extends Bot {
 
         const randomIndex = Math.floor(Math.random() * playableMoves.length);
         return playableMoves[randomIndex];
+    }
+
+    private getPossibleWinningBoardMoves(moveSet: BoardLocation[]): BoardLocation[] {
+        return moveSet.filter(move => this.possibleWinningBoardsForBot.includes(move.boardIndex));
     }
 
     private prioritizeMoves(moveSet: BoardLocation[]): BoardLocation[] {
