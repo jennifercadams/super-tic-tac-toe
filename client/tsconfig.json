@@ -10,7 +10,9 @@
         },
         "strict": true,
         "target": "esnext",
-        "module": "esnext"
+        "module": "esnext",
+        "ignoreDeprecations": "6.0",
+        "noUncheckedSideEffectImports": false
     },
     "include": [
         "src/**/*",
